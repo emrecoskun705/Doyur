@@ -1,0 +1,42 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Doyur.Site" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <link href="/css/site.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <div class="my-navbar">
+                <ul>
+                    <li><a class="active" href="default.aspx">Anasayfa</a></li>
+                    <%
+                    if(IT.Session.Users.UserId() == 0)
+                    {
+
+                    %>
+                        <li style="float:right"><a href="login.aspx">Giriş</a></li>
+                        <li style="float:right"><a href="register.aspx">Kayıt Ol</a></li>
+                    <%
+                    } else
+                    {
+                    %>
+                    <li style="float:right"><a href="/user/default.aspx">Kullanıcı</a></li>
+                    <%
+                        }
+                    %>
+                    
+                    <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
+                </ul>
+            </div>
+            <asp:ContentPlaceHolder ID="cph1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

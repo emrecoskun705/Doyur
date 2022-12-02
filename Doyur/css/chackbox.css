@@ -1,0 +1,66 @@
+﻿.chempty {
+    position: relative;
+    top: -10px;
+}
+
+input[type="checkbox"] {
+    padding: 0px;
+    opacity: 0;
+    z-index: 1;
+}
+
+    input[type="checkbox"] + label {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        padding: 5px;
+        min-width: 28%;
+    }
+
+        input[type="checkbox"] + label::before {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 0;
+            margin-left: -20px;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+            background-color: #fff;
+            -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+            -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+            transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+        }
+
+        input[type="checkbox"] + label::after {
+            font-weight: 600;
+            display: inline-block;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 0;
+            top: 0;
+            margin-left: -20px;
+            padding-left: 5px;
+            padding-top: 5px;
+            font-size: 1.00em;
+            color: #555555;
+        }
+
+    input[type="checkbox"]:checked + label::after {
+        /*font-family: "FontAwesome";
+            content: "\f00c";*/
+        font-family: Arial;
+        font-size: 1.00em;
+        content: "\2713";
+    }
+
+    input[type="checkbox"]:checked + label::before {
+        background-color: #337ab7;
+        border-color: #337ab7;
+    }
+
+    input[type="checkbox"]:checked + label::after {
+        color: #efefef;
+    }
