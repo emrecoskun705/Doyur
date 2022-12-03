@@ -8,7 +8,7 @@
         </div>
 
         <div class="box-in">
-            <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="error-danger" />
             <table>
                 <tbody>
                     <tr>
@@ -21,7 +21,13 @@
                         </td>
                          <td>                            
                              <asp:RequiredFieldValidator ID="RequiredFieldValidator" ErrorMessage="Mail" runat="server" ControlToValidate="mail" Display="None"></asp:RequiredFieldValidator>
-                        </td>
+                            <asp:RegularExpressionValidator ID="regexmail" runat="server"           
+                                ControlToValidate="mail"
+                                ValidationExpression="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+                                ErrorMessage="Mail"
+                                Display="None">
+                            </asp:RegularExpressionValidator>
+                         </td>
                     </tr>
                     <tr>
                         <td>Şifre</td>
