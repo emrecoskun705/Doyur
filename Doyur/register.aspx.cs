@@ -25,7 +25,7 @@ namespace Doyur
                            || p.Name == username.Text
                            select p);
             //TODO: ADD VALIDATION
-            if (getUser != null)
+            if (getUser != null && getUser.Count() == 0)
             {
                 db.Users newUser = new db.Users
                 {
@@ -49,12 +49,26 @@ namespace Doyur
 
                 db.Users.Add(newUser);
 
-                db.SaveChanges();
+                int count = db.SaveChanges();
+                if(count > 0)
+                {
+					ShowMessage("Kaydınız başarılı bir şekilde oluşturuldu, lütfen devam etmek için giriş yapınız", "Success");
+				} else
+                {
+					ShowMessage("Kaydetmede bir hata oluştu lütfen tekrar deneyiniz", "Danger");
+				}
+			} else
+            {
+				ShowMessage("Lütfen bilgilerinizi değiştirip tekrar deneyiniz", "Warning");
+			}
 
-                Response.Redirect("/default.aspx");
-            }
 
-            
         }
-    }
+
+		protected void ShowMessage(string Message, string type)
+		{
+			ScriptManager.RegisterStartupScript(this, this.GetType(), System.Guid.NewGuid().ToString(), "SendAlert('" + type+ "','" + Message + "');", true);
+		}
+	}
+
 }

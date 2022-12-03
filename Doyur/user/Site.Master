@@ -26,8 +26,8 @@
                     } else
                     {
                     %>
-                    <li style="float:right"><a href="/user/default.aspx">Kullanıcı</a></li>
                     <li style="float:right"><a href="/logout.aspx">Çıkış Yap</a></li>
+                    <li style="float:right"><a href="/user/default.aspx">Kullanıcı</a></li>
                     <%
                         }
                     %>
@@ -35,9 +35,13 @@
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
             </div>
+            
             <asp:ContentPlaceHolder ID="cph1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="../js/alert.js"></script>
+
 </body>
 </html>

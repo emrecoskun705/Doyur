@@ -3,11 +3,13 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cph1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
     <div class="box-out box box-login" style="margin-top: 60px;">
         <div class="box-top">
             Kayıt Ol
         </div>
+        <div id="alert-message"></div>
 
         <div class="box-in">
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
@@ -139,7 +141,11 @@
                     <tr>
                         <td>
                             <div style="text-align: right; padding: 5px;">
-                                <asp:Button BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" ID="CreateButton" runat="server" Text="Kayıt ol" CssClass="btn" OnClick="CreateButton_Click" />
+                                <asp:UpdatePanel ID="up1" runat="server">
+                                    <ContentTemplate>
+                                        <asp:Button BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" ID="CreateButton" runat="server" Text="Kayıt ol" CssClass="btn" OnClick="CreateButton_Click" />
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                             </div>
                         </td>
                         

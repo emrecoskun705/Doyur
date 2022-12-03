@@ -6,6 +6,8 @@
 <head runat="server">
     <title></title>
     <link href="/css/site.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -26,6 +28,7 @@
                     } else
                     {
                     %>
+                    <li style="float:right"><a href="/logout.aspx">Çıkış Yap</a></li>
                     <li style="float:right"><a href="/user/default.aspx">Kullanıcı</a></li>
                     <%
                         }
@@ -34,9 +37,11 @@
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
             </div>
+
             <asp:ContentPlaceHolder ID="cph1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
+    <script src="js/alert.js"></script>
 </body>
 </html>
