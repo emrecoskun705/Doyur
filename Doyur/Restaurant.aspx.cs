@@ -23,7 +23,6 @@ namespace Doyur.restaurant
 					try
 					{
 						GetRestaurant(Convert.ToInt32(id));
-						GetProducts(Convert.ToInt32(id));
 					} catch (Exception ex)
 					{
 						// if id is not an integer
@@ -39,22 +38,6 @@ namespace Doyur.restaurant
 			if(getRestaurant != null && getRestaurant.Count() > 0)
 			{
 				RestaurantObj = getRestaurant.First();
-			}
-		}
-
-
-		protected void GetProducts(int id)
-		{
-			var getproducts = (from p in db.sp_GetProducts(100, id) select p).ToList();
-
-			if(getproducts != null && getproducts.Count > 0 )
-			{
-				ProductList = getproducts;
-				ProductList.AddRange(getproducts);
-				ProductList.AddRange(getproducts);
-				ProductList.AddRange(getproducts);
-				ProductList.AddRange(getproducts);
-				ProductList.AddRange(getproducts);
 			}
 		}
 
