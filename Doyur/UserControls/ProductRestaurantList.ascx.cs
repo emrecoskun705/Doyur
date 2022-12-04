@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -43,5 +44,14 @@ namespace Doyur.UserControls
 
 
 		}
-	}
+
+        protected void productRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+			if(e.CommandName == "AddToOrderCmnd")
+			{
+				int id = Convert.ToInt32(e.CommandArgument);
+				Debug.WriteLine("" + id);
+			}
+        }
+    }
 }

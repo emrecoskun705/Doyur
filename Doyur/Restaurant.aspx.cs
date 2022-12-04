@@ -12,8 +12,8 @@ namespace Doyur.restaurant
 
 		db.doyurEntities db = new db.doyurEntities();
 
-		public List<db.sp_GetProducts_Result> ProductList { get; set; }
-		public db.sp_GetRestaurant_Result RestaurantObj { get; set; }
+		public static List<db.sp_GetProducts_Result> ProductList { get; set; }
+		public static db.sp_GetRestaurant_Result RestaurantObj { get; set; }
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			if(!IsPostBack) { 
@@ -22,7 +22,7 @@ namespace Doyur.restaurant
 				{
 					try
 					{
-						GetRestaurant(Convert.ToInt32(id));
+					GetRestaurant(Convert.ToInt32(id));
 					} catch (Exception ex)
 					{
 						// if id is not an integer
