@@ -6,6 +6,7 @@
 <head runat="server">
     <title></title>
     <link href="/css/site.css" rel="stylesheet" />
+    <link href="css/restaurantproduct.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     
     <asp:ContentPlaceHolder ID="head" runat="server">
@@ -16,14 +17,14 @@
         <div>
             <div class="my-navbar">
                 <ul>
-                    <li><a class="active" href="default.aspx">Anasayfa</a></li>
+                    <li><a class="active" href="/default.aspx">Anasayfa</a></li>
                     <%
                     if(IT.Session.Users.UserId() == 0)
                     {
 
                     %>
-                        <li style="float:right"><a href="login.aspx">Giriş</a></li>
-                        <li style="float:right"><a href="register.aspx">Kayıt Ol</a></li>
+                        <li style="float:right"><a href="/login.aspx">Giriş</a></li>
+                        <li style="float:right"><a href="/register.aspx">Kayıt Ol</a></li>
                     <%
                     } else
                     {
