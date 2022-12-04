@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Doyur.extensions;
 
 namespace Doyur
 {
@@ -52,23 +53,20 @@ namespace Doyur
                 int count = db.SaveChanges();
                 if(count > 0)
                 {
-					ShowMessage("Kaydınız başarılı bir şekilde oluşturuldu, lütfen devam etmek için giriş yapınız", "Success");
+                    this.ShowMessage("Success", "Kaydınız başarılı bir şekilde oluşturuldu, lütfen devam etmek için giriş yapınız");
 				} else
                 {
-					ShowMessage("Kaydetmede bir hata oluştu lütfen tekrar deneyiniz", "Danger");
+					this.ShowMessage("Danger", "Kaydetmede bir hata oluştu lütfen tekrar deneyiniz");
 				}
 			} else
             {
-				ShowMessage("Lütfen bilgilerinizi değiştirip tekrar deneyiniz", "Warning");
+				this.ShowMessage("Warning", "Lütfen bilgilerinizi değiştirip tekrar deneyiniz");
 			}
 
 
         }
 
-		protected void ShowMessage(string Message, string type)
-		{
-			ScriptManager.RegisterStartupScript(this, this.GetType(), System.Guid.NewGuid().ToString(), "SendAlert('" + type+ "','" + Message + "');", true);
-		}
+		
 	}
 
 }

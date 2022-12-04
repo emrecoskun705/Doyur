@@ -83,6 +83,46 @@ a.card-link {
         height: 10vw;
     }
 
+* {
+    box-sizing: border-box;
+}
+
+
+.r-card-title {
+    font-size: 2.4vh;
+    padding: 0px 2px;
+}
+
+
+.r-card-right {
+    margin-left: auto;
+    font-size: 2vh;
+    font-weight: bold;
+    padding: 0px;
+    position: relative;
+}
+
+.r-card-right-bottom {
+    position: absolute;
+    bottom: 0;
+}
+
+.pl-0 {
+    padding-left: 0px;
+}
+
+.basket-panel {
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid #ff6a00;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0px 1px 2px 0px #eaeaea;
+    -webkit-box-shadow: 0px 1px 2px 0px #eaeaea;
+    box-shadow: 0px 1px 2px 0px #eaeaea;
+}
+
 .row {
     display: -webkit-box;
     display: -ms-flexbox;

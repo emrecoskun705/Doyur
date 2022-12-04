@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Doyur.extensions;
 
 namespace Doyur.user
 {
@@ -62,27 +63,23 @@ namespace Doyur.user
 						    getUser.Name,
 						    getUser.Phone,
 						    getUser.Mail);
-                        ShowMessage("Kullanıcı başarıyla güncellendi", "Success");
+                        this.ShowMessage("Success", "Kullanıcı başarıyla güncellendi");
 
 					} else
                     {
-						ShowMessage("Kullanıcı güncellenemedi", "Danger");
+						this.ShowMessage("Danger", "Kullanıcı güncellenemedi");
 					}
 				} 
                 catch(Exception ex)
                 {
-                    //handle exception
-                }
+					//handle exception
+					this.ShowMessage("Danger", "Kayıt aşamasında bir hata oluştu!");
+				}
                     
 
             }
             
 
         }
-
-		protected void ShowMessage(string Message, string type)
-		{
-			ScriptManager.RegisterStartupScript(this, this.GetType(), System.Guid.NewGuid().ToString(), "SendAlert('" + type + "','" + Message + "');", true);
-		}
 	}
 }
