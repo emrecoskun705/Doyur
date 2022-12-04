@@ -7,20 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Doyur
+namespace Doyur.UserControls
 {
 
 
-	public partial class _default
+	public partial class RestaurantList
 	{
 
 		/// <summary>
-		/// RestaurantList control.
+		/// Repeater1 control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::Doyur.UserControls.RestaurantList RestaurantList;
+		protected global::System.Web.UI.WebControls.Repeater Repeater1;
 	}
 }
