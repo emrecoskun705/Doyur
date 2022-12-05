@@ -61,6 +61,26 @@ a.card-link {
     text-decoration: none;
 }
 
+.r-product {
+    background: #808080;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid #e1e1e1;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0px 1px 2px 0px #eaeaea;
+    -webkit-box-shadow: 0px 1px 2px 0px #eaeaea;
+    box-shadow: 0px 1px 2px 0px #eaeaea;
+}
+
+.r-product .col img {
+    width: 300px;
+    height: 90px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .r-card {
     background: #808080;
     border-radius: 5px;
@@ -79,6 +99,10 @@ a.card-link {
 }
 
     .r-card img {
+        width: 15vw;
+        height: 5vw;
+    }
+    .r-card .headImg img {
         width: 30vw;
         height: 10vw;
     }
@@ -89,14 +113,14 @@ a.card-link {
 
 
 .r-card-title {
-    font-size: 2.4vh;
+    font-size: 1.4em;
     padding: 0px 2px;
 }
 
 
 .r-card-right {
     margin-left: auto;
-    font-size: 2vh;
+    font-size: 1.3em;
     font-weight: bold;
     padding: 0px;
     position: relative;

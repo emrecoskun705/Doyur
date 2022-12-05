@@ -14,6 +14,13 @@ namespace Doyur.db
     
     public partial class Users
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Users()
+        {
+            this.Address = new HashSet<Address>();
+            this.Orders = new HashSet<Orders>();
+        }
+    
         public int UserId { get; set; }
         public byte AccessId { get; set; }
         public string Name { get; set; }
@@ -34,5 +41,10 @@ namespace Doyur.db
         public bool IsPath { get; set; }
         public bool IsActivation { get; set; }
         public bool IsActive { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Address> Address { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

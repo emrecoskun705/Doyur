@@ -70,10 +70,11 @@ namespace Doyur.user
 						this.ShowMessage("Danger", "Kullanıcı güncellenemedi");
 					}
 				} 
-                catch(Exception ex)
+                catch(Exception)
                 {
 					//handle exception
 					this.ShowMessage("Danger", "Kayıt aşamasında bir hata oluştu!");
+                    throw;
 				}
                     
 

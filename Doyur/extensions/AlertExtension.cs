@@ -15,5 +15,7 @@ namespace Doyur.extensions
 			ScriptManager.RegisterStartupScript(obj, obj.GetType(), System.Guid.NewGuid().ToString(), "SendAlert('" + type + "','" + message + "');", true);
 
 		}
-	}
+
+
+    }
 }

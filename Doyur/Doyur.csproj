@@ -77,22 +77,31 @@
   <ItemGroup>
     <Content Include="contact.aspx" />
     <Content Include="css\chackbox.css" />
+    <Content Include="css\orderpanel.css" />
+    <Content Include="css\restaurantproduct.css" />
     <Content Include="css\site.css" />
-    <Content Include="db\DoyurEntities.Context.tt">
+    <Content Include="db\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DoyurEntities.Context.cs</LastGenOutput>
-      <DependentUpon>DoyurEntities.edmx</DependentUpon>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="db\DoyurEntities.tt">
+    <Content Include="db\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DoyurEntities.edmx</DependentUpon>
-      <LastGenOutput>DoyurEntities.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="default.aspx" />
     <Content Include="detail.aspx" />
+    <Content Include="image\basket.png" />
+    <Content Include="image\pizza.jpg" />
+    <Content Include="js\alert.js" />
     <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="register.aspx" />
+    <Content Include="restaurant\default.aspx" />
+    <Content Include="UserControls\productBasket.ascx" />
+    <Content Include="UserControls\ProductRestaurantList.ascx" />
+    <Content Include="UserControls\RestaurantList.ascx" />
     <Content Include="user\default.aspx" />
     <Content Include="user\user.aspx" />
     <Content Include="Web.config" />
@@ -106,23 +115,59 @@
     <Compile Include="contact.aspx.designer.cs">
       <DependentUpon>contact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="db\DoyurEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoyurEntities.Context.tt</DependentUpon>
+    <Compile Include="db\Address.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="db\DoyurEntities.cs">
+    <Compile Include="db\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DoyurEntities.tt</DependentUpon>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="db\DoyurEntities.Designer.cs">
+    <Compile Include="db\Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DoyurEntities.edmx</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="db\OrderProductList.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Orders.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Product.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Restaurant.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_CreateOrder_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetActiveOrderProductList_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetActiveOrder_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetOrderProducts_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetProducts_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetRestaurants_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetRestaurant_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\Users.cs">
-      <DependentUpon>DoyurEntities.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
@@ -138,6 +183,7 @@
     <Compile Include="detail.aspx.designer.cs">
       <DependentUpon>detail.aspx</DependentUpon>
     </Compile>
+    <Compile Include="extensions\AlertExtension.cs" />
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -160,12 +206,47 @@
     <Compile Include="register.aspx.designer.cs">
       <DependentUpon>register.aspx</DependentUpon>
     </Compile>
+    <Compile Include="restaurant\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="restaurant\default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="restaurant\SiteRestaurant.Master.cs">
+      <DependentUpon>SiteRestaurant.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="restaurant\SiteRestaurant.Master.designer.cs">
+      <DependentUpon>SiteRestaurant.Master</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\productBasket.ascx.cs">
+      <DependentUpon>productBasket.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\productBasket.ascx.designer.cs">
+      <DependentUpon>productBasket.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProductRestaurantList.ascx.cs">
+      <DependentUpon>ProductRestaurantList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\ProductRestaurantList.ascx.designer.cs">
+      <DependentUpon>ProductRestaurantList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\RestaurantList.ascx.cs">
+      <DependentUpon>RestaurantList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\RestaurantList.ascx.designer.cs">
+      <DependentUpon>RestaurantList.ascx</DependentUpon>
     </Compile>
     <Compile Include="user\default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
@@ -190,16 +271,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="db\DoyurEntities.edmx">
+    <EntityDeploy Include="db\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DoyurEntities.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="db\DoyurEntities.edmx.diagram">
-      <DependentUpon>DoyurEntities.edmx</DependentUpon>
+    <Content Include="db\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <Content Include="Site.Master" />
     <Content Include="user\Site.Master" />
+    <Content Include="restaurant\SiteRestaurant.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

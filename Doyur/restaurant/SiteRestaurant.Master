@@ -1,21 +1,19 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Doyur.Site" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SiteRestaurant.master.cs" Inherits="Doyur.restaurant.SiteRestaurant" %>
 
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
-    <title></title>
+    <title>Restaurant</title>
     <link href="/css/site.css" rel="stylesheet" />
     <link href="/css/restaurantproduct.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
         <div>
-
             <div class="my-navbar">
                 <ul>
                     <li><a class="active" href="/default.aspx">Anasayfa</a></li>
@@ -38,13 +36,16 @@
                     
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
+                <div id="alert-message"></div>
             </div>
-            <br /><br /><br />  
-            
-            <asp:ContentPlaceHolder ID="cph1" runat="server">
+            <br />
+            <br />
+            <br />
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
-    <script src="js/alert.js"></script>
+
+    <script src="/js/alert.js"></script>
 </body>
 </html>

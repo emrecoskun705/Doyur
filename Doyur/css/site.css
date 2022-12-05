@@ -1,4 +1,49 @@
-﻿.error-danger {
+﻿.ml-auto,
+.mx-auto {
+    margin-left: auto !important;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.float-left {
+    float: left !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.align-top {
+    vertical-align: top !important;
+}
+
+.align-middle {
+    vertical-align: middle !important;
+}
+
+.align-bottom {
+    vertical-align: bottom !important;
+}
+
+.align-text-bottom {
+    vertical-align: text-bottom !important;
+}
+
+.align-text-top {
+    vertical-align: text-top !important;
+}
+
+.error-danger {
     color: #b94a48;
 }
 
@@ -149,6 +194,13 @@
   right: 0;
   left: 0;
   z-index: 1030;
+}
+
+.my-navbar {
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%;
+    z-index: 1000;
 }
 
 .my-navbar ul {
