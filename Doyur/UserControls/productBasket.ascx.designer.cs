@@ -11,25 +11,16 @@ namespace Doyur.UserControls
 {
 
 
-    public partial class productBasket
-    {
+	public partial class productBasket
+	{
 
-        /// <summary>
-        /// orderRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater orderRepeater;
-
-        /// <summary>
-        /// quantityDropdown control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList quantityDropdown;
-    }
+		/// <summary>
+		/// orderRepeater control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Repeater orderRepeater;
+	}
 }

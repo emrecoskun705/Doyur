@@ -13,7 +13,6 @@ namespace Doyur.UserControls
 
         db.doyurEntities db = new db.doyurEntities();
 
-        public static db.sp_GetActiveOrder_Result Order { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,12 +27,11 @@ namespace Doyur.UserControls
             int userId = IT.Session.Users.UserId();
             if(userId != 0)
             {
-                var getOrder = (from p in db.sp_GetActiveOrder(userId) select p);
+                var getOrder = (from p in db.sp_GetActiveOrderProductList(userId) select p).ToList();
                 if(getOrder != null && getOrder.Count() > 0)
                 {
-                    orderRepeater.DataSource = getOrder.First();
+                    orderRepeater.DataSource = getOrder;
                     orderRepeater.DataBind();
-                    Order = getOrder.First();
                 }
 
             }
@@ -49,7 +47,7 @@ namespace Doyur.UserControls
         protected void orderRepeater_ItemCreated(object sender, RepeaterItemEventArgs e)
         {
             DropDownList dropDownList = (DropDownList)e.Item.FindControl("quantityDropdown");
-            dropDownList.SelectedIndexChanged += quantityDropdown_SelectedIndexChanged; 
+            //dropDownList.SelectedIndexChanged += quantityDropdown_SelectedIndexChanged; 
 
         }
     }

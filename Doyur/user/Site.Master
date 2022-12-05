@@ -35,6 +35,7 @@
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
             </div>
+            <br /><br /><br />
             
             <asp:ContentPlaceHolder ID="cph1" runat="server">
             </asp:ContentPlaceHolder>

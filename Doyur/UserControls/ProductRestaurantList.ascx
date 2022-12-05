@@ -1,12 +1,15 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ProductRestaurantList.ascx.cs" Inherits="Doyur.UserControls.ProductRestaurantList" %>
 
 
-<asp:Repeater ID="productRepeater" runat="server" OnItemCommand="productRepeater_ItemCommand">
+<asp:Repeater ID="productRepeater" OnItemDataBound="productRepeater_ItemDataBound" runat="server" OnItemCommand="productRepeater_ItemCommand">
     <ItemTemplate>
 
         <div class="row r-product">
             <div class="col">
                 <img src="/image/<%# Eval("ImageUrl") %>"/>
+            </div>
+            <div class="col">
+                <h2><%# Eval("Name") %></h2>
             </div>
             <div class="col">
                 <div class="row">

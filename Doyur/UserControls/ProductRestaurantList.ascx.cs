@@ -50,7 +50,7 @@ namespace Doyur.UserControls
         {
 			int userId = IT.Session.Users.UserId();
 			// TODO: Turn it into == when debug ends
-			if(userId != 0)
+			if(userId == 0)
 			{
 				this.Parent.Page.ShowMessage("Warning", "Lütfen sepete ürün eklemek için giriş yapınız");
                 return;
@@ -60,6 +60,8 @@ namespace Doyur.UserControls
 			{
 				int productId = Convert.ToInt32(e.CommandArgument);
                 int restaurantId = Convert.ToInt32(Request.QueryString["id"]);
+				//Create or sp creates an order if there is no active orders and returns that order
+				// even if it is exist already
                 var getOrderList = (from p in db.sp_CreateOrder(userId, restaurantId) select p).ToList();
 				
 				// order exists
@@ -85,6 +87,11 @@ namespace Doyur.UserControls
 				
 
             }
+        }
+
+        protected void productRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+
         }
     }
 }
