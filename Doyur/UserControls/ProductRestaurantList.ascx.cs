@@ -68,13 +68,16 @@ namespace Doyur.UserControls
 				if(getOrderList != null && getOrderList.Count > 0)
 				{
 					var getOrder = getOrderList.First();
-					var count = db.sp_AddProductToOrder(productId, getOrder.OrderId, 1);
+					var count = db.sp_AddProductToOrder(productId, getOrder.OrderId, 1).ToList();
 					if(count!=null && Convert.ToInt32(count.First())> 0)
 					{
-                        //success then disable button
-                        Button btn = (Button)e.Item.FindControl("addOrderBtn") as Button;
+						productBasket productBasketC = Parent.FindControl("productBasket") as productBasket;
+						//success then disable button
+						Button btn = (Button)e.Item.FindControl("addOrderBtn") as Button;
                         btn.Enabled = false;
                         btn.BackColor = System.Drawing.ColorTranslator.FromHtml("#808080");
+						// gets user control from parent page to update order list
+						productBasketC.GetUserOrder();
                     }
 				}
 				// order does not exist
@@ -91,7 +94,9 @@ namespace Doyur.UserControls
 
         protected void productRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+			//handle auto disable button when page is loaded using productbasket user controller
+			productBasket productBasketC = Parent.FindControl("productBasket") as productBasket;
 
-        }
-    }
+		}
+	}
 }
