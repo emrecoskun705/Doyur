@@ -123,7 +123,19 @@ namespace Doyur.UserControls
 
 		protected void orderSubmitBtn_Click(object sender, EventArgs e)
 		{
-
+            var updateOrder = db.sp_UpdateOrder(OrderID, false, true, TotalCost, "P", 1).ToList().First();
+            // order payment or giving is successful
+            if (updateOrder != null && updateOrder == 1) 
+            {
+                this.Parent.Page.ShowMessage("Success", "Siparişiniz başarılı bir şekilde oluşturuldu");
+                Order.Clear();
+                UpdateOrderRepeater();
+            }
+            else
+            {
+				// order payment or giving is not successful 
+				this.Parent.Page.ShowMessage("Warning", "Siparişiniz oluşturulamadı lütfen tekrar deneyiniz");
+			}
 		}
 	}
 }
