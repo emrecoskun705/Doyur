@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/restaurant/SiteRestaurant.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Doyur.restaurant._default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/restaurant/SiteRestaurant.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Doyur.restaurant._default" viewStateEncryptionMode="Never" %>
 
 <%@ Register Src="~/UserControls/ProductRestaurantList.ascx" TagPrefix="uc1" TagName="ProductRestaurantList" %>
 <%@ Register Src="~/UserControls/productBasket.ascx" TagPrefix="uc1" TagName="productBasket" %>
@@ -35,7 +35,7 @@
                                     <div class="sidebar-content">
                                         <div class="basket-panel">
                                             <h1>Sipariş Listesi</h1>
-                                            <uc1:productBasket runat="server" id="productBasket" />
+                                            <uc1:productBasket runat="server" id="productBasket" AutoPostBack="true" />
                                         </div>
                                   </div>
                                 </div>

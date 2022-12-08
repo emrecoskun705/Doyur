@@ -74,8 +74,8 @@ namespace Doyur.UserControls
 						productBasket productBasketC = Parent.FindControl("productBasket") as productBasket;
 						//success then disable button
 						Button btn = (Button)e.Item.FindControl("addOrderBtn") as Button;
-                        btn.Enabled = false;
-                        btn.BackColor = System.Drawing.ColorTranslator.FromHtml("#808080");
+                        //btn.Enabled = false;
+                        //btn.BackColor = System.Drawing.ColorTranslator.FromHtml("#808080");
 						// gets user control from parent page to update order list
 						productBasketC.GetUserOrder();
                     }

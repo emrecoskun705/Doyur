@@ -15,24 +15,6 @@ namespace Doyur.UserControls
 	{
 
 		/// <summary>
-		/// updatePanelScriptM control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.ScriptManager updatePanelScriptM;
-
-		/// <summary>
-		/// orderUpdatePanel control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.UpdatePanel orderUpdatePanel;
-
-		/// <summary>
 		/// orderRepeater control.
 		/// </summary>
 		/// <remarks>
@@ -40,5 +22,14 @@ namespace Doyur.UserControls
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.Repeater orderRepeater;
+
+		/// <summary>
+		/// noOrderRecords control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.HtmlControls.HtmlGenericControl noOrderRecords;
 	}
 }

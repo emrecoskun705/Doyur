@@ -1,4 +1,5 @@
-﻿using Doyur.db;
+﻿using Doyur;
+using Doyur.db;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace IT
                 HttpContext.Current.Session.Add("Email", Email);
             }
 
-            public static void RevomeSessionList()
+			public static void RevomeSessionList()
             {
                 HttpContext.Current.Session.Remove("UserId");
                 HttpContext.Current.Session.Remove("AccessId");
