@@ -68,7 +68,14 @@ namespace Doyur.UserControls
 				if(getOrderList != null && getOrderList.Count > 0)
 				{
 					var getOrder = getOrderList.First();
+					// if restaurant ids are differen then user cannot add that product in his/her Order
+					if(restaurantId != getOrderList[0].RestaurantId)
+					{
+						this.Parent.Page.ShowMessage("Warning", "Farklı restoranlardan sepetinize ürün ekleyemezsiniz");
+						return;
+					}
 					var count = db.sp_AddProductToOrder(productId, getOrder.OrderId, 1).ToList();
+					db.SaveChanges();
 					if(count!=null && Convert.ToInt32(count.First())> 0)
 					{
 						productBasket productBasketC = Parent.FindControl("productBasket") as productBasket;

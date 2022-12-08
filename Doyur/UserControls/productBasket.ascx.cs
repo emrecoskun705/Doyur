@@ -17,8 +17,7 @@ namespace Doyur.UserControls
 
         public List<db.sp_GetActiveOrderProductList_Result> Order { get; set; }
         public int OrderID { get; set; }
-
-        public int MaxQuantity = 10;
+        public decimal TotalCost { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,7 +32,6 @@ namespace Doyur.UserControls
             if(userId != 0)
             {
                 var getOrder = (from p in db.sp_GetActiveOrderProductList(userId) select p).ToList();
-                HttpCookie cookie = new HttpCookie("Order");
 
                 if(getOrder != null && getOrder.Count() > 0)
                 {
@@ -41,14 +39,18 @@ namespace Doyur.UserControls
                     orderRepeater.DataSource = getOrder;
                     orderRepeater.EnableViewState = false;
 
+                    TotalCost = Order.Sum(x => x.ProductQuantity * Convert.ToDecimal(x.Price));
                     OrderID = getOrder[0].OrderId;
                     orderRepeater.DataBind();
 
                     noOrderRecords.Visible = false;
+                    orderSummary.Visible = true;
 
-                } else
+
+				} else
                 {
 					noOrderRecords.Visible = true;
+					orderSummary.Visible = false;
 				}
 
             }
@@ -66,31 +68,35 @@ namespace Doyur.UserControls
 			int quantity = Convert.ToInt32(dropDown.SelectedValue);
 			int productId = Convert.ToInt32(a);
 
-			var updateQuantity = db.sp_ChangeProductQuantityInOrder(OrderID, productId, quantity);
+            // if update quantityi = 1 it is successfull 0 is not success
+			var updateQuantity = db.sp_ChangeProductQuantityInOrder(OrderID, productId, quantity).ToList().First();
 
-            if(quantity == 0)
+            if(quantity == 0 && updateQuantity == 1)
             {
                 // if quantity is 0 remove product from Order list then bind data again for repeater
 			    Order.RemoveAll(s => s.ProductId == productId);
-				orderRepeater.DataSource = Order;
-				orderRepeater.DataBind();
-                if(Order.Count() == 0)
-                {
-                    noOrderRecords.Visible = true;
-                } else
-                {
-					noOrderRecords.Visible = false;
-				}
-			} else
+				TotalCost = Order.Sum(x => x.ProductQuantity * Convert.ToDecimal(x.Price));
+				UpdateOrderRepeater();
+			} else if(quantity > 0 && updateQuantity == 1)
             {
                 // if quantity is not zero then update product quantity in Order list
                 Order.Find(s => s.ProductId == productId).ProductQuantity = (byte)quantity;
-				orderRepeater.DataSource = Order;
-				orderRepeater.DataBind();
+				TotalCost = Order.Sum(x => x.ProductQuantity * Convert.ToDecimal(x.Price));
+                UpdateOrderRepeater();
+			} else if (updateQuantity == 0)
+            {
+                // if quantity change is not successful then change it to begining value
+                dropDown.SelectedValue = quantity.ToString();
+                UpdateOrderRepeater();
 			}
 
 		}
 
+        /// <summary>
+        /// This method adds select method for every repeater item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void orderRepeater_ItemCreated(object sender, RepeaterItemEventArgs e)
         {
             DropDownList dropDownList = (DropDownList)e.Item.FindControl("quantityDropdown");
@@ -98,25 +104,26 @@ namespace Doyur.UserControls
 
         }
 
-
-        protected DataTable LoadQuantity()
+        private void UpdateOrderRepeater()
         {
+			if (Order.Count() == 0)
+			{
+				noOrderRecords.Visible = true;
+				orderSummary.Visible = false;
+			}
+			else
+			{
+				noOrderRecords.Visible = false;
+				orderSummary.Visible = true;
+			}
+			orderRepeater.DataSource = Order;
+			orderRepeater.DataBind();
+		}
 
-            DataTable dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("Text");
-            dt.Columns.Add("Value");
 
+		protected void orderSubmitBtn_Click(object sender, EventArgs e)
+		{
 
-            for(int i=0; i< MaxQuantity; i++)
-            {
-                DataRow dr = dt.NewRow();
-                dr["Text"] = "" + i;
-                dr["Value"] = "" + i;
-            }
-
-            return dt;
-        }
-
+		}
 	}
 }

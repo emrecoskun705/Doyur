@@ -33,3 +33,20 @@
     <img src="../image/basket.png" />
 </div>
 
+<div id="orderSummary" style="padding-bottom:5px;" runat="server">
+    <div class="row">
+        <div class="col">
+            Total: <%= String.Format("{0:0.00}", TotalCost )%>
+        </div>
+        <div class="col">
+            <asp:Button ID="orderSubmitBtn" runat="server" Text="Sipariş Ver" CssClass="btn" OnClick="orderSubmitBtn_Click"
+                BorderStyle="None" 
+                BackColor="#0476D0" 
+                BorderColor="#10980f" 
+                ForeColor="#ffffff" />
+        </div>
+    </div>
+
+</div>
+
+
