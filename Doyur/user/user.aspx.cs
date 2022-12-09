@@ -14,11 +14,16 @@ namespace Doyur.user
 
         db.doyurEntities db = new db.doyurEntities();
 
+		protected void Page_Init(object sender, EventArgs e)
+		{
+			IT.Session.Users.NoActiveAddressRedirect();
+		}
 		protected void Page_Load(object sender, EventArgs e)
         {
 
 
-            if(!IsPostBack)
+
+			if (!IsPostBack)
             {
 				int id = IT.Session.Users.UserId();
 				var getUser = (from p in db.Users where p.UserId == id select p).First();

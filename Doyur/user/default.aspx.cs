@@ -9,9 +9,14 @@ namespace Doyur.user
 {
     public partial class _default : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+
+		protected void Page_Init(object sender, EventArgs e)
+		{
+			IT.Session.Users.NoActiveAddressRedirect();
+		}
+		protected void Page_Load(object sender, EventArgs e)
         {
 
-        }
-    }
+		}
+	}
 }

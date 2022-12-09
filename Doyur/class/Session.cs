@@ -50,9 +50,15 @@ namespace IT
                 HttpContext.Current.Session.Remove("Username");
                 HttpContext.Current.Session.Remove("Phone");
                 HttpContext.Current.Session.Remove("Email");
+                HttpContext.Current.Session.Remove("AddressId");
             }
 
-            public static void AddLoginSessionDebug()
+			public static void AddAddressSession(int AddressId)
+			{
+				HttpContext.Current.Session.Add("AddressId", AddressId);
+			}
+
+			public static void AddLoginSessionDebug()
             {
                 HttpContext.Current.Session.Add("UserId", 1);
                 HttpContext.Current.Session.Add("AccessId", 1);
@@ -64,7 +70,15 @@ namespace IT
             }
 
 
-            public static string Phone()
+			public static string Address()
+			{
+				if (HttpContext.Current.Session["AddressId"] == null)
+					return "";
+				else
+					return HttpContext.Current.Session["AddressId"].ToString();
+			}
+
+			public static string Phone()
             {
                 if (HttpContext.Current.Session["Phone"] == null)
                     return "";
@@ -153,7 +167,24 @@ namespace IT
                     HttpContext.Current.Response.Redirect(Url);
                 }
             }
-        }
+
+			public static void NoActiveAddressRedirect()
+			{
+				if (HttpContext.Current.Session["AddressId"] == null)
+				{
+					HttpContext.Current.Response.Redirect("/user/address.aspx");
+				}
+			}
+
+			public static void NoActiveAddressRedirect(string Url)
+			{
+				if (HttpContext.Current.Session["AddressId"] == null)
+				{
+					HttpContext.Current.Response.Redirect(Url);
+				}
+			}
+
+		}
 
         public class UserCookie
         {
