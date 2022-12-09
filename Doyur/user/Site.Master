@@ -38,9 +38,7 @@
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
             </div>
-            <br /><br /><br />
-
-            <div class="sidebar">
+            <div class="sidebar" style="margin-top:46px">
               <a class="active" href="default.aspx">Home</a>
               <a href="user.aspx">Kullanıcı Bilgileri</a>
               <a href="addresslist.aspx">Adres Bilgileri</a>

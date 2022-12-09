@@ -24,15 +24,6 @@ namespace Doyur.user
 		protected global::System.Web.UI.WebControls.ValidationSummary ValidationSummary1;
 
 		/// <summary>
-		/// addressDL control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList addressDL;
-
-		/// <summary>
 		/// aName control.
 		/// </summary>
 		/// <remarks>
@@ -121,6 +112,15 @@ namespace Doyur.user
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
+
+		/// <summary>
+		/// IsActive control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.CheckBox IsActive;
 
 		/// <summary>
 		/// SaveBtn control.

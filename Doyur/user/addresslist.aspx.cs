@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Doyur.extensions;
 
 namespace Doyur.user
 {
@@ -23,7 +24,7 @@ namespace Doyur.user
 		{
 			int userId = IT.Session.Users.UserId();
 
-			var getAddressList = db.sp_GetAddress(userId, 2).ToList();
+			var getAddressList = db.sp_GetAddress(userId, -1, 2).ToList();
 
 			if(getAddressList != null && getAddressList.Count() > 0)
 			{
@@ -34,6 +35,22 @@ namespace Doyur.user
 			}
 
 			gList.DataBind();
+		}
+
+
+		protected void gList_RowCommand(object sender, GridViewCommandEventArgs e)
+		{
+			if(e.CommandName == "Edit")
+			{
+				int addressId = Convert.ToInt32(e.CommandArgument);
+				Response.Redirect("/user/address.aspx?AddressId=" + addressId);
+
+			}
+			else if(e.CommandName == "Delete")
+			{
+
+			}
+
 		}
 	}
 }

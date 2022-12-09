@@ -42,20 +42,7 @@ namespace Doyur
                         getUser.Name, 
                         getUser.Phone, 
                         getUser.Mail);
-
-                    var getAddress = (from p in db.sp_GetAddress(getUser.UserId, 1) select p).ToList();
-
-                    // user has an active address so no need to add address
-                    if(getAddress != null && getAddress.Count() > 0) 
-                    {
-                        IT.Session.Users.AddAddressSession(getAddress.First().AddressId);
 						Response.Redirect("user/default.aspx");
-					}
-                    // no active address exist for user so redirect to address page
-                    else
-                    {
-                        Response.Redirect("user/address.aspx");
-					}
 
 					
                 } else

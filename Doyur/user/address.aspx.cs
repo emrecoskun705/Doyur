@@ -26,73 +26,48 @@ namespace Doyur.user
 		private void BindAddressData()
 		{
 			int userId = IT.Session.Users.UserId();
+			var addressId = Convert.ToInt32(Request.QueryString["AddressId"]);
 
-			// func id 2 gets all the address list for given user
-			var getAddressList = (from p in db.sp_GetAddress(userId, 2) select p).ToList();
-
-			if (getAddressList != null && getAddressList.Count > 0)
+			var getAddressList = (from p in db.sp_GetAddress(userId, addressId, 3) select p).ToList();
+			if(getAddressList != null && getAddressList.Count() > 0)
 			{
-				addressDL.DataSource = getAddressList;
-				addressDL.DataTextField= "Name";
-				addressDL.DataValueField= "AddressId";
-				
-				var selectedValue = getAddressList.Find(x => x.IsActive);
-				if(selectedValue != null)
-				{
-					addressDL.SelectedValue = Convert.ToString(selectedValue.AddressId);
-				}
-				addressDL.DataBind();
-
-				// if there is no active address for user show select value
-				ListItem emptyItem = new ListItem("Lütfen adres seçiniz", "0");
-				addressDL.Items.Insert(0, emptyItem);
-				addressDL.Items[0].Attributes["disabled"] = "disabled";
-				if(selectedValue == null)
-				{
-					addressDL.SelectedIndex = 0;
-				}
+				var getAddress = getAddressList.First();
+				aName.Text = getAddress.Name.Trim();
+				aTown.Text = getAddress.Town.Trim();
+				aDistrict.Text = getAddress.District.Trim();
+				aDescription.Text = getAddress.Description.Trim();
+				phone.Text = getAddress.Phone.Trim();
+				IsActive.Checked = getAddress.IsActive;
 			}
+
 		}
 
         protected void SaveBtn_Click(object sender, EventArgs e)
         {
-			var createUser = db.sp_CreateAddress(
-				IT.Session.Users.UserId(),
-					aName.Text.Trim(),
-					aTown.Text.Trim(),
-					aDistrict.Text.Trim(),
-					aDescription.Text.Trim(),
-					phone.Text.Trim(),
-					(decimal)37.171379,
-					(decimal)28.399133
-				).ToList();
+			int userId = IT.Session.Users.UserId();
+			int addressId = Convert.ToInt32(Request.QueryString["AddressId"]);
+			db.Address updateAddress = (from p in db.Address where p.AddressId == addressId && p.UserId == userId select p).FirstOrDefault();
+			
+			if(updateAddress != null)
+			{
+				updateAddress.Name = aName.Text.Trim();
+				updateAddress.Town= aTown.Text.Trim();
+				updateAddress.District= aDistrict.Text.Trim();
+				updateAddress.Description= aDescription.Text.Trim();
+				updateAddress.Phone = phone.Text.Trim();
+				updateAddress.IsActive = IsActive.Checked;
+				
+			}
 
-			if(createUser != null && createUser.Count() > 0 && createUser.First() > 0)
+			if(db.SaveChanges() > 0)
 			{
 				BindAddressData();
-				this.ShowMessage("Success", "Adres oluşturuldu lütfen kayıtlı adreslerden kullanmak istediğiniz adresi seçiniz.");
+				this.ShowMessage("Success", "Adres başarıyla güncellendi");
 			} else
 			{
-				this.ShowMessage("Warning", "Adres oluşturulamadı maksimum adres limitiniz 5.");
+				this.ShowMessage("Warning", "Adres güncellenemedi.");
 			}
         }
 
-		protected void addressDL_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			int userId = IT.Session.Users.UserId();
-			int addressId = Convert.ToInt32(addressDL.SelectedValue);
-
-			var updateAddress = db.sp_UpdateAddressActive(userId, addressId).ToList();
-
-			if(updateAddress.Count() > 0 && updateAddress.First() > 0)
-			{
-				IT.Session.Users.AddAddressSession(addressId);
-				this.ShowMessage("Success", "Adres başarıyla seçildi alışverişe başlayabilirsiniz.");
-			} else
-			{
-				this.ShowMessage("Warning", "Adres seçilemedi.");
-			}
-
-		}
 	}
 }

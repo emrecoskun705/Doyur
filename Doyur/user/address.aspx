@@ -4,24 +4,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cph1" runat="server">
     <div class="box-out box box-login" style="margin-top: 60px;">
         <div class="box-top">
-            Adres Seç veya Yeni Adres Ekle
+            Adresi Düzenle
         </div>
         <div id="alert-message"></div>
         <div class="box-in">
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="error-danger" />
             <table>
                 <tbody>
-                    <tr>
-                        <td>Kayıtlı adresler</td>
-                         <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:DropDownList ID="addressDL" runat="server" Width="120px" OnSelectedIndexChanged="addressDL_SelectedIndexChanged" AutoPostBack="true">
-                            </asp:DropDownList>
-                        </td>
-                         <td>&nbsp;</td>
-                    </tr>
                     <tr>
                         <td>Adres Adı</td>
                          <td>&nbsp;</td>
@@ -80,6 +69,15 @@
                         </td>
                          <td>                            
                              <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Telefon" ControlToValidate="phone" Display="None"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Aktif adres</td>
+                         <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:CheckBox ID="IsActive" runat="server" />
                         </td>
                     </tr>
                     <tr>

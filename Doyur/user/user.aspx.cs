@@ -16,7 +16,6 @@ namespace Doyur.user
 
 		protected void Page_Init(object sender, EventArgs e)
 		{
-			IT.Session.Users.NoActiveAddressRedirect();
 		}
 		protected void Page_Load(object sender, EventArgs e)
         {

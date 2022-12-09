@@ -15,6 +15,15 @@ namespace Doyur.user
 	{
 
 		/// <summary>
+		/// addrLink control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.HyperLink addrLink;
+
+		/// <summary>
 		/// gList control.
 		/// </summary>
 		/// <remarks>

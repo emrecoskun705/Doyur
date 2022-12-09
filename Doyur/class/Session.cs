@@ -50,13 +50,8 @@ namespace IT
                 HttpContext.Current.Session.Remove("Username");
                 HttpContext.Current.Session.Remove("Phone");
                 HttpContext.Current.Session.Remove("Email");
-                HttpContext.Current.Session.Remove("AddressId");
             }
 
-			public static void AddAddressSession(int AddressId)
-			{
-				HttpContext.Current.Session.Add("AddressId", AddressId);
-			}
 
 			public static void AddLoginSessionDebug()
             {
@@ -67,17 +62,10 @@ namespace IT
                 HttpContext.Current.Session.Add("Username", "emrec");
                 HttpContext.Current.Session.Add("Phone", "5458413575");
                 HttpContext.Current.Session.Add("Email", "emre@emre.com");
-                HttpContext.Current.Session.Add("AddressId", 17);
             }
 
 
-			public static string Address()
-			{
-				if (HttpContext.Current.Session["AddressId"] == null)
-					return "";
-				else
-					return HttpContext.Current.Session["AddressId"].ToString();
-			}
+
 
 			public static string Phone()
             {
@@ -169,21 +157,6 @@ namespace IT
                 }
             }
 
-			public static void NoActiveAddressRedirect()
-			{
-				if (HttpContext.Current.Session["AddressId"] == null)
-				{
-					HttpContext.Current.Response.Redirect("/user/address.aspx");
-				}
-			}
-
-			public static void NoActiveAddressRedirect(string Url)
-			{
-				if (HttpContext.Current.Session["AddressId"] == null)
-				{
-					HttpContext.Current.Response.Redirect(Url);
-				}
-			}
 
 		}
 

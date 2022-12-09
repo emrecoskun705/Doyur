@@ -7,14 +7,10 @@ using System.Web.UI.WebControls;
 
 namespace Doyur.user
 {
-    public partial class _default : System.Web.UI.Page
-    {
-
-		protected void Page_Init(object sender, EventArgs e)
-		{
-		}
+	public partial class createaddress : System.Web.UI.Page
+	{
 		protected void Page_Load(object sender, EventArgs e)
-        {
+		{
 
 		}
 	}
