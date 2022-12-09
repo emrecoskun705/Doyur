@@ -8,6 +8,7 @@
     <link href="/css/site.css" rel="stylesheet" />
     <script src="../js/alert.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link href="../css/sidebar.css" rel="stylesheet" />
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -38,11 +39,32 @@
                 </ul>
             </div>
             <br /><br /><br />
+
+            <div class="sidebar">
+              <a class="active" href="default.aspx">Home</a>
+              <a href="user.aspx">Kullanıcı Bilgileri</a>
+              <a href="addresslist.aspx">Adres Bilgileri</a>
+            </div>
+            <div class="content">
+                <asp:ContentPlaceHolder ID="cph1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
             
-            <asp:ContentPlaceHolder ID="cph1" runat="server">
-            </asp:ContentPlaceHolder>
         </div>
-    </form>   
+    </form> 
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = window.location;
+            $('.sidebar').find('.active').removeClass('active');
+            $('.sidebar a').each(function () {
+                if (this.href == url) {
+                    
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

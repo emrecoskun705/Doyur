@@ -7,7 +7,6 @@
             Adres Seç veya Yeni Adres Ekle
         </div>
         <div id="alert-message"></div>
-
         <div class="box-in">
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="error-danger" />
             <table>

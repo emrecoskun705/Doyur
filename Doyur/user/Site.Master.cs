@@ -13,6 +13,7 @@ namespace Doyur.user
         protected void Page_Init(object sender, EventArgs e)
         {
             IT.Session.Users.UserIsNotLoginRedirect();
+           
         }
 
         protected void Page_Load(object sender, EventArgs e)

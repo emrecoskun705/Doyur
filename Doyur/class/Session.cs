@@ -67,6 +67,7 @@ namespace IT
                 HttpContext.Current.Session.Add("Username", "emrec");
                 HttpContext.Current.Session.Add("Phone", "5458413575");
                 HttpContext.Current.Session.Add("Email", "emre@emre.com");
+                HttpContext.Current.Session.Add("AddressId", 17);
             }
 
 

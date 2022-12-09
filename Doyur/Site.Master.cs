@@ -9,7 +9,13 @@ namespace Doyur
 {
     public partial class Site : System.Web.UI.MasterPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+
+		protected void Page_Init(object sender, EventArgs e)
+		{
+			IT.Session.Users.AddLoginSessionDebug();
+
+		}
+		protected void Page_Load(object sender, EventArgs e)
         {
         }
     }

@@ -71,6 +71,9 @@ namespace Doyur.user
 			{
 				BindAddressData();
 				this.ShowMessage("Success", "Adres oluşturuldu lütfen kayıtlı adreslerden kullanmak istediğiniz adresi seçiniz.");
+			} else
+			{
+				this.ShowMessage("Warning", "Adres oluşturulamadı maksimum adres limitiniz 5.");
 			}
         }
 
@@ -85,6 +88,9 @@ namespace Doyur.user
 			{
 				IT.Session.Users.AddAddressSession(addressId);
 				this.ShowMessage("Success", "Adres başarıyla seçildi alışverişe başlayabilirsiniz.");
+			} else
+			{
+				this.ShowMessage("Warning", "Adres seçilemedi.");
 			}
 
 		}

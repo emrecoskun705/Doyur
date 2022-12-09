@@ -1,4 +1,71 @@
-﻿.ml-auto,
+﻿.mGrid {
+    font-size: 0.8rem;
+    width: 100%;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border: 1px solid #DBDBDB;
+}
+
+    .mGrid th {
+        border: solid 1px #DBDBDB;
+        color: #000000;
+        font-weight: normal;
+        background: #fbfbfb;
+    }
+
+    .mGrid td {
+        color: #333333;
+        padding: 6px 4px 4px 4px;
+        /* border: 1px solid #DBDBDB; */
+    }
+
+    .mGrid tr:hover {
+        background-color: #F2F2F2;
+        color: #000000;
+    }
+
+.btn-green {
+    background-color: #10980f;
+    border: 1px solid #10980f;
+}
+
+    .btn-green:hover {
+        background-color: #068906;
+        text-decoration: none;
+    }
+
+
+.btn-xs {
+    position: relative;
+    cursor: pointer;
+    color: #ffffff;
+    text-align: center;
+    padding: 4px 10px 4px 10px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.btn-red {
+    background-color: #e80000;
+    border: 1px solid #e80000;
+}
+
+.btn-red:hover {
+    background-color: #c80000;
+    text-decoration: none;
+}
+
+.st-active {
+    color: #ffffff;
+    background-color: #238900;
+    padding: 3px 10px 3px 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.ml-auto,
 .mx-auto {
     margin-left: auto !important;
 }
