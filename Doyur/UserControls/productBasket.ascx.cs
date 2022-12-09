@@ -53,7 +53,10 @@ namespace Doyur.UserControls
 					orderSummary.Visible = false;
 				}
 
-            }
+            } else
+            {
+				orderSummary.Visible = false;
+			}
 
         }
 
