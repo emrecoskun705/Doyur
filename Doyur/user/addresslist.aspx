@@ -29,7 +29,7 @@
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:Button ID="btnEdit" runat="server" Text="Düzenle" CssClass="btn-xs btn-green" CommandName="Edit" CommandArgument='<%# Eval("AddressId") %>' />
-                            <asp:Button ID="btnDelete" runat="server" Text="Sil" CssClass="btn-xs btn-red" CommandName="Delete" CommandArgument='<%# Eval("AddressId") %>' OnClientClick="return confirm('Adresi silmek istediğinize emin misiniz?');"  />
+                            <asp:Button ID="btnDelete" runat="server" Text="Sil" CssClass="btn-xs btn-red" CommandName="DeleteAddress" CommandArgument='<%# Eval("AddressId") %>' OnClientClick="return confirm('Adresi silmek istediğinize emin misiniz?');"  />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

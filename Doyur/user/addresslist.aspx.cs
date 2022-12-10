@@ -46,9 +46,27 @@ namespace Doyur.user
 				Response.Redirect("/user/address.aspx?AddressId=" + addressId);
 
 			}
-			else if(e.CommandName == "Delete")
+			else if(e.CommandName == "DeleteAddress")
 			{
+				int userId = IT.Session.Users.UserId();
+				int addressId = Convert.ToInt32(e.CommandArgument);
+				var getAddress = (from p in db.Address where p.AddressId == addressId && p.UserId == userId select p).FirstOrDefault();
 
+				if(getAddress != null)
+				{
+					db.Address.Remove(getAddress);
+					if(db.SaveChanges() > 0)
+					{
+						this.ShowMessage("Success", "Adres başarıyla silindi");
+						LoadAddress();
+					} else
+					{
+						this.ShowMessage("Warning", "Adres silinirken bir hata oluştu");
+					}
+				} else
+				{
+					this.ShowMessage("Warning", "Adres bulunamadı");
+				}
 			}
 
 		}
