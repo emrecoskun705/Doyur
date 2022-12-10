@@ -85,50 +85,7 @@
     border-radius: 10px;
 }
 
-.ml-auto,
-.mx-auto {
-    margin-left: auto !important;
-}
 
-.float-right {
-    float: right !important;
-}
-
-.float-left {
-    float: left !important;
-}
-
-.text-left {
-    text-align: left !important;
-}
-
-.text-right {
-    text-align: right !important;
-}
-
-.text-center {
-    text-align: center !important;
-}
-
-.align-top {
-    vertical-align: top !important;
-}
-
-.align-middle {
-    vertical-align: middle !important;
-}
-
-.align-bottom {
-    vertical-align: bottom !important;
-}
-
-.align-text-bottom {
-    vertical-align: text-bottom !important;
-}
-
-.align-text-top {
-    vertical-align: text-top !important;
-}
 
 .error-danger {
     color: #b94a48;

@@ -14,19 +14,19 @@ namespace Doyur.UserControls
 		{
 			if(!IsPostBack)
 			{
-				GetRestaurants();
+				GetProducts();
 			}
 		}
 
-		private void GetRestaurants()
+		private void GetProducts()
 		{
-			var getRestaurants = (from p in db.sp_GetRestaurants(10) select p).ToList();
+			var getProducts = (from p in db.sp_GetProducts(10) select p).ToList();
 
-			if (getRestaurants != null && getRestaurants.Count > 0)
+			if (getProducts != null && getProducts.Count > 0)
 			{
 				try
 				{
-					Repeater1.DataSource = getRestaurants;
+					Repeater1.DataSource = getProducts;
 					Repeater1.DataBind();
 				} catch (Exception)
 				{

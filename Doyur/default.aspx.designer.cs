@@ -15,12 +15,12 @@ namespace Doyur
 	{
 
 		/// <summary>
-		/// RestaurantList control.
+		/// productlist control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::Doyur.UserControls.RestaurantList RestaurantList;
+		protected global::Doyur.UserControls.RestaurantList productlist;
 	}
 }

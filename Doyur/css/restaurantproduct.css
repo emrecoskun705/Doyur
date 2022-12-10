@@ -1,4 +1,36 @@
-﻿.sidebar-section {
+﻿.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+    align-items: start;
+}
+
+    .grid > article {
+        border: 1px solid #ccc;
+        box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+    }
+
+        .grid > article img {
+            max-width: 100%;
+        }
+
+.text {
+    padding: 0 20px 20px;
+}
+
+    .text > button {
+        background: gray;
+        border: 0;
+        color: white;
+        padding: 10px;
+        width: 100%;
+    }
+
+article {
+    display: block;
+}
+
+.sidebar-section {
     position: absolute;
     width: 100%;
 }
@@ -16,11 +48,6 @@ body {
     background: #fff;
 }
 
-article {
-    background: #f1f1f1;
-    border-radius: 12px;
-    padding: 25px 0 600px;
-}
 
 
 .title-section, .content-section, .sidebar-section {
@@ -47,9 +74,6 @@ article {
 
 
 
-.main {
-    width: 60%;
-}
 
 .sidebar {
     width: 25%;
@@ -86,8 +110,6 @@ a.card-link {
     border-radius: 5px;
     padding: 2px;
     margin: 5px 20px;
-    display: flex;
-    flex-direction: row;
     background-color: #ffffff;
     border: 1px solid #e1e1e1;
     -moz-border-radius: 3px;
@@ -99,13 +121,10 @@ a.card-link {
 }
 
     .r-card img {
-        width: 15vw;
-        height: 5vw;
+        width: 300px;
+        height: 150px;
     }
-    .r-card .headImg img {
-        width: 30vw;
-        height: 10vw;
-    }
+
 
 * {
     box-sizing: border-box;
