@@ -33,9 +33,20 @@
                     <%
                         }
                     %>
+
+                    <% 
+                    if (IT.Session.Users.AccessId() == 3)
+                    { 
+                    %>
+                    <li style="float:right"><a href="/company/default.aspx">Restaurant</a></li>
+                    <%  
+                    } 
+                    %>
+
                     
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
+            </div>
             </div>
             <br /><br /><br />  
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
