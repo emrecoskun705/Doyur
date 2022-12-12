@@ -107,6 +107,11 @@ namespace Doyur.company
                             
                         }
                     }
+
+                    this.ShowMessage("Success", "Ürün başarıyla kaydedildi.");
+                } else
+                {
+                    this.ShowMessage("Warning", "Üürn kaydedilirken bir hata meydana geldi.");
                 }
 
             }
