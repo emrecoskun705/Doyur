@@ -16,7 +16,8 @@
                         <asp:Repeater ID="childR" runat="server">
                             <ItemTemplate>
                                 <li>
-                                    <asp:Button ID="btn" runat="server" Text='<%# Eval("Name") %>' BorderStyle="None" />
+                                    <asp:Label ID="cValue" runat="server" Text='<%# Eval("CategoryId") %>' Visible="false"></asp:Label>
+                                    <asp:Button ID="btn" runat="server" Text='<%# Eval("Name") %>' BorderStyle="None" OnClick="btn_Click" />
                                 </li>
                             </ItemTemplate>
                         </asp:Repeater>

@@ -12,16 +12,32 @@ namespace Doyur.company
 
 		db.doyurEntities db = new db.doyurEntities();
 
-		public List<List<db.Category>> categories= new List<List<db.Category>>();
+        public List<List<db.Category>> categories = new List<List<db.Category>>();
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			var rootCategory = (from p in db.Category where p.ParentId == null select p).ToList();
-			var subCategory = (from p in db.Category where p.ParentId == 3 select p).ToList();
-			categories.Add(rootCategory);
-			categories.Add(subCategory);
-			parentR.DataSource = categories;
-			parentR.DataBind();
+			if(!IsPostBack)
+			{
+				GetCategories();
+                parentR.DataSource = categories;
+                parentR.DataBind();
+            }
 		}
+
+
+		private void GetCategories()
+		{
+            var rootCategory = (from p in db.Category where p.ParentId == null select p).ToList();
+            categories.Add(rootCategory);
+
+			foreach(var ctg in rootCategory)
+			{
+				var childCategory = (from p in db.Category where p.ParentId == ctg.CategoryId select p).ToList();
+				if(childCategory.Count() > 0)
+				{
+					categories.Add(childCategory);
+				}
+            }   
+        }
 
 		protected void parentR_ItemDataBound(object sender, RepeaterItemEventArgs args)
 		{
@@ -33,5 +49,23 @@ namespace Doyur.company
 				childRepeater.DataBind();
 			}
 		}
-	}
+
+        protected void btn_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+			// child repeater
+			RepeaterItem child = (RepeaterItem)btn.NamingContainer;
+			//parent repeater
+			RepeaterItem parent = (RepeaterItem)btn.NamingContainer.Parent.NamingContainer;
+			int childIndex = child.ItemIndex;
+			int parentIndex = parent.ItemIndex;
+
+
+			Label lbl = child.FindControl("cValue") as Label;
+			var categoryId = lbl.Text;
+
+			Response.Redirect("/company/create.aspx?category=" + categoryId);
+
+        }
+    }
 }
