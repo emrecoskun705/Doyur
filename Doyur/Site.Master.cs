@@ -12,7 +12,7 @@ namespace Doyur
 
 		protected void Page_Init(object sender, EventArgs e)
 		{
-			IT.Session.Users.AddLoginSessionDebug();
+			IT.Session.Users.AddLoginSessionCompanyDebug();
 			
 
 		}

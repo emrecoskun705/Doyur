@@ -47,32 +47,42 @@
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Stok" ControlToValidate="pStock" Display="None"></asp:RequiredFieldValidator>
                          </td>
                     </tr>
-                    
                     <tr>
-                        <td>Aktif Ürün</td>
+                        <td>Fotoğraf</td>
+                         <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td>
-                            <asp:CheckBox Te ID="IsActive" runat="server" />
-                            <asp:CheckBox ID="IsActive1" runat="server" />
-                            <asp:CheckBox ID="IsActive2" runat="server" />
-                            <asp:CheckBox ID="IsActive3" runat="server" />
-                            <asp:CheckBox ID="IsActive4" runat="server" />
-                            <asp:CheckBox ID="IsActive5" runat="server" />
-                            <asp:CheckBox ID="IsActive6" runat="server" />
-                            <asp:CheckBox ID="IsActive7" runat="server" />
-                            <asp:CheckBox ID="IsActive8" runat="server" />
-                            <asp:CheckBox ID="IsActive9" runat="server" />
-                            <asp:CheckBox ID="IsActive0" runat="server" />
-                            <asp:CheckBox ID="IsActive11" runat="server" />
-                            <asp:CheckBox ID="IsActive22" runat="server" />
-                            <asp:CheckBox ID="IsActive33" runat="server" />
+                            <input id="oFile" type="file" runat="server" NAME="oFile" />
                         </td>
+                         <td>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Stok" ControlToValidate="pStock" Display="None"></asp:RequiredFieldValidator>
+                         </td>
                     </tr>
+
+                    <asp:Repeater ID="parentR" runat="server" OnItemDataBound="parentR_ItemDataBound">
+                        <ItemTemplate>
+                            <tr>
+                                <td><%# Eval("Name") %></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <asp:Repeater ID="childR" runat="server">
+                                        <ItemTemplate>
+                                            <asp:CheckBox ID="cBoxId" Text='<%# Eval("Name") %>' runat="server" />
+                                            <asp:HiddenField ID="hdnId" Value='<%# Eval("FeatureId") %>' runat="server" />
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                    
+
                     <tr>
                         <td>
                             <div style="text-align: right; padding: 5px;">
-                                <asp:Button BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" ID="SaveBtn" runat="server" Text="Kaydet" CssClass="btn"/>
+                                <asp:Button BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" ID="SaveBtn" runat="server" Text="Ürünü Kaydet" CssClass="btn" OnClick="SaveBtn_Click" />
                             </div>
                         </td>
                         

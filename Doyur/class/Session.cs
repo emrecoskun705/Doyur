@@ -41,7 +41,21 @@ namespace IT
                 HttpContext.Current.Session.Add("Email", Email);
             }
 
-			public static void RevomeSessionList()
+            public static void AddLoginSessionListCompany(int UserId, int AccessId, string Firstname,
+                string Lastname, string Username, string Phone, string Email, int companyId)
+            {
+                HttpContext.Current.Session.Add("UserId", UserId);
+                HttpContext.Current.Session.Add("CompanyId", companyId);
+                HttpContext.Current.Session.Add("AccessId", AccessId);
+                HttpContext.Current.Session.Add("Firstame", Firstname);
+                HttpContext.Current.Session.Add("Lastname", Lastname);
+                HttpContext.Current.Session.Add("Username", Username);
+                HttpContext.Current.Session.Add("Phone", Phone);
+                HttpContext.Current.Session.Add("Email", Email);
+            }
+
+
+            public static void RevomeSessionList()
             {
                 HttpContext.Current.Session.Remove("UserId");
                 HttpContext.Current.Session.Remove("AccessId");
@@ -50,6 +64,7 @@ namespace IT
                 HttpContext.Current.Session.Remove("Username");
                 HttpContext.Current.Session.Remove("Phone");
                 HttpContext.Current.Session.Remove("Email");
+                HttpContext.Current.Session.Remove("CompanyId");
             }
 
 
@@ -64,10 +79,22 @@ namespace IT
                 HttpContext.Current.Session.Add("Email", "emre@emre.com");
             }
 
+            public static void AddLoginSessionCompanyDebug()
+            {
+                HttpContext.Current.Session.Add("UserId", 1);
+                HttpContext.Current.Session.Add("AccessId", 3);
+                HttpContext.Current.Session.Add("CompanyId", 1);
+                HttpContext.Current.Session.Add("Firstame", "Emre");
+                HttpContext.Current.Session.Add("Lastname", "Coskun");
+                HttpContext.Current.Session.Add("Username", "emrec");
+                HttpContext.Current.Session.Add("Phone", "5458413575");
+                HttpContext.Current.Session.Add("Email", "emre@emre.com");
+            }
 
 
 
-			public static string Phone()
+
+            public static string Phone()
             {
                 if (HttpContext.Current.Session["Phone"] == null)
                     return "";
@@ -115,6 +142,14 @@ namespace IT
                     return Convert.ToInt32(HttpContext.Current.Session["UserId"].ToString());
             }
 
+            public static int CompanyId()
+            {
+                if (HttpContext.Current.Session["CompanyId"] == null)
+                    return 0;
+                else
+                    return Convert.ToInt32(HttpContext.Current.Session["CompanyId"].ToString());
+            }
+
 
             public static int AccessId()
             {
@@ -158,7 +193,22 @@ namespace IT
             }
 
 
-		}
+            public static void CompanyIsNotLoginRedirect(string Url)
+            {
+                if (HttpContext.Current.Session["AccessId"] == null)
+                {
+                    HttpContext.Current.Response.Redirect(Url);
+                } else
+                {
+                    if(Convert.ToInt32(HttpContext.Current.Session["AccessId"]) != 3)
+                    {
+                        HttpContext.Current.Response.Redirect(Url);
+                    }
+                }
+            }
+
+
+        }
 
         public class UserCookie
         {

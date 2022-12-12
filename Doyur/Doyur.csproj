@@ -75,6 +75,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="company\create.aspx" />
+    <Content Include="company\default.aspx" />
+    <Content Include="company\selectcategory.aspx" />
     <Content Include="contact.aspx" />
     <Content Include="css\chackbox.css" />
     <Content Include="css\orderpanel.css" />
@@ -92,22 +95,52 @@
     </Content>
     <Content Include="default.aspx" />
     <Content Include="detail.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="image\basket.png" />
     <Content Include="image\pizza.jpg" />
     <Content Include="js\alert.js" />
     <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
+    <Content Include="product\default.aspx" />
     <Content Include="register.aspx" />
-    <Content Include="restaurant\default.aspx" />
-    <Content Include="UserControls\productBasket.ascx" />
-    <Content Include="UserControls\ProductRestaurantList.ascx" />
-    <Content Include="UserControls\RestaurantList.ascx" />
+    <Content Include="UserControls\productlist.ascx" />
+    <Content Include="user\address.aspx" />
+    <Content Include="user\addresslist.aspx" />
+    <Content Include="user\createaddress.aspx" />
     <Content Include="user\default.aspx" />
     <Content Include="user\user.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="class\Session.cs" />
+    <Compile Include="company\create.aspx.cs">
+      <DependentUpon>create.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="company\create.aspx.designer.cs">
+      <DependentUpon>create.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="company\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="company\default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="company\selectcategory.aspx.cs">
+      <DependentUpon>selectcategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="company\selectcategory.aspx.designer.cs">
+      <DependentUpon>selectcategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="company\Site1.Master.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="company\Site1.Master.designer.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
     <Compile Include="contact.aspx.cs">
       <DependentUpon>contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -116,6 +149,15 @@
       <DependentUpon>contact.aspx</DependentUpon>
     </Compile>
     <Compile Include="db\Address.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Category.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Company.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Feature.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\Model1.Context.cs">
@@ -142,9 +184,6 @@
     <Compile Include="db\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="db\Restaurant.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="db\sp_CreateOrder_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -154,16 +193,19 @@
     <Compile Include="db\sp_GetActiveOrder_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="db\sp_GetAddress_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetFeature_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="db\sp_GetOrderProducts_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="db\sp_GetProductsC_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="db\sp_GetProducts_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="db\sp_GetRestaurants_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="db\sp_GetRestaurant_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\Users.cs">
@@ -184,6 +226,10 @@
       <DependentUpon>detail.aspx</DependentUpon>
     </Compile>
     <Compile Include="extensions\AlertExtension.cs" />
+    <Compile Include="extensions\StringExtensions.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -198,6 +244,20 @@
     <Compile Include="logout.aspx.designer.cs">
       <DependentUpon>logout.aspx</DependentUpon>
     </Compile>
+    <Compile Include="product\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="product\default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="product\Site1.Master.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="product\Site1.Master.designer.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="register.aspx.cs">
       <DependentUpon>register.aspx</DependentUpon>
@@ -206,20 +266,6 @@
     <Compile Include="register.aspx.designer.cs">
       <DependentUpon>register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="restaurant\default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="restaurant\default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="restaurant\SiteRestaurant.Master.cs">
-      <DependentUpon>SiteRestaurant.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="restaurant\SiteRestaurant.Master.designer.cs">
-      <DependentUpon>SiteRestaurant.Master</DependentUpon>
-    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -227,26 +273,33 @@
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\productBasket.ascx.cs">
-      <DependentUpon>productBasket.ascx</DependentUpon>
+    <Compile Include="UserControls\productlist.ascx.cs">
+      <DependentUpon>productlist.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UserControls\productBasket.ascx.designer.cs">
-      <DependentUpon>productBasket.ascx</DependentUpon>
+    <Compile Include="UserControls\productlist.ascx.designer.cs">
+      <DependentUpon>productlist.ascx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ProductRestaurantList.ascx.cs">
-      <DependentUpon>ProductRestaurantList.ascx</DependentUpon>
+    <Compile Include="user\address.aspx.cs">
+      <DependentUpon>address.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UserControls\ProductRestaurantList.ascx.designer.cs">
-      <DependentUpon>ProductRestaurantList.ascx</DependentUpon>
+    <Compile Include="user\address.aspx.designer.cs">
+      <DependentUpon>address.aspx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\RestaurantList.ascx.cs">
-      <DependentUpon>RestaurantList.ascx</DependentUpon>
+    <Compile Include="user\addresslist.aspx.cs">
+      <DependentUpon>addresslist.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UserControls\RestaurantList.ascx.designer.cs">
-      <DependentUpon>RestaurantList.ascx</DependentUpon>
+    <Compile Include="user\addresslist.aspx.designer.cs">
+      <DependentUpon>addresslist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="user\createaddress.aspx.cs">
+      <DependentUpon>createaddress.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\createaddress.aspx.designer.cs">
+      <DependentUpon>createaddress.aspx</DependentUpon>
     </Compile>
     <Compile Include="user\default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
@@ -271,6 +324,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="company\Site1.Master" />
     <EntityDeploy Include="db\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -281,7 +335,7 @@
     <None Include="packages.config" />
     <Content Include="Site.Master" />
     <Content Include="user\Site.Master" />
-    <Content Include="restaurant\SiteRestaurant.Master" />
+    <Content Include="product\Site1.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -292,6 +346,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
