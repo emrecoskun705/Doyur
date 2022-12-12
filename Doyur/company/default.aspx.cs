@@ -9,8 +9,26 @@ namespace Doyur.company
 {
 	public partial class _default : System.Web.UI.Page
 	{
-		protected void Page_Load(object sender, EventArgs e)
+
+        db.doyurEntities db = new db.doyurEntities();
+
+        protected void Page_Load(object sender, EventArgs e)
 		{
+			if(!IsPostBack)
+			{
+				LoadProducts();
+			}
+		}
+
+		private void LoadProducts()
+		{
+			int compnayId = IT.Session.Users.CompanyId();
+			var getProducts = db.sp_GetProductsC(100, compnayId).ToList();
+			if(getProducts.Count() > 0)
+			{
+				gList.DataSource = getProducts;
+				gList.DataBind();
+			}
 
 		}
 
