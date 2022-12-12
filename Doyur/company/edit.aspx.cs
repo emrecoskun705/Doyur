@@ -1,6 +1,8 @@
 ﻿using Doyur.db;
+using Doyur.extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -35,6 +37,7 @@ namespace Doyur.company
                 pName.Text = getProduct.Name.Trim();
                 pPrice.Text = getProduct.Price.ToString();
                 pStock.Text = getProduct.Stock.ToString();
+                IsActive.Checked = getProduct.IsActive;
 
                 int categoryId = getProduct.CategoryId;
                 LoadSelectedFeatures(productId);
@@ -83,27 +86,132 @@ namespace Doyur.company
 
         protected void SaveBtn_Click(object sender, EventArgs e)
         {
-            List<int> newCheckedFeatures = new List<int>();
-            foreach (RepeaterItem item in parentR.Items)
+            List<int> newCheckedFeatures = GetNewFeatures();
+			var productId = Convert.ToInt32(Request.QueryString["id"]);
+
+			string strFileName = oFile.PostedFile.FileName;
+
+            // dont update photo if no file is selected
+            if(strFileName == "")
             {
-                if (item.ItemType == ListItemType.AlternatingItem || item.ItemType == ListItemType.Item)
+                byte FuncId = (byte)1;
+                var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), IsActive.Checked, Convert.ToDecimal(pPrice.Text), "", Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
+                if(count != null && count > 0)
                 {
-                    Repeater childR = item.FindControl("childR") as Repeater;
-                    foreach (RepeaterItem childitem in childR.Items)
-                    {
-                        CheckBox check = childitem.FindControl("cBoxId") as CheckBox;
-                        if (check != null && check.Checked)
-                        {
-                            int checkedId = Convert.ToInt32((childitem.FindControl("hdnId") as HiddenField).Value);
-                            newCheckedFeatures.Add(checkedId);
-                        }
-                    }
-                }
+					// update successfull
+					var deleteFeatures = db.sp_DeleteFeatureProduct(productId).FirstOrDefault();
+					if (deleteFeatures != null && deleteFeatures != 0)
+					{
+						foreach (var ftr in newCheckedFeatures)
+						{
+							db.sp_AddFeatureProduct(productId, ftr);
+						}
+
+					}
+					this.ShowMessage("Success", "Ürün başarıyla kaydedildi");
+                } else
+				{
+					this.ShowMessage("Warning", "Ürün kaydedilemedi");
+				}
             }
+            // update photo if file selected
+            else
+            {
+                string savedName = SaveImg();
+				byte FuncId = (byte)0;
+				var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), IsActive.Checked, Convert.ToDecimal(pPrice.Text), savedName, Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
+				if (count != null && count > 0)
+				{
+					// update successfull
+					var deleteFeatures = db.sp_DeleteFeatureProduct(productId).FirstOrDefault();
+					if (deleteFeatures != null && deleteFeatures != 0)
+					{
+						foreach (var ftr in newCheckedFeatures)
+						{
+							db.sp_AddFeatureProduct(productId, ftr);
+						}
 
-            
+					}
+					this.ShowMessage("Success", "Ürün başarıyla kaydedildi");
+				} else
+				{
+					this.ShowMessage("Warning", "Ürün kaydedilemedi");
+				}
+			}
 
 
-        }
-    }
+			
+
+
+		}
+
+		private string SaveImg()
+		{
+			string strFileName;
+			string strFilePath;
+			string strFolder;
+			strFolder = Server.MapPath("~/image/");
+
+			// Get the name of the file that is posted.
+			strFileName = oFile.PostedFile.FileName;
+			strFileName = Path.GetFileName(strFileName);
+
+			if (oFile.Value != "")
+			{
+				// Create the directory if it does not exist.
+				if (!Directory.Exists(strFolder))
+				{
+					Directory.CreateDirectory(strFolder);
+				}
+				// Save the uploaded file to the server.
+				strFilePath = strFolder + strFileName;
+				while (File.Exists(strFilePath))
+				{
+					// lblUploadResult.Text = strFileName + " already exists on the server!";
+					strFileName = "" + (new Random()).Next(1, 10) + strFileName;
+					strFilePath = strFolder + strFileName;
+				}
+				oFile.PostedFile.SaveAs(strFilePath);
+				//lblUploadResult.Text = strFileName + " has been successfully uploaded.";
+				return strFileName;
+
+			}
+			else
+			{
+				// lblUploadResult.Text = "Click 'Browse' to select the file to upload.";
+				return "";
+			}
+			// Display the result of the upload.
+			//frmConfirmation.Visible = true;
+		}
+
+		/// <summary>
+		/// Gets checked Feature id list from page
+		/// </summary>
+		/// <returns></returns>
+		private List<int> GetNewFeatures()
+        {
+			List<int> newCheckedFeatures = new List<int>();
+			foreach (RepeaterItem item in parentR.Items)
+			{
+				if (item.ItemType == ListItemType.AlternatingItem || item.ItemType == ListItemType.Item)
+				{
+					Repeater childR = item.FindControl("childR") as Repeater;
+					foreach (RepeaterItem childitem in childR.Items)
+					{
+						CheckBox check = childitem.FindControl("cBoxId") as CheckBox;
+						if (check != null && check.Checked)
+						{
+							int checkedId = Convert.ToInt32((childitem.FindControl("hdnId") as HiddenField).Value);
+							newCheckedFeatures.Add(checkedId);
+						}
+					}
+				}
+			}
+
+            return newCheckedFeatures;
+
+		}
+
+	}
 }

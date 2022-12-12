@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="box-out box" style="margin-top: 60px;">
         <div class="box-top">
-            Ürün Yarat
+            Ürün Düzenleme
         </div>
         <div id="alert-message"></div>
         <div class="box-in">
@@ -48,6 +48,18 @@
                          </td>
                     </tr>
                     <tr>
+                        <td>Aktif Ürün</td>
+                         <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:CheckBox ID="IsActive" runat="server" />
+                        </td>
+                         <td>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="Stok" ControlToValidate="pStock" Display="None"></asp:RequiredFieldValidator>
+                         </td>
+                    </tr>
+                    <tr>
                         <td>Fotoğraf</td>
                          <td>&nbsp;</td>
                     </tr>
@@ -59,7 +71,6 @@
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Stok" ControlToValidate="pStock" Display="None"></asp:RequiredFieldValidator>
                          </td>
                     </tr>
-
                     <asp:Repeater ID="parentR" runat="server" OnItemDataBound="parentR_ItemDataBound">
                         <ItemTemplate>
                             <tr>
@@ -77,15 +88,12 @@
                             </tr>
                         </ItemTemplate>
                     </asp:Repeater>
-                    
-
                     <tr>
                         <td>
                             <div style="text-align: right; padding: 5px;">
-                                <asp:Button BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" ID="SaveBtn" runat="server" Text="Ürünü Kaydet" CssClass="btn" OnClick="SaveBtn_Click" />
+                                <asp:Button BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" ID="ctgryId" runat="server" Text="Kaydet" CssClass="btn" OnClick="SaveBtn_Click" />
                             </div>
-                        </td>
-                        
+                        </td>    
                     </tr>
                 </tbody>
             </table>
