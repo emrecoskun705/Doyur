@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Doyur.extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -34,7 +35,37 @@ namespace Doyur.company
 
 		protected void gList_RowCommand(object sender, GridViewCommandEventArgs e)
 		{
+            if (e.CommandName == "Edit")
+            {
+                int addressId = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect("/company/product.aspx?AddressId=" + addressId);
 
-		}
+            }
+            else if (e.CommandName == "DeleteProduct")
+            {
+                int userId = IT.Session.Users.UserId();
+                int companydId = IT.Session.Users.CompanyId();
+                int addressId = Convert.ToInt32(e.CommandArgument);
+                var getProduct = (from p in db.Product where p.ProductId == addressId && p.CompanyId == companydId select p).FirstOrDefault();
+
+                if (getProduct != null)
+                {
+                    db.Product.Remove(getProduct);
+                    if (db.SaveChanges() > 0)
+                    {
+                        this.ShowMessage("Success", "Adres başarıyla silindi");
+                        LoadProducts();
+                    }
+                    else
+                    {
+                        this.ShowMessage("Warning", "Adres silinirken bir hata oluştu");
+                    }
+                }
+                else
+                {
+                    this.ShowMessage("Warning", "Adres bulunamadı");
+                }
+            }
+        }
 	}
 }

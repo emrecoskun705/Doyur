@@ -6,6 +6,7 @@
 <head runat="server">
     <title>Şirket</title>
     <link href="/css/site.css" rel="stylesheet" />
+    <script src="../js/alert.js"></script>
     <link href="/css/restaurantproduct.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">

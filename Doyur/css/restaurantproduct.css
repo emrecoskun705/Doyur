@@ -5,12 +5,12 @@
     align-items: start;
 }
 
-    .grid > article {
+    .grid > a > article {
         border: 1px solid #ccc;
         box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
     }
 
-        .grid > article img {
+        .grid > a > article img {
             max-width: 100%;
         }
 

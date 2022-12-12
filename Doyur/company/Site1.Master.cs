@@ -13,6 +13,7 @@ namespace Doyur.company
 
 		protected void Page_Init(object sender, EventArgs e)
 		{
+			IT.Session.Users.UserIsNotLoginRedirect();
 			IT.Session.Users.CompanyIsNotLoginRedirect("/");
 
         }

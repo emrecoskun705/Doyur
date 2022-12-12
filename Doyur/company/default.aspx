@@ -2,9 +2,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="box-out box box-login" style="margin-top: 60px;">
+    <div class="box-out" style="margin-top: 60px; margin-left: 50px; margin-right: 100px;">
         <div class="box-top">
-            Adres Listesi
+            Ürün Listesi
         </div>
         <div id="alert-message"></div>
         <div class="box-in">
@@ -14,7 +14,8 @@
             <br />
             <asp:GridView ID="gList" runat="server" AutoGenerateColumns="False" CssClass="mGrid" OnRowCommand="gList_RowCommand">
                 
-                <Columns> 
+                <Columns>
+                    <asp:BoundField HeaderText="Ürün Numarası" DataField="ProductId" />
                     <asp:BoundField HeaderText="Ürün Adı" DataField="Name" />
                     <asp:BoundField HeaderText="Kategorisi" DataField="CName" />
                     <asp:BoundField HeaderText="Fiyat" DataField="Price" />
@@ -29,7 +30,7 @@
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:Button ID="btnEdit" runat="server" Text="Düzenle" CssClass="btn-xs btn-green" CommandName="Edit" CommandArgument='<%# Eval("ProductId") %>' />
-                            <asp:Button ID="btnDelete" runat="server" Text="Sil" CssClass="btn-xs btn-red" CommandName="DeleteAddress" CommandArgument='<%# Eval("ProductId") %>' OnClientClick="return confirm('Adresi silmek istediğinize emin misiniz?');"  />
+                            <asp:Button ID="btnDelete" runat="server" Text="Sil" CssClass="btn-xs btn-red" CommandName="DeleteProduct" CommandArgument='<%# Eval("ProductId") %>' OnClientClick="return confirm('Adresi silmek istediğinize emin misiniz?');"  />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
