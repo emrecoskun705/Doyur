@@ -14,8 +14,8 @@ namespace Doyur.db
     public partial class sp_GetProducts_Result
     {
         public int ProductId { get; set; }
-        public int RestaurantId { get; set; }
-        public string Type { get; set; }
+        public int CategoryId { get; set; }
+        public int CompanyId { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public decimal Price { get; set; }

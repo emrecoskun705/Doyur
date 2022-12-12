@@ -37,8 +37,8 @@ namespace Doyur.company
 		{
             if (e.CommandName == "Edit")
             {
-                int addressId = Convert.ToInt32(e.CommandArgument);
-                Response.Redirect("/company/product.aspx?AddressId=" + addressId);
+                int productId = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect("/company/edit.aspx?id=" + productId);
 
             }
             else if (e.CommandName == "DeleteProduct")

@@ -17,8 +17,8 @@ namespace Doyur.db
         public int ProductId { get; set; }
         public byte ProductQuantity { get; set; }
         public int ProductId1 { get; set; }
-        public int RestaurantId { get; set; }
-        public string Type { get; set; }
+        public int CategoryId { get; set; }
+        public int CompanyId { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public decimal Price { get; set; }

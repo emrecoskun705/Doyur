@@ -11,12 +11,63 @@
           </Key>
           <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Town" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="District" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsName" Type="bit" Nullable="false" />
+          <Property Name="IsPhone" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Feature">
+          <Key>
+            <PropertyRef Name="FeatureId" />
+          </Key>
+          <Property Name="FeatureId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubFeatureId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'doyur.dbo.FeatureCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FeatureCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="FeatureId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="FeatureId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'doyur.dbo.FeatureProduct' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FeatureProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="FeatureId" />
+          </Key>
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="FeatureId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -49,25 +100,14 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             <PropertyRef Name="ProductId" />
           </Key>
           <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RestaurantId" Type="int" Nullable="false" />
-          <Property Name="Type" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="Price" Type="smallmoney" Nullable="false" />
           <Property Name="DiscountPercantage" Type="tinyint" />
           <Property Name="ImageUrl" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Stock" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Restaurant">
-          <Key>
-            <PropertyRef Name="RestaurantId" />
-          </Key>
-          <Property Name="RestaurantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Image" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="SlugField" Type="nvarchar" MaxLength="80" Nullable="false" />
-          <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="Rating" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -106,6 +146,70 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Company_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FeatureCategory_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="FeatureCategory" Type="Self.FeatureCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="FeatureCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FeatureCategory_Feature">
+          <End Role="Feature" Type="Self.Feature" Multiplicity="1" />
+          <End Role="FeatureCategory" Type="Self.FeatureCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Feature">
+              <PropertyRef Name="FeatureId" />
+            </Principal>
+            <Dependent Role="FeatureCategory">
+              <PropertyRef Name="FeatureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FeatureProduct_Feature">
+          <End Role="Feature" Type="Self.Feature" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FeatureProduct" Type="Self.FeatureProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Feature">
+              <PropertyRef Name="FeatureId" />
+            </Principal>
+            <Dependent Role="FeatureProduct">
+              <PropertyRef Name="FeatureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FeatureProduct_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FeatureProduct" Type="Self.FeatureProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="FeatureProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderProductList_Orders">
           <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
           <End Role="OrderProductList" Type="Self.OrderProductList" Multiplicity="*" />
@@ -154,22 +258,54 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_Restaurant">
-          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+        <Association Name="FK_Product_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Restaurant">
-              <PropertyRef Name="RestaurantId" />
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
             </Principal>
             <Dependent Role="Product">
-              <PropertyRef Name="RestaurantId" />
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Product_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_AddFeatureProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+          <Parameter Name="FeatureId" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_AddProductToOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProductId" Type="int" Mode="In" />
           <Parameter Name="OrderId" Type="int" Mode="In" />
           <Parameter Name="Quantity" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ChangePQO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderId" Type="int" Mode="In" />
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+          <Parameter Name="Quantity" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_CreateAddress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Town" Type="varchar" Mode="In" />
+          <Parameter Name="District" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="Phone" Type="varchar" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="Latitude" Type="decimal" Mode="In" />
+          <Parameter Name="Longitude" Type="decimal" Mode="In" />
         </Function>
         <Function Name="sp_CreateOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="int" Mode="In" />
@@ -179,14 +315,28 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
           <Parameter Name="UserId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_GetActiveOrderProductList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="OrderId" Type="int" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetAddress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="AddressId" Type="int" Mode="In" />
+          <Parameter Name="FuncId" Type="tinyint" Mode="In" />
+        </Function>
+        <Function Name="sp_GetFeature" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CategoryId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_GetOrderProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_GetProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TOPID" Type="tinyint" Mode="In" />
-          <Parameter Name="RestaurantId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetProductsC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TOPID" Type="int" Mode="In" />
+          <Parameter Name="CompanyId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_GetRestaurant" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FuncId" Type="tinyint" Mode="In" />
@@ -195,12 +345,49 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
         <Function Name="sp_GetRestaurants" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TOPID" Type="tinyint" Mode="In" />
         </Function>
+        <Function Name="sp_GetSelectedFeatures" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateAddressActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="AddresId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderId" Type="int" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="IsPaid" Type="bit" Mode="In" />
+          <Parameter Name="TotalCost" Type="smallmoney" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="FuncId" Type="tinyint" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="Price" Type="smallmoney" Mode="In" />
+          <Parameter Name="ImageUrl" Type="nvarchar" Mode="In" />
+          <Parameter Name="Stock" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="doyurModelStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feature" EntityType="Self.Feature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeatureCategory" EntityType="Self.FeatureCategory" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FeatureCategory].[CategoryId] AS [CategoryId], 
+    [FeatureCategory].[FeatureId] AS [FeatureId]
+    FROM [dbo].[FeatureCategory] AS [FeatureCategory]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FeatureProduct" EntityType="Self.FeatureProduct" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FeatureProduct].[ProductId] AS [ProductId], 
+    [FeatureProduct].[FeatureId] AS [FeatureId]
+    FROM [dbo].[FeatureProduct] AS [FeatureProduct]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="OrderProductList" EntityType="Self.OrderProductList" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [OrderProductList].[OrderId] AS [OrderId], 
@@ -211,6 +398,26 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
           <AssociationSet Name="FK_Address_Users" Association="Self.FK_Address_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Users" Association="Self.FK_Company_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FeatureCategory_Category" Association="Self.FK_FeatureCategory_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="FeatureCategory" EntitySet="FeatureCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FeatureCategory_Feature" Association="Self.FK_FeatureCategory_Feature">
+            <End Role="Feature" EntitySet="Feature" />
+            <End Role="FeatureCategory" EntitySet="FeatureCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FeatureProduct_Feature" Association="Self.FK_FeatureProduct_Feature">
+            <End Role="Feature" EntitySet="Feature" />
+            <End Role="FeatureProduct" EntitySet="FeatureProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FeatureProduct_Product" Association="Self.FK_FeatureProduct_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="FeatureProduct" EntitySet="FeatureProduct" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderProductList_Orders" Association="Self.FK_OrderProductList_Orders">
             <End Role="Orders" EntitySet="Orders" />
@@ -228,8 +435,12 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_Restaurant" Association="Self.FK_Product_Restaurant">
-            <End Role="Restaurant" EntitySet="Restaurant" />
+          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Company" Association="Self.FK_Product_Company">
+            <End Role="Company" EntitySet="Company" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
         </EntityContainer>
@@ -243,14 +454,51 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
           </Key>
           <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Town" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="District" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Address_Users" FromRole="Address" ToRole="Users" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Address" FromRole="Address" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
+          <NavigationProperty Name="Feature" Relationship="Self.FeatureCategory" FromRole="Category" ToRole="Feature" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Mail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsName" Type="Boolean" Nullable="false" />
+          <Property Name="IsPhone" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Company_Users" FromRole="Company" ToRole="Users" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Company" FromRole="Company" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Feature">
+          <Key>
+            <PropertyRef Name="FeatureId" />
+          </Key>
+          <Property Name="FeatureId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubFeatureId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FeatureCategory" FromRole="Feature" ToRole="Category" />
+          <NavigationProperty Name="Product" Relationship="Self.FeatureProduct" FromRole="Feature" ToRole="Product" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -274,28 +522,18 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             <PropertyRef Name="ProductId" />
           </Key>
           <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RestaurantId" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
           <Property Name="DiscountPercantage" Type="Byte" />
           <Property Name="ImageUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Stock" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Product_Company" FromRole="Product" ToRole="Company" />
           <NavigationProperty Name="OrderProductList" Relationship="Self.FK_OrderProductList_Product" FromRole="Product" ToRole="OrderProductList" />
-          <NavigationProperty Name="Restaurant" Relationship="Self.FK_Product_Restaurant" FromRole="Product" ToRole="Restaurant" />
-        </EntityType>
-        <EntityType Name="Restaurant">
-          <Key>
-            <PropertyRef Name="RestaurantId" />
-          </Key>
-          <Property Name="RestaurantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SlugField" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="Rating" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Restaurant" FromRole="Restaurant" ToRole="Product" />
+          <NavigationProperty Name="Feature" Relationship="Self.FeatureProduct" FromRole="Product" ToRole="Feature" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -322,6 +560,7 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
           <Property Name="IsActivation" Type="Boolean" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Address" Relationship="Self.FK_Address_Users" FromRole="Users" ToRole="Address" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Company_Users" FromRole="Users" ToRole="Company" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
         </EntityType>
         <EntityType Name="OrderProductList">
@@ -360,6 +599,42 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Product_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderProductList_Orders">
           <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
           <End Role="OrderProductList" Type="Self.OrderProductList" Multiplicity="*" />
@@ -396,23 +671,21 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_Restaurant">
-          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+        <Association Name="FeatureCategory">
+          <End Role="Category" Type="Self.Category" Multiplicity="*" />
+          <End Role="Feature" Type="Self.Feature" Multiplicity="*" />
+        </Association>
+        <Association Name="FeatureProduct">
+          <End Role="Feature" Type="Self.Feature" Multiplicity="*" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Restaurant">
-              <PropertyRef Name="RestaurantId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="RestaurantId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <EntityContainer Name="doyurEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Address" EntityType="Self.Address" />
+          <EntitySet Name="Category" EntityType="Self.Category" />
+          <EntitySet Name="Company" EntityType="Self.Company" />
+          <EntitySet Name="Feature" EntityType="Self.Feature" />
           <EntitySet Name="Orders" EntityType="Self.Orders" />
           <EntitySet Name="Product" EntityType="Self.Product" />
-          <EntitySet Name="Restaurant" EntityType="Self.Restaurant" />
           <EntitySet Name="Users" EntityType="Self.Users" />
           <EntitySet Name="OrderProductList" EntityType="Self.OrderProductList" />
           <AssociationSet Name="FK_Address_Users" Association="Self.FK_Address_Users">
@@ -422,6 +695,18 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
           <AssociationSet Name="FK_Orders_Address" Association="Self.FK_Orders_Address">
             <End Role="Address" EntitySet="Address" />
             <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Users" Association="Self.FK_Company_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Company" Association="Self.FK_Product_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderProductList_Orders" Association="Self.FK_OrderProductList_Orders">
             <End Role="Orders" EntitySet="Orders" />
@@ -435,14 +720,38 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderProductList" EntitySet="OrderProductList" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_Restaurant" Association="Self.FK_Product_Restaurant">
-            <End Role="Restaurant" EntitySet="Restaurant" />
+          <AssociationSet Name="FeatureCategory" Association="Self.FeatureCategory">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Feature" EntitySet="Feature" />
+          </AssociationSet>
+          <AssociationSet Name="FeatureProduct" Association="Self.FeatureProduct">
+            <End Role="Feature" EntitySet="Feature" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <FunctionImport Name="sp_AddFeatureProduct" ReturnType="Collection(Int32)">
+            <Parameter Name="ProductId" Mode="In" Type="Int32" />
+            <Parameter Name="FeatureId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="sp_AddProductToOrder" ReturnType="Collection(Int32)">
             <Parameter Name="ProductId" Mode="In" Type="Int32" />
             <Parameter Name="OrderId" Mode="In" Type="Int32" />
             <Parameter Name="Quantity" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ChangePQO" ReturnType="Collection(Int32)">
+            <Parameter Name="OrderId" Mode="In" Type="Int32" />
+            <Parameter Name="ProductId" Mode="In" Type="Int32" />
+            <Parameter Name="Quantity" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CreateAddress" ReturnType="Collection(Int32)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Town" Mode="In" Type="String" />
+            <Parameter Name="District" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="Latitude" Mode="In" Type="Decimal" />
+            <Parameter Name="Longitude" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="sp_CreateOrder" ReturnType="Collection(doyurModel.sp_CreateOrder_Result)">
             <Parameter Name="UserId" Mode="In" Type="Int32" />
@@ -451,22 +760,59 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
           <FunctionImport Name="sp_GetActiveOrder" ReturnType="Collection(doyurModel.sp_GetActiveOrder_Result)">
           <Parameter Name="UserId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_GetActiveOrderProductList" ReturnType="Collection(doyurModel.sp_GetActiveOrderProductList_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAddress" ReturnType="Collection(doyurModel.sp_GetAddress_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="AddressId" Mode="In" Type="Int32" />
+            <Parameter Name="FuncId" Mode="In" Type="Byte" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetFeature" ReturnType="Collection(doyurModel.sp_GetFeature_Result)">
+          <Parameter Name="CategoryId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="sp_GetOrderProducts" ReturnType="Collection(doyurModel.sp_GetOrderProducts_Result)">
           <Parameter Name="UserId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetProducts" ReturnType="Collection(doyurModel.sp_GetProducts_Result)">
-            <Parameter Name="TOPID" Mode="In" Type="Byte" />
-            <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
+          <Parameter Name="TOPID" Mode="In" Type="Byte" />
           </FunctionImport>
-          <FunctionImport Name="sp_GetRestaurant" ReturnType="Collection(doyurModel.sp_GetRestaurant_Result)">
+          <FunctionImport Name="sp_GetProductsC" ReturnType="Collection(doyurModel.sp_GetProductsC_Result)">
+            <Parameter Name="TOPID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetRestaurant">
             <Parameter Name="FuncId" Mode="In" Type="Byte" />
             <Parameter Name="RestaurantId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_GetRestaurants" ReturnType="Collection(doyurModel.sp_GetRestaurants_Result)">
+          <FunctionImport Name="sp_GetRestaurants">
           <Parameter Name="TOPID" Mode="In" Type="Byte" />
           </FunctionImport>
-          <FunctionImport Name="sp_GetActiveOrderProductList" ReturnType="Collection(doyurModel.sp_GetActiveOrderProductList_Result)">
+          <FunctionImport Name="sp_UpdateAddressActive" ReturnType="Collection(Int32)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="AddresId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateOrder" ReturnType="Collection(Int32)">
             <Parameter Name="OrderId" Mode="In" Type="Int32" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="IsPaid" Mode="In" Type="Boolean" />
+            <Parameter Name="TotalCost" Mode="In" Type="Decimal" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="FuncId" Mode="In" Type="Byte" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetProduct" ReturnType="Collection(doyurModel.sp_GetProduct_Result)">
+          <Parameter Name="ProductId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetSelectedFeatures" ReturnType="Collection(doyurModel.sp_GetSelectedFeatures_Result)">
+          <Parameter Name="ProductId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateProduct" ReturnType="Collection(Int32)">
+            <Parameter Name="ProductId" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+            <Parameter Name="ImageUrl" Mode="In" Type="String" />
+            <Parameter Name="Stock" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_CreateOrder_Result">
@@ -491,13 +837,43 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
           <Property Type="Boolean" Name="IsPaid" Nullable="false" />
           <Property Type="Decimal" Name="TotalCost" Nullable="true" Precision="10" />
         </ComplexType>
+        <ComplexType Name="sp_GetActiveOrderProductList_Result">
+          <Property Type="Int32" Name="ProductId" Nullable="false" />
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" />
+          <Property Type="Byte" Name="DiscountPercantage" Nullable="true" />
+          <Property Type="String" Name="ImageUrl" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Stock" Nullable="false" />
+          <Property Type="Byte" Name="ProductQuantity" Nullable="false" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAddress_Result">
+          <Property Type="Int32" Name="AddressId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Town" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="District" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Phone" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="Latitude" Nullable="true" Precision="9" Scale="6" />
+          <Property Type="Decimal" Name="Longitude" Nullable="true" Precision="9" Scale="6" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_GetFeature_Result">
+          <Property Type="Int32" Name="FeatureId" Nullable="false" />
+          <Property Type="Int32" Name="SubFeatureId" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="20" />
+        </ComplexType>
         <ComplexType Name="sp_GetOrderProducts_Result">
           <Property Type="Int32" Name="OrderId" Nullable="false" />
           <Property Type="Int32" Name="ProductId" Nullable="false" />
           <Property Type="Byte" Name="ProductQuantity" Nullable="false" />
           <Property Type="Int32" Name="ProductId1" Nullable="false" />
-          <Property Type="Int32" Name="RestaurantId" Nullable="false" />
-          <Property Type="String" Name="Type" Nullable="false" MaxLength="2" />
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
           <Property Type="Boolean" Name="IsActive" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" />
@@ -509,8 +885,8 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
         </ComplexType>
         <ComplexType Name="sp_GetProducts_Result">
           <Property Type="Int32" Name="ProductId" Nullable="false" />
-          <Property Type="Int32" Name="RestaurantId" Nullable="false" />
-          <Property Type="String" Name="Type" Nullable="false" MaxLength="2" />
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
           <Property Type="Boolean" Name="IsActive" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" />
@@ -518,26 +894,32 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
           <Property Type="String" Name="ImageUrl" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="Stock" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="sp_GetRestaurant_Result">
-          <Property Type="Int32" Name="RestaurantId" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Image" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="SlugField" Nullable="false" MaxLength="80" />
-          <Property Type="Boolean" Name="IsActive" Nullable="false" />
-          <Property Type="Byte" Name="Rating" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="sp_GetRestaurants_Result">
-          <Property Type="Int32" Name="RestaurantId" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Image" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="SlugField" Nullable="false" MaxLength="80" />
-          <Property Type="Boolean" Name="IsActive" Nullable="false" />
-          <Property Type="Byte" Name="Rating" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="sp_GetActiveOrderProductList_Result">
-          <Property Type="Int32" Name="OrderId" Nullable="false" />
+        <ComplexType Name="sp_GetProductsC_Result">
           <Property Type="Int32" Name="ProductId" Nullable="false" />
-          <Property Type="Byte" Name="ProductQuantity" Nullable="false" />
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" />
+          <Property Type="Byte" Name="DiscountPercantage" Nullable="true" />
+          <Property Type="String" Name="ImageUrl" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Stock" Nullable="false" />
+          <Property Type="String" Name="CName" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="sp_GetProduct_Result">
+          <Property Type="Int32" Name="ProductId" Nullable="false" />
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" />
+          <Property Type="Byte" Name="DiscountPercantage" Nullable="true" />
+          <Property Type="String" Name="ImageUrl" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Stock" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_GetSelectedFeatures_Result">
+          <Property Type="Int32" Name="ProductId" Nullable="false" />
+          <Property Type="Int32" Name="FeatureId" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -550,12 +932,46 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
               <MappingFragment StoreEntitySet="Address">
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Town" ColumnName="Town" />
                 <ScalarProperty Name="District" ColumnName="District" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="doyurModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="doyurModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IsName" ColumnName="IsName" />
+                <ScalarProperty Name="IsPhone" ColumnName="IsPhone" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feature">
+            <EntityTypeMapping TypeName="doyurModel.Feature">
+              <MappingFragment StoreEntitySet="Feature">
+                <ScalarProperty Name="FeatureId" ColumnName="FeatureId" />
+                <ScalarProperty Name="SubFeatureId" ColumnName="SubFeatureId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -578,26 +994,14 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             <EntityTypeMapping TypeName="doyurModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="DiscountPercantage" ColumnName="DiscountPercantage" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="Stock" ColumnName="Stock" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Restaurant">
-            <EntityTypeMapping TypeName="doyurModel.Restaurant">
-              <MappingFragment StoreEntitySet="Restaurant">
-                <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="SlugField" ColumnName="SlugField" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -636,7 +1040,26 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="FeatureCategory" TypeName="doyurModel.FeatureCategory" StoreEntitySet="FeatureCategory">
+            <EndProperty Name="Category">
+              <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+            </EndProperty>
+            <EndProperty Name="Feature">
+              <ScalarProperty Name="FeatureId" ColumnName="FeatureId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FeatureProduct" TypeName="doyurModel.FeatureProduct" StoreEntitySet="FeatureProduct">
+            <EndProperty Name="Feature">
+              <ScalarProperty Name="FeatureId" ColumnName="FeatureId" />
+            </EndProperty>
+            <EndProperty Name="Product">
+              <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_AddFeatureProduct" FunctionName="doyurModel.Store.sp_AddFeatureProduct" />
           <FunctionImportMapping FunctionImportName="sp_AddProductToOrder" FunctionName="doyurModel.Store.sp_AddProductToOrder" />
+          <FunctionImportMapping FunctionImportName="sp_ChangePQO" FunctionName="doyurModel.Store.sp_ChangePQO" />
+          <FunctionImportMapping FunctionImportName="sp_CreateAddress" FunctionName="doyurModel.Store.sp_CreateAddress" />
           <FunctionImportMapping FunctionImportName="sp_CreateOrder" FunctionName="doyurModel.Store.sp_CreateOrder">
             <ResultMapping>
               <ComplexTypeMapping TypeName="doyurModel.sp_CreateOrder_Result">
@@ -667,6 +1090,48 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetActiveOrderProductList" FunctionName="doyurModel.Store.sp_GetActiveOrderProductList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="doyurModel.sp_GetActiveOrderProductList_Result">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="DiscountPercantage" ColumnName="DiscountPercantage" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAddress" FunctionName="doyurModel.Store.sp_GetAddress">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="doyurModel.sp_GetAddress_Result">
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFeature" FunctionName="doyurModel.Store.sp_GetFeature">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="doyurModel.sp_GetFeature_Result">
+                <ScalarProperty Name="FeatureId" ColumnName="FeatureId" />
+                <ScalarProperty Name="SubFeatureId" ColumnName="SubFeatureId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_GetOrderProducts" FunctionName="doyurModel.Store.sp_GetOrderProducts">
             <ResultMapping>
               <ComplexTypeMapping TypeName="doyurModel.sp_GetOrderProducts_Result">
@@ -674,8 +1139,8 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
                 <ScalarProperty Name="ProductId1" ColumnName="ProductId1" />
-                <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
@@ -691,8 +1156,8 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
             <ResultMapping>
               <ComplexTypeMapping TypeName="doyurModel.sp_GetProducts_Result">
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
@@ -702,39 +1167,50 @@ warning 6002: The table/view 'doyur.dbo.OrderProductList' does not have a primar
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetRestaurant" FunctionName="doyurModel.Store.sp_GetRestaurant">
+          <FunctionImportMapping FunctionImportName="sp_GetProductsC" FunctionName="doyurModel.Store.sp_GetProductsC">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="doyurModel.sp_GetRestaurant_Result">
-                <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="SlugField" ColumnName="SlugField" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetRestaurants" FunctionName="doyurModel.Store.sp_GetRestaurants">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="doyurModel.sp_GetRestaurants_Result">
-                <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="SlugField" ColumnName="SlugField" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetActiveOrderProductList" FunctionName="doyurModel.Store.sp_GetActiveOrderProductList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="doyurModel.sp_GetActiveOrderProductList_Result">
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              <ComplexTypeMapping TypeName="doyurModel.sp_GetProductsC_Result">
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="DiscountPercantage" ColumnName="DiscountPercantage" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="CName" ColumnName="CName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRestaurant" FunctionName="doyurModel.Store.sp_GetRestaurant" />
+          <FunctionImportMapping FunctionImportName="sp_GetRestaurants" FunctionName="doyurModel.Store.sp_GetRestaurants" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateAddressActive" FunctionName="doyurModel.Store.sp_UpdateAddressActive" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateOrder" FunctionName="doyurModel.Store.sp_UpdateOrder" />
+          <FunctionImportMapping FunctionImportName="sp_GetProduct" FunctionName="doyurModel.Store.sp_GetProduct">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="doyurModel.sp_GetProduct_Result">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="DiscountPercantage" ColumnName="DiscountPercantage" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetSelectedFeatures" FunctionName="doyurModel.Store.sp_GetSelectedFeatures">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="doyurModel.sp_GetSelectedFeatures_Result">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="FeatureId" ColumnName="FeatureId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_UpdateProduct" FunctionName="doyurModel.Store.sp_UpdateProduct" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

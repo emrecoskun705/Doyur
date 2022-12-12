@@ -4,19 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a39363aa3ccd4a0e850510d3f12f5cd6" Name="Diagram1">
-        <EntityTypeShape EntityType="doyurModel.Address" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="doyurModel.Orders" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="doyurModel.Product" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="doyurModel.Restaurant" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="doyurModel.Users" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="doyurModel.OrderProductList" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="true" />
+      <Diagram DiagramId="916e30ff26f44bf090e15444a2ef9fae" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="doyurModel.Address" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="doyurModel.Category" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="doyurModel.Company" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="doyurModel.Feature" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="doyurModel.Orders" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="doyurModel.Product" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="doyurModel.Users" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="doyurModel.OrderProductList" Width="1.5" PointX="7.5" PointY="5.875" IsExpanded="true" />
         <AssociationConnector Association="doyurModel.FK_Address_Users" ManuallyRouted="false" />
         <AssociationConnector Association="doyurModel.FK_Orders_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="doyurModel.FK_Product_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="doyurModel.FK_Company_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="doyurModel.FK_Product_Company" ManuallyRouted="false" />
         <AssociationConnector Association="doyurModel.FK_OrderProductList_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="doyurModel.FK_Orders_Users" ManuallyRouted="false" />
         <AssociationConnector Association="doyurModel.FK_OrderProductList_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="doyurModel.FK_Product_Restaurant" ManuallyRouted="false" />
+        <AssociationConnector Association="doyurModel.FeatureCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="doyurModel.FeatureProduct" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

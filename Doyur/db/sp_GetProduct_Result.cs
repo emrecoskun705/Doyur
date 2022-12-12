@@ -10,17 +10,9 @@
 namespace Doyur.db
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Product
+    public partial class sp_GetProduct_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
-        {
-            this.OrderProductList = new HashSet<OrderProductList>();
-            this.Feature = new HashSet<Feature>();
-        }
-    
         public int ProductId { get; set; }
         public int CategoryId { get; set; }
         public int CompanyId { get; set; }
@@ -30,12 +22,5 @@ namespace Doyur.db
         public Nullable<byte> DiscountPercantage { get; set; }
         public string ImageUrl { get; set; }
         public int Stock { get; set; }
-    
-        public virtual Category Category { get; set; }
-        public virtual Company Company { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderProductList> OrderProductList { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Feature> Feature { get; set; }
     }
 }

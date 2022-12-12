@@ -11,13 +11,10 @@ namespace Doyur.db
 {
     using System;
     
-    public partial class sp_GetRestaurant_Result
+    public partial class sp_GetFeature_Result
     {
-        public int RestaurantId { get; set; }
+        public int FeatureId { get; set; }
+        public Nullable<int> SubFeatureId { get; set; }
         public string Name { get; set; }
-        public string Image { get; set; }
-        public string SlugField { get; set; }
-        public bool IsActive { get; set; }
-        public byte Rating { get; set; }
     }
 }

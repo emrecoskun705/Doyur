@@ -53,9 +53,6 @@ namespace Doyur.company
 
         protected void SaveBtn_Click(object sender, EventArgs e)
         {
-            var porductName = pName;
-            var porductPrice = pPrice;
-            var porductStock = pStock;
 
             List<int> checkedFeatures = new List<int>();
             foreach(RepeaterItem item in parentR.Items)

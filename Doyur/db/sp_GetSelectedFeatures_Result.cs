@@ -11,18 +11,9 @@ namespace Doyur.db
 {
     using System;
     
-    public partial class sp_GetActiveOrderProductList_Result
+    public partial class sp_GetSelectedFeatures_Result
     {
         public int ProductId { get; set; }
-        public int CategoryId { get; set; }
-        public int CompanyId { get; set; }
-        public string Name { get; set; }
-        public bool IsActive { get; set; }
-        public decimal Price { get; set; }
-        public Nullable<byte> DiscountPercantage { get; set; }
-        public string ImageUrl { get; set; }
-        public int Stock { get; set; }
-        public byte ProductQuantity { get; set; }
-        public int OrderId { get; set; }
+        public int FeatureId { get; set; }
     }
 }

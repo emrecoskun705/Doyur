@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/company/Site1.Master" AutoEventWireup="true" CodeBehind="create.aspx.cs" Inherits="Doyur.company.create" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/company/Site1.Master" AutoEventWireup="true" CodeBehind="edit.aspx.cs" Inherits="Doyur.company.edit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -69,7 +69,7 @@
                                 <td>
                                     <asp:Repeater ID="childR" runat="server">
                                         <ItemTemplate>
-                                            <asp:CheckBox ID="cBoxId" Text='<%# Eval("Name") %>' runat="server" />
+                                            <asp:CheckBox ID="cBoxId" Text='<%# Eval("Name") %>' runat="server" Checked='<%# SelectedFeatureIds.Contains(Convert.ToInt32(Eval("FeatureId"))) ? true : false%>' />
                                             <asp:HiddenField ID="hdnId" Value='<%# Eval("FeatureId") %>' runat="server" />
                                         </ItemTemplate>
                                     </asp:Repeater>

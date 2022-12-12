@@ -12,27 +12,25 @@ namespace Doyur.db
     using System;
     using System.Collections.Generic;
     
-    public partial class Address
+    public partial class Company
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Address()
+        public Company()
         {
-            this.Orders = new HashSet<Orders>();
+            this.Product = new HashSet<Product>();
         }
     
-        public int AddressId { get; set; }
+        public int CompanyId { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }
-        public string Town { get; set; }
-        public string District { get; set; }
-        public string Description { get; set; }
+        public string Mail { get; set; }
         public string Phone { get; set; }
-        public Nullable<decimal> Latitude { get; set; }
-        public Nullable<decimal> Longitude { get; set; }
+        public bool IsName { get; set; }
+        public bool IsPhone { get; set; }
         public bool IsActive { get; set; }
     
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<Product> Product { get; set; }
     }
 }

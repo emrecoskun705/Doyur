@@ -11,13 +11,17 @@ namespace Doyur.db
 {
     using System;
     
-    public partial class sp_GetRestaurants_Result
+    public partial class sp_GetAddress_Result
     {
-        public int RestaurantId { get; set; }
+        public int AddressId { get; set; }
+        public int UserId { get; set; }
         public string Name { get; set; }
-        public string Image { get; set; }
-        public string SlugField { get; set; }
+        public string Town { get; set; }
+        public string District { get; set; }
+        public string Description { get; set; }
+        public string Phone { get; set; }
+        public Nullable<decimal> Latitude { get; set; }
+        public Nullable<decimal> Longitude { get; set; }
         public bool IsActive { get; set; }
-        public byte Rating { get; set; }
     }
 }
