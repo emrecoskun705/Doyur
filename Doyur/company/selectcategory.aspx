@@ -17,6 +17,7 @@
                             <ItemTemplate>
                                 <li>
                                     <asp:Label ID="cValue" runat="server" Text='<%# Eval("CategoryId") %>' Visible="false"></asp:Label>
+                                    <asp:Label ID="cName" runat="server" Text='<%# Eval("Name") %>' Visible="false"></asp:Label>
                                     <asp:Button ID="btn" runat="server" Text='<%# Eval("Name") %>' BorderStyle="None" OnClick="btn_Click" />
                                 </li>
                             </ItemTemplate>
@@ -24,6 +25,19 @@
                     </ul>
                     </ItemTemplate>
                 </asp:Repeater>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="text-align: left; padding: 5px; margin-left: 10px">
+                                    <asp:Button Visible="false" CssClass="btn" BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" ID="createBtn" runat="server" Text="Ürün ekleme ekranına git" OnClick="createBtn_Click" />            
+                                </div>
+                            </td>
+                        
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
