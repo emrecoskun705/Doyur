@@ -11,7 +11,7 @@ namespace Doyur.admin
 {
 
 
-	public partial class feature
+	public partial class featurelist
 	{
 
 		/// <summary>
