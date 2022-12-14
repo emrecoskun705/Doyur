@@ -1,14 +1,16 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Doyur.Site" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Doyur.admin.Site1" %>
 
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
-    <title>Anasayfa</title>
+    <title>Admin</title>
     <link href="/css/site.css" rel="stylesheet" />
     <link href="/css/restaurantproduct.css" rel="stylesheet" />
+    <link href="../css/sidebar.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="js/alert.js"></script>
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -44,25 +46,21 @@
                     } 
                     %>
 
-                    <% 
-                    if (IT.Session.Users.AccessId() == 3)
-                    { 
-                    %>
-                    <li style="float:right"><a href="/admin/default.aspx">Admin Paneli</a></li>
-                    <%  
-                    } 
-                    %>
-
                     
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
             </div>
-            <br /><br /><br />  
-            
-            <asp:ContentPlaceHolder ID="cph1" runat="server">
-            </asp:ContentPlaceHolder>
+            <div class="sidebar" style="margin-top:46px">
+              <a class="active" href="default.aspx">Anasayfa</a>
+              <a href="user.aspx">Katogeri Ayarları</a>
+              <a href="/admin/feature/feature.aspx">Ürün Özellikleri</a>
+            </div>
+            <div class="content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+
         </div>
     </form>
-    
 </body>
 </html>
