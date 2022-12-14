@@ -61,7 +61,8 @@ namespace Doyur.admin
 			{
 				int featureId = Convert.ToInt32(e.CommandArgument);
 
-				var deleteFeature = db.sp_DeleteFeature(featureId).FirstOrDefault();
+				// delete only 1 feature
+				var deleteFeature = db.sp_DeleteFeature(featureId, 0).FirstOrDefault();
 
 				if(deleteFeature != null &&  deleteFeature > 0)
 				{

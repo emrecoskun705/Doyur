@@ -17,6 +17,11 @@ namespace Doyur.admin
 		{
 			if(!IsPostBack)
 			{
+				if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+				{
+					this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
+					IT.Session.Users.RemoveSessionMsg();
+				}
 				LoadData();
 			}
 		}
@@ -32,37 +37,55 @@ namespace Doyur.admin
 
         protected void gList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-			if (e.CommandName == "Edit")
+			if (e.CommandName == "EditFeature")
 			{
 				int productId = Convert.ToInt32(e.CommandArgument);
 				Response.Redirect("/admin/featureedit.aspx?id=" + productId);
 
 			}
-			else if (e.CommandName == "DeleteProduct")
+			else if (e.CommandName == "DeleteFeature")
 			{
-				//int userId = IT.Session.Users.UserId();
-				//int companydId = IT.Session.Users.CompanyId();
-				//int addressId = Convert.ToInt32(e.CommandArgument);
-				//var getProduct = (from p in db.Product where p.ProductId == addressId && p.CompanyId == companydId select p).FirstOrDefault();
+				int featureId = Convert.ToInt32(e.CommandArgument);
 
-				//if (getProduct != null)
-				//{
-				//	db.Product.Remove(getProduct);
-				//	if (db.SaveChanges() > 0)
-				//	{
-				//		this.ShowMessage("Success", "Adres başarıyla silindi");
-				//		LoadProducts();
-				//	}
-				//	else
-				//	{
-				//		this.ShowMessage("Warning", "Adres silinirken bir hata oluştu");
-				//	}
-				//}
-				//else
-				//{
-				//	this.ShowMessage("Warning", "Adres bulunamadı");
-				//}
+				// delete head feature and it'sub features
+				var deleteFeature = db.sp_DeleteFeature(featureId, 1).FirstOrDefault();
+
+				if (deleteFeature != null && deleteFeature > 0)
+				{
+					// success
+					var getParentId = Convert.ToInt32(Request.QueryString["id"]);
+					IT.Session.Users.AddMessageSession("Success", "İç özellik başarıyla silindi");
+					Response.Redirect(Request.RawUrl);
+				}
+				else
+				{
+					// fail
+					this.ShowMessage("Warning", "İç özellik silinemedi");
+				}
 			}
 		}
+
+        protected void saveBtn_Click(object sender, EventArgs e)
+        {
+			db.Feature addParentFeature = new db.Feature()
+			{
+				Name = newFeatureLbl.Text.Trim(),
+			};
+
+			db.Feature.Add(addParentFeature);
+
+			if(db.SaveChanges() > 0)
+			{
+				// success
+				IT.Session.Users.AddMessageSession("Success", "Özellik başarıyla eklendi");
+				Response.Redirect(Request.RawUrl);
+			}else
+			{
+				// fail
+				IT.Session.Users.AddMessageSession("Warning", "Özellik eklenemedi");
+				Response.Redirect(Request.RawUrl);
+			}
+
+        }
     }
 }
