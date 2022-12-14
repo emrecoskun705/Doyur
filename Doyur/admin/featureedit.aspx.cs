@@ -18,6 +18,11 @@ namespace Doyur.admin
 		{
 			if(!IsPostBack)
 			{
+				if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+				{
+					this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
+					IT.Session.Users.RemoveSessionMsg();
+				}
 				LoadData();
 			}
 		}
@@ -62,8 +67,8 @@ namespace Doyur.admin
 				{
 					// success
 					var getParentId = Convert.ToInt32(Request.QueryString["id"]);
+					IT.Session.Users.AddMessageSession("Success", "İç özellik başarıyla silindi");
 					Response.Redirect("/admin/featureedit.aspx?id=" + getParentId);
-					this.ShowMessage("Success", "İç özellik başarıyla silindi");
 				} else
 				{
 					// fail
@@ -89,7 +94,7 @@ namespace Doyur.admin
 			if(db.SaveChanges() > 0)
 			{
 				// success
-				this.ShowMessage("Success", "İç özellik başarıyla eklendi");
+				IT.Session.Users.AddMessageSession("Success", "İç özellik başarıyla eklendi");
 				Response.Redirect("/admin/featureedit.aspx?id=" + getParentId);
 			}
 			else
