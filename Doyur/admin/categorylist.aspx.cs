@@ -51,6 +51,11 @@ namespace Doyur.admin
 				int categoryId = Convert.ToInt32(e.CommandArgument);
 				Response.Redirect("/admin/categorylist.aspx?id=" + categoryId);
 			}
+			else if(e.CommandName == "EditFeature")
+			{
+				int categoryId = Convert.ToInt32(e.CommandArgument);
+				Response.Redirect("/admin/categoryfeature.aspx?id=" + categoryId);
+			}
 		}
 
 		protected void saveBtn_Click(object sender, EventArgs e)
