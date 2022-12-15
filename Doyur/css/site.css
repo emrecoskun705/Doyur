@@ -45,6 +45,19 @@
         text-decoration: none;
     }
 
+.btn-blue {
+    color: #fff;
+    border: 1px solid #10980f;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-blue:hover {
+        color: #fff;
+        background-color: #008bff;
+        border-color: #007bff;
+    }
+
 
 .btn-xs {
     position: relative;

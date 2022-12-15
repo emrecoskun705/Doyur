@@ -52,7 +52,7 @@
             </div>
             <div class="sidebar" style="margin-top:46px">
               <a class="active" href="default.aspx">Anasayfa</a>
-              <a href="user.aspx">Katogeri Ayarları</a>
+              <a href="/admin/categorylist.aspx">Katogeri Ayarları</a>
               <a href="/admin/featurelist.aspx">Ürün Özellikleri</a>
             </div>
             <div class="content">
