@@ -37,6 +37,7 @@ namespace Doyur.company
                 pName.Text = getProduct.Name.Trim();
                 pPrice.Text = getProduct.Price.ToString();
                 pStock.Text = getProduct.Stock.ToString();
+				productContent.InnerText = getProduct.Description;
                 IsActive.Checked = getProduct.IsActive;
 
                 int categoryId = getProduct.CategoryId;
@@ -88,8 +89,9 @@ namespace Doyur.company
         {
             List<int> newCheckedFeatures = GetNewFeatures();
 			var productId = Convert.ToInt32(Request.QueryString["id"]);
+            var pTextArea = productContent.InnerText == "" ? null : productContent.InnerText;
 
-			string strFileName = oFile.PostedFile.FileName;
+            string strFileName = oFile.PostedFile.FileName;
 
             // dont update photo if no file is selected
             if(strFileName == "")
@@ -98,7 +100,7 @@ namespace Doyur.company
 
 				
 
-                var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), IsActive.Checked, Convert.ToDecimal(pPrice.Text), "", Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
+                var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), pTextArea, IsActive.Checked, Convert.ToDecimal(pPrice.Text), "", Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
                 if(count != null && count > 0)
                 {
 					// update successfull
@@ -122,7 +124,7 @@ namespace Doyur.company
             {
                 string savedName = SaveImg();
 				byte FuncId = (byte)0;
-				var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), IsActive.Checked, Convert.ToDecimal(pPrice.Text), savedName, Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
+				var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), pTextArea, IsActive.Checked, Convert.ToDecimal(pPrice.Text), savedName, Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
 				if (count != null && count > 0)
 				{
 					// update successfull

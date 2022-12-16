@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/product/Site1.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Doyur.product._default" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="../css/product.css" rel="stylesheet" />
+    <link href="/css/product.css" rel="stylesheet" />
+    <link href="/js/ckeditor/contents.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
