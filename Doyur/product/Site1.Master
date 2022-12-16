@@ -4,11 +4,11 @@
 
 <html>
 <head runat="server">
-    <title>İlan</title>
+    <title>Ürün</title>
     <link href="/css/site.css" rel="stylesheet" />
-    <script src="../js/alert.js"></script>
     <link href="/css/restaurantproduct.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="/js/alert.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -39,7 +39,7 @@
                     if (IT.Session.Users.AccessId() == 3)
                     { 
                     %>
-                    <li style="float:right"><a href="/company/default.aspx">Restaurant</a></li>
+                    <li style="float:right"><a href="/company/default.aspx">Şirket Paneli</a></li>
                     <%  
                     } 
                     %>
@@ -56,7 +56,6 @@
                     
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
-            </div>
             </div>
             <br /><br /><br />  
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
