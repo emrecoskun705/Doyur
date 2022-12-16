@@ -12,7 +12,18 @@
                 <table>
                     <tbody>
                         <tr>
-                            <td>Kategori Ekle</td>
+                            <td>
+                                <a href="/admin/categorylist.aspx">Başlangıç</a> >
+                                <asp:Repeater ID="pathRepeater" runat="server">
+                                    <ItemTemplate>
+                                        <a href="/admin/categorylist.aspx?id=<%# Eval("CategoryId") %>"><%# Eval("Name") %></a> >
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td><br />Kategori Ekle</td>
                              <td>&nbsp;</td>
                         </tr>
                         <tr>

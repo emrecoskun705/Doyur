@@ -1,4 +1,5 @@
-﻿using Doyur.extensions;
+﻿using Doyur.db;
+using Doyur.extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace Doyur.admin
 			{
 				var getParentId = Convert.ToInt32(Request.QueryString["id"]);
 				var getCategories = (from p in db.Category where p.ParentId == getParentId select p).ToList();
+				LoadParentPath();
 				gList.DataSource = getCategories;
 				gList.DataBind();
 			}
@@ -43,6 +45,27 @@ namespace Doyur.admin
 			}
 			
 		}
+
+		private void LoadParentPath()
+		{
+            if (Request.QueryString["id"] != null)
+            {
+                List<Category> categories = new List<Category>();
+				
+				var getParentId = Convert.ToInt32(Request.QueryString["id"]);
+				var ctg = (from p in db.Category where p.CategoryId == getParentId select p).FirstOrDefault();
+				while(ctg != null )
+				{
+					categories.Insert(0, ctg);
+					ctg = (from p in db.Category where p.CategoryId == ctg.ParentId select p).FirstOrDefault();
+                }
+
+				pathRepeater.DataSource = categories;
+				pathRepeater.DataBind();
+				
+			}
+        }
+
 
 		protected void gList_RowCommand(object sender, GridViewCommandEventArgs e)
 		{
