@@ -14,7 +14,7 @@ namespace Doyur.company
 
         db.doyurEntities db = new db.doyurEntities();
 
-		public List<db.sp_GetFeature_Result> FeatureList { get; set; }
+		public List<db.sp_GetFeature_Result> FeatureList = new List<db.sp_GetFeature_Result>();
 
         protected void Page_Load(object sender, EventArgs e)
 		{
@@ -28,11 +28,18 @@ namespace Doyur.company
 		{
 			var categoryId = Convert.ToInt32(Request.QueryString["category"]);
 
-            FeatureList = db.sp_GetFeature(categoryId).ToList();
+            var getCategory = (from p in db.Category where p.CategoryId == categoryId select p).FirstOrDefault();
+            while(getCategory != null)
+            {
+                FeatureList.AddRange(db.sp_GetFeature(getCategory.CategoryId).ToList());
+                getCategory = (from p in db.Category where p.CategoryId == getCategory.ParentId select p).FirstOrDefault();
+            }
 
-			List<db.sp_GetFeature_Result>  onlyHeads = FeatureList.FindAll(x => x.SubFeatureId == null);
 
-			parentR.DataSource = onlyHeads;
+
+            List<db.sp_GetFeature_Result> onlyHeads = FeatureList.FindAll(x => x.SubFeatureId == null);
+
+            parentR.DataSource = onlyHeads;
 			parentR.DataBind();
 		}
 

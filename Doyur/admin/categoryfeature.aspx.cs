@@ -83,7 +83,7 @@ namespace Doyur.admin
 
 			// delete old features
 			var deleted = db.sp_DeleteFeatureC(categoryId).FirstOrDefault();
-			if(deleted != null && deleted > 0)
+			if(deleted != null)
 			{
 				// if delete is succesfull add new features to category
 				foreach(int ftr in newSelectedF)

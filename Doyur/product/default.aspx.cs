@@ -38,6 +38,11 @@ namespace Doyur.product
                 Product = getProduct;
                 LoadSelectedFeatures(productId);
                 LoadFeatures(getProduct.CategoryId);
+            } else
+            {
+                Response.Clear();
+                Response.StatusCode = 404;
+                Response.End();
             }
         }
 
