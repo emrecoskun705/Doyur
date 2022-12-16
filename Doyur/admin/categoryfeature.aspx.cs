@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Doyur.db;
+using Doyur.extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,10 +20,18 @@ namespace Doyur.admin
 		{
 			if(!IsPostBack)
 			{
-				LoadData();
+                if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+                {
+                    this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
+                    IT.Session.Users.RemoveSessionMsg();
+                }
+                LoadData();
 			}
 		}
 
+		/// <summary>
+		/// Loads root features for given category
+		/// </summary>
 		private void LoadData()
 		{
 			var categoryId = Convert.ToInt32(Request.QueryString["id"]);
@@ -56,5 +66,36 @@ namespace Doyur.admin
 
 			isChecked.Checked = SelectedFeatures.Contains(c.FeatureId) ? true : false;
 		}
-	}
+
+        protected void saveBtn_Click(object sender, EventArgs e)
+		{
+            var categoryId = Convert.ToInt32(Request.QueryString["id"]);
+
+			var newSelectedF = new List<int>();
+
+			foreach(GridViewRow row in gList.Rows)
+			{
+				if(((CheckBox)row.FindControl("isChecked")).Checked)
+				{
+					newSelectedF.Add(Convert.ToInt32(row.Cells[0].Text));
+				}
+			}
+
+			// delete old features
+			var deleted = db.sp_DeleteFeatureC(categoryId).FirstOrDefault();
+			if(deleted != null && deleted > 0)
+			{
+				// if delete is succesfull add new features to category
+				foreach(int ftr in newSelectedF)
+				{
+					var addFtr = db.sp_AddFeatureCtg(categoryId, ftr);
+				}
+
+				IT.Session.Users.AddMessageSession("Success", "Özellikler başarıyla kaydedildi.");
+				Response.Redirect(Request.RawUrl);
+			}
+
+			return;
+        }
+    }
 }

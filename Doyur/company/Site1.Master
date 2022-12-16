@@ -17,7 +17,7 @@
         <div>
             <div class="my-navbar">
                 <ul>
-                    <li><a class="active" href="/default.aspx">Anasayfa</a></li>
+                    <li><a class="" href="/default.aspx">Anasayfa</a></li>
                     <%
                     if(IT.Session.Users.UserId() == 0)
                     {
@@ -40,6 +40,15 @@
                     { 
                     %>
                     <li style="float:right"><a href="/company/default.aspx">Şirket Paneli</a></li>
+                    <%  
+                    } 
+                    %>
+
+                    <% 
+                    if (IT.Session.Users.AccessId() == 3)
+                    { 
+                    %>
+                    <li style="float:right"><a href="/admin/default.aspx">Admin Paneli</a></li>
                     <%  
                     } 
                     %>

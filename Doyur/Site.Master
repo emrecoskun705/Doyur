@@ -17,7 +17,7 @@
         <div>
             <div class="my-navbar">
                 <ul>
-                    <li><a class="active" href="/default.aspx">Anasayfa</a></li>
+                    <li><a class="" href="/default.aspx">Anasayfa</a></li>
                     <%
                     if(IT.Session.Users.UserId() == 0)
                     {

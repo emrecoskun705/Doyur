@@ -9,14 +9,6 @@
         <div id="alert-message"></div>
         <div class="box-in">
             <div class="divr">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Özellik Ekle</td>
-                             <td>&nbsp;</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
             <br />
             <asp:GridView ID="gList" runat="server" AutoGenerateColumns="False" CssClass="mGrid" OnRowCommand="gList_RowCommand" OnRowDataBound="gList_RowDataBound">
@@ -28,9 +20,14 @@
                         <ItemTemplate>  
                             <asp:CheckBox ID="isChecked" runat="server" />  
                         </ItemTemplate>  
-                </asp:TemplateField> 
+                    </asp:TemplateField> 
                 </Columns>
             </asp:GridView>
+            <div style="text-align: right; padding: 5px;">
+                <asp:Button BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff"  ID="saveBtn" OnClick="saveBtn_Click" runat="server" Text="Kaydet" CssClass="btn"/>
+            </div>
+
+
             <asp:ValidationSummary ValidationGroup="group1" ID="ValidationSummary1" runat="server" CssClass="error-danger" />
            
         </div>

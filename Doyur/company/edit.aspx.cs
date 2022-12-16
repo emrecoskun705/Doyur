@@ -95,6 +95,9 @@ namespace Doyur.company
             if(strFileName == "")
             {
                 byte FuncId = (byte)1;
+
+				
+
                 var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), IsActive.Checked, Convert.ToDecimal(pPrice.Text), "", Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
                 if(count != null && count > 0)
                 {
