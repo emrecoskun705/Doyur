@@ -77,11 +77,14 @@ namespace Doyur.company
             {
                 var categoryId = Convert.ToInt32(Request.QueryString["category"]);
 
+                var textArea = productContent.InnerText.TrimEnd();
+
                 var createProduct = new db.Product()
                 {
                     CategoryId = categoryId,
                     CompanyId = 1,
                     Name = pName.Text.Trim(),
+                    Description = textArea == "" ? null: textArea,
                     IsActive = true,
                     Price = Convert.ToDecimal(pPrice.Text.Trim()),
                     ImageUrl = savedName,

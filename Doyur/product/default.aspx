@@ -1,72 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/product/Site1.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Doyur.product._default" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="../css/product.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-    <style>
-        main {
-            display: block;
-        }
-
-        #product-main .product-d-container {
-            width: 1200px;
-            margin: 20px auto;
-        }
-
-        #product-main .flex-container {
-            display: flex;
-        }
-
-        #product-main .product-container {
-            display: block;
-            width: 956px;
-            border: solid 1px #e6e6e6;
-            background-color: #fff;
-            box-shadow: 0 1px 4px #0000000d;
-            border-radius: 6px;
-            margin-bottom: 30px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        #product-main .image-container {
-            width: 400px;
-            position: relative;
-        }
-
-        #product-main .image-container .product-image-container {
-            width: 100%;
-            height: 400px;
-            position: relative;
-        }
-
-        #product-main .image-container div {
-            height: 100%;
-        }
-
-        #product-main .absolute {
-            position: absolute;
-        }
-
-        #product-main .right-content {
-            margin: 0 5px 0 25px;
-            width: 53%;
-        }
-
-        #product-main .product-container>div {
-            display: flex;
-        }
-
-        #product-main .product-container .p-data>div>div:last-child {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
-        .bottom-btn {
-        }
-
-    </style>
 
     <main id="product-main">
         <div class="product-d-container">
@@ -113,7 +49,11 @@
                     </asp:Repeater>
                 </tbody>
             </table>
-
+            <br /><br />
+            <div class="description-border">
+                <%= Product.Description %>
+            </div>
+            
         </div>
 
     </main>

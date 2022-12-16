@@ -1,5 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/company/Site1.Master" AutoEventWireup="true" CodeBehind="create.aspx.cs" Inherits="Doyur.company.create" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/company/Site1.Master" AutoEventWireup="true" ValidateRequest="false" CodeBehind="create.aspx.cs" Inherits="Doyur.company.create" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <script src="../js/ckeditor/ckeditor.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="box-out box" style="margin-top: 60px;">
@@ -77,7 +79,20 @@
                             </tr>
                         </ItemTemplate>
                     </asp:Repeater>
-                    
+                    <tr>
+                        <td>
+                            <hr />
+                        </td>
+
+                    </tr>
+                    <tr>
+                         <td>Ürün Açıklaması</td>
+                    </tr>
+                    <tr>
+                         <td>
+                             <textarea id="productContent" runat="server"></textarea>
+                         </td>
+                    </tr>
 
                     <tr>
                         <td>
@@ -91,4 +106,8 @@
             </table>
         </div>
     </div>
+    <script type="text/javascript">
+        CKEDITOR.replace('ContentPlaceHolder1_productContent');
+
+    </script>
 </asp:Content>
