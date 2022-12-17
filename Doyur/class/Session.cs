@@ -83,13 +83,13 @@ namespace IT
 
 			public static void AddLoginSessionDebug()
             {
-                HttpContext.Current.Session.Add("UserId", 1);
-                HttpContext.Current.Session.Add("AccessId", 3);
+                HttpContext.Current.Session.Add("UserId", 21);
+                HttpContext.Current.Session.Add("AccessId", 2);
                 HttpContext.Current.Session.Add("Firstame", "Emre");
                 HttpContext.Current.Session.Add("Lastname", "Coskun");
-                HttpContext.Current.Session.Add("Username", "emrec");
+                HttpContext.Current.Session.Add("Username", "emreuser");
                 HttpContext.Current.Session.Add("Phone", "5458413575");
-                HttpContext.Current.Session.Add("Email", "emre@emre.com");
+                HttpContext.Current.Session.Add("Email", "user@user.com");
             }
 
             public static void AddLoginSessionCompanyDebug()

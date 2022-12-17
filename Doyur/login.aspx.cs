@@ -16,14 +16,11 @@ namespace Doyur
         {
 
 			//select * from abc where users ...... blaa
-			// hasan, id side 1 , accessid 2 aktivasyonlu bir user var sayalim.
 			if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
 			{
                 this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
                 IT.Session.Users.RemoveSessionMsg();
 			}
-
-
 
 		}
         protected void LoginButton_Click(object sender, EventArgs e)
@@ -73,8 +70,6 @@ namespace Doyur
                         Response.Redirect("/user/");
 
 					}
-
-
 
 				}
                 else

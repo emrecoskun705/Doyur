@@ -23,7 +23,7 @@
                             <h3> Son <%= Product.Stock %> ürün</h3><br /><br /><br />
                             <h2 style="font-size: 25px; font-weight: bold;"><%= Product.Price.ToString("#.##") %> TL</h2>
                             <br /><br /><br /><hr /><br /><br />
-                            <asp:Button ID="orderBtn" runat="server" Width="100%" Text="Sepete Ekle" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />
+                            <asp:Button ID="orderBtn" runat="server" OnClick="orderBtn_Click" Width="100%" Text="Sepete Ekle" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />
                         </div>
                     </div>
                 </div>

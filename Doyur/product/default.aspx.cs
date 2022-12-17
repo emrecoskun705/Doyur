@@ -1,5 +1,6 @@
 ﻿using Doyur.admin;
 using Doyur.db;
+using Doyur.extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,12 @@ namespace Doyur.product
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+			if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+			{
+				this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
+				IT.Session.Users.RemoveSessionMsg();
+			}
+			if (!IsPostBack)
             {
                 LoadData();
             }
@@ -31,13 +37,15 @@ namespace Doyur.product
 
         private void LoadData()
         {
-            var productId = Convert.ToInt32(Request.QueryString["id"]);
+            int productId;
+			int.TryParse(Request.QueryString["id"], out productId);
 
             var getProduct = db.sp_GetProduct(productId).FirstOrDefault();
 
-            if (getProduct != null)
+            if (getProduct != null && productId != 0)
             {
                 Product = getProduct;
+                
                 LoadSelectedFeatures(productId);
                 LoadFeatures(getProduct.CategoryId);
                 LoadCompany(getProduct.CompanyId);
@@ -92,5 +100,39 @@ namespace Doyur.product
             }
         }
 
+        protected void orderBtn_Click(object sender, EventArgs e)
+        {
+            int userId = IT.Session.Users.UserId();
+            // if user is not logged in dont add product show alert for logging in
+            if(userId == 0)
+            {
+                this.ShowMessage("Warning", "Sepete ürün eklemek için lütfen giriş yapınız");
+                return;
+            }
+
+            int productId;
+			int.TryParse(Request.QueryString["id"], out productId);
+
+			var getOrCreateOrdr = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
+
+            if (getOrCreateOrdr != null)
+            {
+                var addProduct = db.sp_AddProductToOrder(productId, getOrCreateOrdr.OrderId, 1).FirstOrDefault();
+                if (addProduct != null && addProduct > 0) 
+                {
+                    IT.Session.Users.AddMessageSession("Success", "Ürün sepete başarıyla eklendi");
+                } 
+                else
+                {
+					IT.Session.Users.AddMessageSession("Warning", "Ürün zaten sepete eklendi");
+				}
+            } 
+            else
+            {
+				IT.Session.Users.AddMessageSession("Danger", "Ürüne veya siparişe ulaşılamıyor");
+			}
+
+            Response.Redirect(Request.RawUrl);
+        }
     }
 }
