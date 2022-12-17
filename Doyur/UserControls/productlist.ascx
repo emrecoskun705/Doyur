@@ -6,7 +6,7 @@
             <article>
                 <img src="/image/<%# Eval("ImageUrl") %>" />
                 <div class="text">
-                    <h2><%#Eval("Name") %> </h2>
+                    <h2 style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><%#Eval("Name") %> </h2>
                 </div>
             </article>      
         </a>

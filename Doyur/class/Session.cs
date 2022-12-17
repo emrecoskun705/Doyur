@@ -235,8 +235,23 @@ namespace IT
                 }
             }
 
+			public static void AdminIsNotLoginRedirect(string Url)
+			{
+				if (HttpContext.Current.Session["AccessId"] == null)
+				{
+					HttpContext.Current.Response.Redirect(Url);
+				}
+				else
+				{
+					if (Convert.ToInt32(HttpContext.Current.Session["AccessId"]) != 255)
+					{
+						HttpContext.Current.Response.Redirect(Url);
+					}
+				}
+			}
 
-        }
+
+		}
 
         public class UserCookie
         {

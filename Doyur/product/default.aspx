@@ -18,13 +18,17 @@
                             </div>
                         </div>
                         <div style="margin-left:120px">
-                            <h1><%= Product.Name %></h1>
+                            <h1 style="font-weight: bold; font-size: 25px;"><%= Product.Name %></h1>
+                            <h3 style="font-size: 15px;">Satıcı: <a href="#"><%= Company.Name %></a></h3>
                             <h3> Son <%= Product.Stock %> ürün</h3><br /><br /><br />
-                            <h2><%= Product.Price %> TL</h2>
-                            <br /><br /><br /><br /><br />
-                            <asp:Button ID="orderBtn" runat="server" Text="Sepete Ekle" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />
+                            <h2 style="font-size: 25px; font-weight: bold;"><%= Product.Price.ToString("#.##") %> TL</h2>
+                            <br /><br /><br /><hr /><br /><br />
+                            <asp:Button ID="orderBtn" runat="server" Width="100%" Text="Sepete Ekle" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />
                         </div>
                     </div>
+                </div>
+                <div>
+
                 </div>
             </div>
             <table>

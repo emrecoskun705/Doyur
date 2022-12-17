@@ -28,16 +28,13 @@ namespace Doyur
 		}
         protected void LoginButton_Click(object sender, EventArgs e)
         {
-            var getUserList = (from p in db.Users where p.Mail == mail.Text.Trim() && p.Password == password.Text.Trim() && p.IsActive == true select p);
+            var getUser = (from p in db.Users where p.Mail == mail.Text.Trim() && p.Password == password.Text.Trim() && p.IsActive == true select p).FirstOrDefault();
             
 
-            if (getUserList != null && getUserList.Count() == 1)
+            if (getUser != null)
             {
-                // user is logged in
-
-                db.Users getUser = getUserList.First();
-
-                if((getUser.AccessId == 2 || getUser.AccessId == 3) && !getUser.Activation.Trim().Equals(""))
+                // user and admin login
+                if((getUser.AccessId == 2 || getUser.AccessId == 255)  && getUser.Activation != null)
                 {
                     IT.Session.Users.AddLoginSessionList(
                         getUser.UserId,
@@ -48,20 +45,49 @@ namespace Doyur
                         getUser.Phone, 
                         getUser.Mail);
 
+                    
+
                     IT.Session.Users.AddMessageSession("Success", "Başarıyla giriş yapıldı");
                     
 					Response.Redirect("user/default.aspx");
 
 					
-                } else
+                } 
+                // company login
+                else if (getUser.AccessId == 3)
                 {
-                    Response.Redirect("/login.aspx");
+                    var getCompany = (from p in db.Company where p.UserId == getUser.UserId select p).FirstOrDefault();
+                    if(getCompany != null)
+                    {
+						IT.Session.Users.AddLoginSessionListCompany(
+							getUser.UserId,
+							getUser.AccessId,
+							getUser.Firstname,
+							getUser.Lastname,
+							getUser.Name,
+							getUser.Phone,
+							getUser.Mail,
+                            getCompany.CompanyId);
+
+                        IT.Session.Users.AddMessageSession("Success", "Başarıyla şirket hesabına giriş yapıldı");
+                        Response.Redirect("/user/");
+
+					}
+
+
+
+				}
+                else
+                {
+					IT.Session.Users.AddMessageSession("Warning", "Hesap yetkileri kısıtlandırıldı.");
+					Response.Redirect("/login.aspx");
                 }
 
             } else
             {
-                // Reirect same page
-                Response.Redirect("/login.aspx");
+				// Reirect same page
+				IT.Session.Users.AddMessageSession("Warning", "Hesap bilgilerinizi kontrol ediniz.");
+				Response.Redirect("/login.aspx");
             }
 
         }

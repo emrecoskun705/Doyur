@@ -53,8 +53,9 @@ namespace Doyur
                 int count = db.SaveChanges();
                 if(count > 0)
                 {
-                    this.ShowMessage("Success", "Kaydınız başarılı bir şekilde oluşturuldu, lütfen devam etmek için giriş yapınız");
-				} else
+                    IT.Session.Users.AddMessageSession("Success", "Kaydınız başarılı bir şekilde oluşturuldu, lütfen devam etmek için giriş yapınız");
+                    Response.Redirect("/login.aspx");
+                } else
                 {
 					this.ShowMessage("Danger", "Kaydetmede bir hata oluştu lütfen tekrar deneyiniz");
 				}

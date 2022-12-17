@@ -9,6 +9,12 @@ namespace Doyur.admin
 {
 	public partial class Site1 : System.Web.UI.MasterPage
 	{
+
+		protected void Page_Init(object sender, EventArgs e)
+		{
+			IT.Session.Users.AdminIsNotLoginRedirect("/");
+		}
+
 		protected void Page_Load(object sender, EventArgs e)
 		{
 

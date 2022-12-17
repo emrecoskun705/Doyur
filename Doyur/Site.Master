@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Doyur.Site" %>
+﻿ <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Doyur.Site" %>
 
 <!DOCTYPE html>
 
@@ -45,7 +45,7 @@
                     %>
 
                     <% 
-                    if (IT.Session.Users.AccessId() == 3)
+                    if (IT.Session.Users.AccessId() == 255)
                     { 
                     %>
                     <li style="float:right"><a href="/admin/default.aspx">Admin Paneli</a></li>
@@ -56,6 +56,7 @@
                     
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
+                <div id="alert-message"></div>
             </div>
             <br /><br /><br />  
             

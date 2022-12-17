@@ -19,6 +19,8 @@ namespace Doyur.product
 
         public db.sp_GetProduct_Result Product { get; set; }
 
+        public db.Company Company { get; set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
@@ -38,6 +40,7 @@ namespace Doyur.product
                 Product = getProduct;
                 LoadSelectedFeatures(productId);
                 LoadFeatures(getProduct.CategoryId);
+                LoadCompany(getProduct.CompanyId);
             } else
             {
                 Response.Clear();
@@ -68,6 +71,11 @@ namespace Doyur.product
 
             parentR.DataSource = onlyHeads;
             parentR.DataBind();
+        }
+
+        private void LoadCompany(int companyId)
+        {
+            Company = (from p in db.Company where p.CompanyId == companyId select p).FirstOrDefault();
         }
 
         protected void parentR_ItemDataBound(object sender, RepeaterItemEventArgs args)

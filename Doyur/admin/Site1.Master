@@ -47,7 +47,7 @@
                     %>
 
                     <% 
-                    if (IT.Session.Users.AccessId() == 3)
+                    if (IT.Session.Users.AccessId() == 255)
                     { 
                     %>
                     <li style="float:right"><a href="/admin/default.aspx">Admin Paneli</a></li>
