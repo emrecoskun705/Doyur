@@ -18,7 +18,8 @@ namespace Doyur.order
 
 		protected void Page_Init(object sender, EventArgs e)
 		{
-				IT.Session.Users.AddLoginSessionDebug();
+			//IT.Session.Users.AddLoginSessionDebug();
+			IT.Session.Users.UserIsNotLoginRedirect("/");
 		}
 
 		protected void Page_Load(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace Doyur.order
 					});
 				}
 
-				parentR.DataSource = onlyCompanies;
+                parentR.DataSource = onlyCompanies;
 				parentR.DataBind();
 			}
 		}
@@ -66,7 +67,7 @@ namespace Doyur.order
 				var parentName = ((Label)e.Item.FindControl("CName")).Text;
 				if (childR != null)
 				{
-					childR.DataSource = OrderDetails.Where(x => x.CName == parentName).ToList();
+                    childR.DataSource = OrderDetails.Where(x => x.CName == parentName).ToList();
 					childR.DataBind();
 				}
             }

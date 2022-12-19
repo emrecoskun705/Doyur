@@ -39,7 +39,7 @@
                     if (IT.Session.Users.AccessId() == 2)
                     { 
                     %>
-                    <li style="float:right"><a href="/company/default.aspx">
+                    <li style="float:right"><a href="/order/default.aspx">
                         <img src="/image/icons8-shopping-basket-16%20(1).png" /> </a></li>
                     <%  
                     } 

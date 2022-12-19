@@ -29,7 +29,11 @@ namespace Doyur.company
 			{
 				gList.DataSource = getProducts;
 				gList.DataBind();
-			}
+			} else
+            {
+                gList.DataSource = null;
+                gList.DataBind();
+            }
 
 		}
 
@@ -53,17 +57,17 @@ namespace Doyur.company
                     db.Product.Remove(getProduct);
                     if (db.SaveChanges() > 0)
                     {
-                        this.ShowMessage("Success", "Adres başarıyla silindi");
+                        this.ShowMessage("Success", "Ürün başarıyla silindi");
                         LoadProducts();
                     }
                     else
                     {
-                        this.ShowMessage("Warning", "Adres silinirken bir hata oluştu");
+                        this.ShowMessage("Warning", "Ürün silinirken bir hata oluştu");
                     }
                 }
                 else
                 {
-                    this.ShowMessage("Warning", "Adres bulunamadı");
+                    this.ShowMessage("Warning", "Ürün bulunamadı");
                 }
             }
         }

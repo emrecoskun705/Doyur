@@ -166,7 +166,7 @@
                     </ItemTemplate>
                 </asp:Repeater>
             </div>
-            <aside class="sticky">
+            <aside class="sticky" style="margin-top:40px;">
                 <div class="pb-summary" style="width: 250px;">
                     <div class="pb-summary-box">
                         <h1>Sipariş Özeti</h1>
