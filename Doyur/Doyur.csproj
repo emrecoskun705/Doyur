@@ -103,7 +103,29 @@
     <Content Include="default.aspx" />
     <Content Include="detail.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="image\11pc.png" />
+    <Content Include="image\1pc.png" />
+    <Content Include="image\22222pc.png" />
+    <Content Include="image\2222pc.png" />
+    <Content Include="image\222pc.png" />
+    <Content Include="image\22pc.png" />
+    <Content Include="image\2pc.png" />
+    <Content Include="image\2pizza.jpg" />
+    <Content Include="image\3333pc.png" />
+    <Content Include="image\333pc.png" />
+    <Content Include="image\33pc.png" />
+    <Content Include="image\3pc.png" />
+    <Content Include="image\4pc.png" />
+    <Content Include="image\6pc.png" />
+    <Content Include="image\888pc.png" />
+    <Content Include="image\88pc.png" />
+    <Content Include="image\8pc.png" />
+    <Content Include="image\9pc.png" />
     <Content Include="image\basket.png" />
+    <Content Include="image\ev2.jpg" />
+    <Content Include="image\icons8-shopping-basket-16 %281%29.png" />
+    <Content Include="image\icons8-trash-can-16.png" />
+    <Content Include="image\pc.png" />
     <Content Include="image\pizza.jpg" />
     <Content Include="js\alert.js" />
     <Content Include="js\ckeditor\adapters\jquery.js" />
@@ -419,6 +441,8 @@
     <Content Include="js\ckeditor\vendor\promise.js" />
     <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
+    <Content Include="order\default.aspx" />
+    <Content Include="order\payment.aspx" />
     <Content Include="product\default.aspx" />
     <Content Include="register.aspx" />
     <Content Include="UserControls\productlist.ascx" />
@@ -551,9 +575,6 @@
     <Compile Include="db\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="db\sp_CreateOrder_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="db\sp_GetActiveOrderProductList_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -567,6 +588,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\sp_GetFeature_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_getOProducts_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetOrCreateOrder_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\sp_GetOrderProducts_Result.cs">
@@ -619,6 +646,20 @@
     </Compile>
     <Compile Include="logout.aspx.designer.cs">
       <DependentUpon>logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="order\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="order\default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="order\payment.aspx.cs">
+      <DependentUpon>payment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="order\payment.aspx.designer.cs">
+      <DependentUpon>payment.aspx</DependentUpon>
     </Compile>
     <Compile Include="product\default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>

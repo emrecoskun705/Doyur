@@ -172,7 +172,7 @@
                                 <div class="pb-merchant-header">
                                     <div class="pb-merchant-info">
                                         <asp:CheckBox ID="CheckBox1" runat="server" />
-                                        <asp:Label ID="CName" runat="server" Text='<%# Eval("CName") %>'></asp:Label>
+                                        <asp:Label ID="CName" Font-Bold="true" runat="server" Text='<%# Eval("CName") %>'></asp:Label>
                                     </div>
                                 </div>
                             </div>
@@ -226,7 +226,7 @@
                             <asp:TextBox  ID="TextBox1" runat="server"></asp:TextBox>
                         </div>
                     </div>
-                    <asp:Button ID="Button1" runat="server" Width="100%" Text="Sepeti Onayla" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />
+                    <asp:HyperLink ID="HyperLink1" NavigateUrl="~/order/payment.aspx" runat="server" CssClass="btn" Width="100%"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff">Sepeti Onayla</asp:HyperLink>
                 </div>
             </aside>
         </div>

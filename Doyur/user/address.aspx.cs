@@ -28,7 +28,7 @@ namespace Doyur.user
 			int userId = IT.Session.Users.UserId();
 			var addressId = Convert.ToInt32(Request.QueryString["AddressId"]);
 
-			var getAddressList = (from p in db.sp_GetAddress(userId, addressId, 3) select p).ToList();
+			var getAddressList = (from p in db.sp_GetAddress(userId, addressId, 0, 3) select p).ToList();
 			if(getAddressList != null && getAddressList.Count() > 0)
 			{
 				var getAddress = getAddressList.First();

@@ -18,7 +18,7 @@ namespace Doyur.order
 
 		protected void Page_Init(object sender, EventArgs e)
 		{
-			//IT.Session.Users.AddLoginSessionDebug();
+			
 			IT.Session.Users.UserIsNotLoginRedirect("/");
 		}
 

@@ -24,7 +24,7 @@ namespace Doyur.user
 		{
 			int userId = IT.Session.Users.UserId();
 
-			var getAddressList = db.sp_GetAddress(userId, -1, 2).ToList();
+			var getAddressList = db.sp_GetAddress(userId, -1, 0, 2).ToList();
 
 			if(getAddressList != null && getAddressList.Count() > 0)
 			{
