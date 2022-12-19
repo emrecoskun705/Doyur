@@ -96,7 +96,26 @@ namespace Doyur.order
 
         protected void payBtn_Click(object sender, EventArgs e)
         {
+            // if address is zero no address is selected
+            int selectedAddress = 0;
 
+            foreach(GridViewRow row in gList.Rows)
+            {
+                CheckBox cbox = row.FindControl("isChecked") as CheckBox;
+                if(cbox != null)
+                {
+                    if(cbox.Checked)
+                    {
+                        if(selectedAddress == 0)
+                        {
+                            selectedAddress = Convert.ToInt32(((HiddenField)row.FindControl("addressId")).Value);
+                        } else
+                        {
+                            // multiple address is selected so give an alert to user
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -72,6 +72,7 @@
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:CheckBox ID="isChecked" runat="server" />
+                            <asp:HiddenField ID="addressId" runat="server" Value='<%# Eval("AddressId") %>'/>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField HeaderText="Adres Adı" DataField="Name" />
