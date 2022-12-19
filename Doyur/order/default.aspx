@@ -123,6 +123,38 @@
             justify-content: space-between;
         }
 
+        .numeric-counter {
+            box-sizing: border-box;
+            width: 90px;
+            display: flex;
+        }
+
+        .numeric-counter .numeric-counter-button {
+            border: 1px solid #e6e6e6;
+            background-color: #fafafa;
+            width: 24px;
+            height: 33px;
+            outline: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .numeric-counter .counter-content {
+            width: 40px;
+            height: 33px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #e6e6e6;
+            color: #4a4a4a;
+            background-color: #ffffff;
+            outline: none;
+            text-align: center;
+        }
+
 
     </style>
 </asp:Content>
@@ -153,6 +185,11 @@
                                                 <img width="50" src="../image/<%# Eval("ImageUrl") %>" style="margin-left: 10px;" />
                                                 <a href="/product/default.aspx?id=<%# Eval("ProductId") %>" style="margin-left: 10px;"  class="pb-basket-item-details"> <%#Eval("Name") %></a>
                                                 <div class="pb-basket-item-actions">
+                                                    <div class="numeric-counter">
+                                                        <asp:Button Enabled='<%# Convert.ToInt32(Eval("ProductQuantity")) == 1 ? false : true %>' CssClass="numeric-counter-button" ID="decrementbtn" runat="server" Text="-"  OnClick="decrementbtn_Click"/>
+                                                        <asp:Label CssClass="counter-content" ID="quantityId" runat="server" Text='<%# Eval("ProductQuantity") %>'></asp:Label>
+                                                        <asp:Button Enabled='<%# Convert.ToInt32(Eval("Stock")) == Convert.ToInt32(Eval("ProductQuantity")) ? false : true %>' CssClass="numeric-counter-button" ID="incrementbtn" runat="server" Text="+" OnClick="incrementbtn_Click" />
+                                                    </div>
                                                     <h3><%# Eval("Price", "{0:0.00}") %> TL</h3>
                                                     <asp:HiddenField ID="ProductId" Value='<%# Eval("ProductId") %>' runat="server" />
                                                     <asp:ImageButton ImageUrl="../image/icons8-trash-can-16.png" ID="trashBtn" runat="server" OnClick="trashBtn_Click" />
@@ -186,7 +223,7 @@
                     <div class="pb-coupon" style="margin-bottom: 10px;">
                         <div>
                             <h2>Kupon:</h2>
-                            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                            <asp:TextBox  ID="TextBox1" runat="server"></asp:TextBox>
                         </div>
                     </div>
                     <asp:Button ID="Button1" runat="server" Width="100%" Text="Sepeti Onayla" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />

@@ -36,6 +36,7 @@ namespace Doyur.order
 			}
 		}
 
+		// Gets active order for a given user
 		private void GetOrder()
 		{
 			int userId = IT.Session.Users.UserId();
@@ -107,5 +108,47 @@ namespace Doyur.order
                 Response.Redirect(Request.RawUrl);
             }
 		}
+
+        protected void decrementbtn_Click(object sender, EventArgs e)
+        {
+            int userId = IT.Session.Users.UserId();
+            Button btn = (Button)sender;
+            // child repeater
+            RepeaterItem child = (RepeaterItem)btn.NamingContainer;
+            var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
+            int productId;
+            int.TryParse(((HiddenField)child.FindControl("ProductId")).Value, out productId);
+
+			int pQuantity;
+            int.TryParse(((Label)child.FindControl("quantityId")).Text, out pQuantity);
+
+            if (productId != 0 && userId != 0 && pQuantity != 0)
+			{
+				var changePQO = db.sp_ChangePQO(order.OrderId, productId, pQuantity - 1);
+			}
+
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void incrementbtn_Click(object sender, EventArgs e)
+        {
+            int userId = IT.Session.Users.UserId();
+            Button btn = (Button)sender;
+            // child repeater
+            RepeaterItem child = (RepeaterItem)btn.NamingContainer;
+            var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
+            int productId;
+            int.TryParse(((HiddenField)child.FindControl("ProductId")).Value, out productId);
+
+            int pQuantity;
+            int.TryParse(((Label)child.FindControl("quantityId")).Text, out pQuantity);
+
+            if (productId != 0 && userId != 0 && pQuantity != 0)
+            {
+                var changePQO = db.sp_ChangePQO(order.OrderId, productId, pQuantity + 1);
+            }
+
+            Response.Redirect(Request.RawUrl);
+        }
     }
 }
