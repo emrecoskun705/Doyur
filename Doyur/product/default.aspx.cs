@@ -29,10 +29,9 @@ namespace Doyur.product
 				this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
 				IT.Session.Users.RemoveSessionMsg();
 			}
-			if (!IsPostBack)
-            {
+
                 LoadData();
-            }
+
         }
 
         private void LoadData()

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -89,8 +91,8 @@ namespace Doyur.company
                 var createProduct = new db.Product()
                 {
                     CategoryId = categoryId,
-                    CompanyId = 1,
-                    Name = pName.Text.Trim(),
+                    CompanyId = IT.Session.Users.CompanyId(),
+                    Name = pName.Text.TrimEnd(),
                     Description = textArea == "" ? null: textArea,
                     IsActive = true,
                     Price = Convert.ToDecimal(pPrice.Text.Trim()),
@@ -98,8 +100,12 @@ namespace Doyur.company
                     Stock = Convert.ToInt32(pStock.Text.Trim())
                 };
 
+
+
                 db.Product.Add(createProduct);
-                if(db.SaveChanges() > 0)
+
+
+                if (db.SaveChanges() > 0)
                 {
                     foreach (int i in checkedFeatures)
                     {

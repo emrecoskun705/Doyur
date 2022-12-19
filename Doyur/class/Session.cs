@@ -83,7 +83,7 @@ namespace IT
 
 			public static void AddLoginSessionDebug()
             {
-                HttpContext.Current.Session.Add("UserId", 21);
+                HttpContext.Current.Session.Add("UserId", 3);
                 HttpContext.Current.Session.Add("AccessId", 2);
                 HttpContext.Current.Session.Add("Firstame", "Emre");
                 HttpContext.Current.Session.Add("Lastname", "Coskun");

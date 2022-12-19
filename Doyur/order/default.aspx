@@ -97,6 +97,31 @@
             margin-right: 15px;
         }
 
+        #basket-app-container #pb-container .sticky {
+            top: 20px;
+            position: -webkit-sticky;
+            position: sticky;
+            align-self: flex-start;
+        }
+        #basket-app-container .pb-summary {
+            margin-left: 20px;
+        }
+
+        #basket-app-container .pb-summary .pb-summary-box {
+            width: 100%;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px 0 rgb(0 0 0 / 5%);
+            border: solid 1px #e6e6e6;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            line-height: 24px;
+        }
+
+        #basket-app-container .pb-summary .pb-summary-box .pb-summary-box-prices li {
+            display: flex;
+            justify-content: space-between;
+        }
 
 
     </style>
@@ -106,34 +131,66 @@
         <div id="pb-container">
             <div class="pb-wrapper">
                 <div class="pb-header-wrapper">
-                    <h1>Sepetim 3 ürün</h1>
+                    <h1>Sepetim</h1>
                 </div>
-                <div class="pb-merchant-group">
-                    <div class="pb-merchant">
-                        <div class="pb-merchant-header">
-                            <div class="pb-merchant-info">
-                                <asp:CheckBox ID="CheckBox1" runat="server" />
-                                <div>
-                                    Satıcı: Monster
+                <asp:Repeater ID="parentR" runat="server" OnItemDataBound="parentR_ItemDataBound">
+                    <ItemTemplate>
+                        <div class="pb-merchant-group">
+                            <div class="pb-merchant">
+                                <div class="pb-merchant-header">
+                                    <div class="pb-merchant-info">
+                                        <asp:CheckBox ID="CheckBox1" runat="server" />
+                                        <asp:Label ID="CName" runat="server" Text='<%# Eval("CName") %>'></asp:Label>
+                                    </div>
                                 </div>
                             </div>
+                            <asp:Repeater ID="childR" runat="server">
+                                <ItemTemplate>
+                                    <div>
+                                        <div class="pb-basket-item-wrapper">
+                                            <div class="pb-basket-item">
+                                                <asp:CheckBox ID="CheckBox2" runat="server" />
+                                                <img width="50" src="../image/<%# Eval("ImageUrl") %>" style="margin-left: 10px;" />
+                                                <a href="/product/default.aspx?id=<%# Eval("ProductId") %>" style="margin-left: 10px;"  class="pb-basket-item-details"> <%#Eval("Name") %></a>
+                                                <div class="pb-basket-item-actions">
+                                                    <h3><%# Eval("Price", "{0:0.00}") %> TL</h3>
+                                                    <img src="../image/icons8-trash-can-16.png" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </div>
-                    </div>
-                    <div>
-                        <div class="pb-basket-item-wrapper">
-                            <div class="pb-basket-item">
-                                <asp:CheckBox ID="CheckBox2" runat="server" />
-                                <img width="50" src="../image/pizza.jpg" style="margin-left: 10px;" />
-                                <a href="#" style="margin-left: 10px;"  class="pb-basket-item-details"> Monster Abra Notebook 16GB RAMB 512GB SSD</a>
-                                <div class="pb-basket-item-actions">
-                                    <h3>18799,43 TL</h3>
-                                    <img src="../image/icons8-trash-can-16.png" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </ItemTemplate>
+                </asp:Repeater>
             </div>
+            <aside class="sticky">
+                <div class="pb-summary" style="width: 250px;">
+                    <div class="pb-summary-box">
+                        <h1>Sipariş Özeti</h1>
+                        <ul class="pb-summary-box-prices">
+                            <li>
+                                <span>Ürün Toplamı</span>
+                                <strong>19.098,98</strong>
+                            </li>
+                            <li>
+                                <span>İndirim</span>
+                                <strong>39TL</strong>
+                            </li>
+                        </ul>
+                        <hr />
+                        <p style="text-align: right;"> 19.098,98</p>
+                    </div>
+                    <div class="pb-coupon" style="margin-bottom: 10px;">
+                        <div>
+                            <h2>Kupon:</h2>
+                            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                        </div>
+                    </div>
+                    <asp:Button ID="Button1" runat="server" Width="100%" Text="Sepeti Onayla" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />
+                </div>
+            </aside>
         </div>
     </div>
 </asp:Content>
