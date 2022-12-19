@@ -154,7 +154,8 @@
                                                 <a href="/product/default.aspx?id=<%# Eval("ProductId") %>" style="margin-left: 10px;"  class="pb-basket-item-details"> <%#Eval("Name") %></a>
                                                 <div class="pb-basket-item-actions">
                                                     <h3><%# Eval("Price", "{0:0.00}") %> TL</h3>
-                                                    <img src="../image/icons8-trash-can-16.png" />
+                                                    <asp:HiddenField ID="ProductId" Value='<%# Eval("ProductId") %>' runat="server" />
+                                                    <asp:ImageButton ImageUrl="../image/icons8-trash-can-16.png" ID="trashBtn" runat="server" OnClick="trashBtn_Click" />
                                                 </div>
                                             </div>
                                         </div>
@@ -172,15 +173,15 @@
                         <ul class="pb-summary-box-prices">
                             <li>
                                 <span>Ürün Toplamı</span>
-                                <strong>19.098,98</strong>
+                                <strong><%= TotalPrice.ToString("#.##") %> TL</strong>
                             </li>
-                            <li>
+<%--                            <li>
                                 <span>İndirim</span>
                                 <strong>39TL</strong>
-                            </li>
+                            </li>--%>
                         </ul>
                         <hr />
-                        <p style="text-align: right;"> 19.098,98</p>
+                        <p style="text-align: right;"><%= TotalPrice.ToString("#.##") %> TL</p>
                     </div>
                     <div class="pb-coupon" style="margin-bottom: 10px;">
                         <div>

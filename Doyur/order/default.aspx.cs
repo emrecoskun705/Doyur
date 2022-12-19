@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Doyur.extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,8 @@ namespace Doyur.order
 		db.doyurEntities db = new db.doyurEntities();
 		List<db.sp_getOProducts_Result> OrderDetails { get; set; }
 
+		public decimal TotalPrice { get; set; }
+
 		protected void Page_Init(object sender, EventArgs e)
 		{
 				IT.Session.Users.AddLoginSessionDebug();
@@ -20,7 +23,13 @@ namespace Doyur.order
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			if (!IsPostBack)
+            if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+            {
+                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
+                IT.Session.Users.RemoveSessionMsg();
+            }
+
+            if (!IsPostBack)
 			{
 				GetOrder();
 			}
@@ -34,6 +43,7 @@ namespace Doyur.order
 			if (order != null)
 			{
                 OrderDetails = db.sp_getOProducts(order.OrderId).ToList();
+				TotalPrice = OrderDetails.Sum(x => x.Price * x.ProductQuantity);
 				var onlyCompanies = new List<Company>();
                 foreach(var c in OrderDetails.Select(x => x.CName).ToList().Distinct().ToList())
 				{
@@ -65,6 +75,36 @@ namespace Doyur.order
 		private class Company
 		{
 			public string CName { get; set;}
+		}
+
+        protected void trashBtn_Click(object sender, ImageClickEventArgs e)
+        {
+			int userId = IT.Session.Users.UserId();
+            ImageButton btn = (ImageButton)sender;
+            // child repeater
+            RepeaterItem child = (RepeaterItem)btn.NamingContainer;
+
+			int productId; 
+			int.TryParse(((HiddenField)child.FindControl("ProductId")).Value, out productId);
+			if (productId != 0 && userId != 0)
+			{
+                var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
+				var removeP = db.sp_DeleteOProduct(order.OrderId, productId).FirstOrDefault();
+				if(removeP!= null && removeP > 0)
+				{
+					IT.Session.Users.AddMessageSession("Success", "Ürün başarılı bir şekilde sepetten çıkarıldı");
+					Response.Redirect(Request.RawUrl);
+				} 
+				else
+				{
+                    IT.Session.Users.AddMessageSession("Warning", "Ürün sepetten çıkarılırken hata oluştu");
+                    Response.Redirect(Request.RawUrl);
+                }
+			} else
+			{
+                IT.Session.Users.AddMessageSession("Error", "Ürün bulunamadı");
+                Response.Redirect(Request.RawUrl);
+            }
 		}
     }
 }
