@@ -61,7 +61,7 @@
             </div>
             <div class="sidebar" style="margin-top:46px">
               <a class="active" href="/company/">Ürünler</a>
-              <a href="/company/orders/">Siparişler</a>
+              <a href="/company/orders">Siparişler</a>
             </div>
             <div class="content">
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

@@ -100,7 +100,7 @@ namespace Doyur.company
 
 		protected void createBtn_Click(object sender, EventArgs e)
 		{
-			Response.Redirect("/company/create.aspx?category=" + categoryIdVS);
+			Response.Redirect("/company/create?category=" + categoryIdVS);
 		}
 	}
 }
