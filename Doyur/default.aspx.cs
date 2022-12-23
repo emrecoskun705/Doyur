@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Doyur.extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,7 +14,12 @@ namespace Doyur
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+            {
+                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
+                IT.Session.Users.RemoveSessionMsg();
+            }
+            if (!IsPostBack)
             {
 
             }

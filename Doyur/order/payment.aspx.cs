@@ -94,28 +94,102 @@ namespace Doyur.order
 
         }
 
-        protected void payBtn_Click(object sender, EventArgs e)
+        private int getSelectedAddress()
         {
-            // if address is zero no address is selected
             int selectedAddress = 0;
 
-            foreach(GridViewRow row in gList.Rows)
+            foreach (GridViewRow row in gList.Rows)
             {
                 CheckBox cbox = row.FindControl("isChecked") as CheckBox;
-                if(cbox != null)
+                if (cbox != null && cbox.Checked)
                 {
-                    if(cbox.Checked)
+
+                    if (selectedAddress == 0)
                     {
-                        if(selectedAddress == 0)
-                        {
-                            selectedAddress = Convert.ToInt32(((HiddenField)row.FindControl("addressId")).Value);
-                        } else
-                        {
-                            // multiple address is selected so give an alert to user
-                        }
+                        selectedAddress = Convert.ToInt32(((HiddenField)row.FindControl("addressId")).Value);
                     }
+
                 }
             }
+
+            return selectedAddress;
+        }
+
+        private bool updateOrder(db.sp_GetOrCreateOrder_Result order, int selectedAddress)
+        {
+            db.Address getAddr = (from p in db.Address where p.AddressId == selectedAddress select p).FirstOrDefault();
+
+            if (getAddr != null)
+            {
+                db.Address newAddr = new db.Address()
+                {
+                    Name = getAddr.Name,
+                    AddressId = getAddr.AddressId,
+                    Description = getAddr.Description,
+                    UserId = getAddr.UserId,
+                    Town = getAddr.Town,
+                    District = getAddr.District,
+                    Type = 1,
+                    Phone = getAddr.Phone,
+                    IsActive = true,
+                };
+
+                db.Address.Add(newAddr);
+
+                if (db.SaveChanges() > 0)
+                {
+                    // success
+                    var success = db.sp_UpdateOrder
+                    (
+                    orderId: order.OrderId,
+                    isActive: false,
+                    isPaid: true,
+                    addressId: newAddr.AddressId,
+                    totalCost: 100,
+                    orderStatus: Types.Order.GetOrderStatus()[1].StatusId,
+                    productStatus: Types.OrderProduct.GetOrderPStatus()[1].StatusId,
+                    funcId: 0
+                    ).FirstOrDefault();
+
+                    if (success == null) return false;
+                    return true;
+                }
+                else
+                {
+                    // fail
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        protected void payBtn_Click(object sender, EventArgs e)
+        {
+            int userId = IT.Session.Users.UserId();
+            var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
+            if (order == null) return;
+
+            // if address is zero no address is selected
+            int selectedAddress = getSelectedAddress();
+
+            if(selectedAddress == 0)
+            {
+                GetOrder();
+                this.ShowMessage("Warning", "Lütfen 1 tane adres seçiniz");
+                return;
+            }
+
+
+            bool success = updateOrder(order, selectedAddress);
+            if (!success) 
+            {
+                IT.Session.Users.AddMessageSession("Warning", "Sipariş oluşturulurken bir hata meydana geldi.");
+                Response.Redirect(Request.RawUrl);
+            }
+
+            IT.Session.Users.AddMessageSession("Success", "Sipariş başarılı bir şekilde verildi");
+            Response.Redirect("/");
         }
     }
 }
