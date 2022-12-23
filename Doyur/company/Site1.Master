@@ -6,8 +6,9 @@
 <head runat="server">
     <title>Şirket</title>
     <link href="/css/site.css" rel="stylesheet" />
-    <script src="../js/alert.js"></script>
+    <script src="/js/alert.js"></script>
     <link href="/css/restaurantproduct.css" rel="stylesheet" />
+    <link href="/css/sidebar.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -57,9 +58,28 @@
                     <!-- <li style="float:right"><a href="user/default.aspx">Kullanıcı</a></li> -->
                 </ul>
             </div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
+            <div class="sidebar" style="margin-top:46px">
+              <a class="active" href="default.aspx">Ürünler</a>
+              <a href="/company/orders.aspx">Siparişler</a>
+            </div>
+            <div class="content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
         </div>
     </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = window.location;
+            $('.sidebar').find('.active').removeClass('active');
+            $('.sidebar a').each(function () {
+                if (this.href == url) {
+                    
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

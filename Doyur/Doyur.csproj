@@ -83,6 +83,7 @@
     <Content Include="company\create.aspx" />
     <Content Include="company\default.aspx" />
     <Content Include="company\edit.aspx" />
+    <Content Include="company\orders.aspx" />
     <Content Include="company\selectcategory.aspx" />
     <Content Include="contact.aspx" />
     <Content Include="css\chackbox.css" />
@@ -519,6 +520,13 @@
     <Compile Include="company\edit.aspx.designer.cs">
       <DependentUpon>edit.aspx</DependentUpon>
     </Compile>
+    <Compile Include="company\orders.aspx.cs">
+      <DependentUpon>orders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="company\orders.aspx.designer.cs">
+      <DependentUpon>orders.aspx</DependentUpon>
+    </Compile>
     <Compile Include="company\selectcategory.aspx.cs">
       <DependentUpon>selectcategory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -576,6 +584,9 @@
     <Compile Include="db\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="db\Split_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="db\sp_GetActiveOrderProductList_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -583,6 +594,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\sp_GetAddress_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetCompanyOP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\sp_GetFeatureCategory_Result.cs">
