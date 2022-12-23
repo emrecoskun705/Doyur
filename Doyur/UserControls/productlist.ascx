@@ -2,7 +2,7 @@
 <main class="grid">
     <asp:Repeater ID="Repeater1" runat="server">
         <ItemTemplate>
-        <a href="/product/default.aspx?id=<%# Eval("ProductId") %>"">
+        <a href="/product?id=<%# Eval("ProductId") %>"">
             <article>
                 <img src="/image/<%# Eval("ImageUrl") %>" />
                 <div class="text">

@@ -189,7 +189,7 @@
                                         <div class="pb-basket-item-wrapper">
                                             <div class="pb-basket-item">
                                                 <img width="50" src="../image/<%# Eval("ImageUrl") %>" style="margin-left: 10px;" />
-                                                <a href="/product/default.aspx?id=<%# Eval("ProductId") %>" style="margin-left: 10px;"  class="pb-basket-item-details"> <%#Eval("Name") %></a>
+                                                <a href="/product?id=<%# Eval("ProductId") %>" style="margin-left: 10px;"  class="pb-basket-item-details"> <%#Eval("Name") %></a>
                                                 <div class="pb-basket-item-actions">
                                                     <div class="numeric-counter">
                                                         <asp:Label CssClass="counter-content" ID="quantityId" runat="server" Text='<%# Eval("ProductQuantity") %>'></asp:Label>

@@ -183,7 +183,7 @@
                                             <div class="pb-basket-item">
                                                 <asp:CheckBox ID="CheckBox2" runat="server" />
                                                 <img width="50" src="../image/<%# Eval("ImageUrl") %>" style="margin-left: 10px;" />
-                                                <a href="/product/default.aspx?id=<%# Eval("ProductId") %>" style="margin-left: 10px;"  class="pb-basket-item-details"> <%#Eval("Name") %></a>
+                                                <a href="/product?id=<%# Eval("ProductId") %>" style="margin-left: 10px;"  class="pb-basket-item-details"> <%#Eval("Name") %></a>
                                                 <div class="pb-basket-item-actions">
                                                     <div class="numeric-counter">
                                                         <asp:Button Enabled='<%# Convert.ToInt32(Eval("ProductQuantity")) == 1 ? false : true %>' CssClass="numeric-counter-button" ID="decrementbtn" runat="server" Text="-"  OnClick="decrementbtn_Click"/>
@@ -226,7 +226,7 @@
                             <asp:TextBox  ID="TextBox1" runat="server"></asp:TextBox>
                         </div>
                     </div>
-                    <asp:HyperLink ID="HyperLink1" NavigateUrl="~/order/payment.aspx" runat="server" CssClass="btn" Width="100%"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff">Sepeti Onayla</asp:HyperLink>
+                    <asp:HyperLink ID="HyperLink1" NavigateUrl="~/order/payment" runat="server" CssClass="btn" Width="100%"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff">Sepeti Onayla</asp:HyperLink>
                 </div>
             </aside>
         </div>

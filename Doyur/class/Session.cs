@@ -215,7 +215,7 @@ namespace IT
             {
                 if (HttpContext.Current.Session["AccessId"] == null)
                 {
-                    HttpContext.Current.Response.Redirect("/login.aspx");
+                    HttpContext.Current.Response.Redirect("/login");
                 }
             }
 

@@ -3,5 +3,5 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cph1" runat="server">
      <h1>Bu sayfa kullanıcı bilgilerini içerecek</h1>
-        <a href="user.aspx">Kullanıcı Ayarları</a>
+        <a href="user">Kullanıcı Ayarları</a>
 </asp:Content>

@@ -68,12 +68,12 @@ namespace Doyur.admin
 			if (e.CommandName == "EditCategory")
 			{
 				int categoryId = Convert.ToInt32(e.CommandArgument);
-				Response.Redirect("/admin/categorylist.aspx?id=" + categoryId);
+				Response.Redirect("/admin/categorylist?id=" + categoryId);
 			}
 			else if(e.CommandName == "EditFeature")
 			{
 				int categoryId = Convert.ToInt32(e.CommandArgument);
-				Response.Redirect("/admin/categoryfeature.aspx?id=" + categoryId);
+				Response.Redirect("/admin/categoryfeature?id=" + categoryId);
 			}
 		}
 

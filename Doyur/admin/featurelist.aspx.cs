@@ -35,7 +35,7 @@ namespace Doyur.admin
 			if (e.CommandName == "EditFeature")
 			{
 				int productId = Convert.ToInt32(e.CommandArgument);
-				Response.Redirect("/admin/featureedit.aspx?id=" + productId);
+				Response.Redirect("/admin/featureedit?id=" + productId);
 
 			}
 			else if (e.CommandName == "DeleteFeature")

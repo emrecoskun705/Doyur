@@ -9,7 +9,7 @@
         <div id="alert-message"></div>
         <div class="box-in">
             <div class="divr">
-                <asp:HyperLink CssClass="btn-xs platin-b" NavigateUrl="~/company/selectcategory.aspx" ID="addrLink" runat="server">Ürün Ekle</asp:HyperLink>
+                <asp:HyperLink CssClass="btn-xs platin-b" NavigateUrl="/company/selectcategory" ID="addrLink" runat="server">Ürün Ekle</asp:HyperLink>
             </div>
             <br />
             <asp:GridView ID="gList" runat="server" AutoGenerateColumns="False" CssClass="mGrid" OnRowCommand="gList_RowCommand">

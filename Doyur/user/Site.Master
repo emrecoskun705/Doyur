@@ -18,20 +18,20 @@
         <div>
             <div class="my-navbar">
                 <ul>
-                    <li><a class="" href="/default.aspx">Anasayfa</a></li>
+                    <li><a class="" href="/">Anasayfa</a></li>
                     <%
                     if(IT.Session.Users.UserId() == 0)
                     {
 
                     %>
-                        <li style="float:right"><a href="/login.aspx">Giriş</a></li>
-                        <li style="float:right"><a href="/register.aspx">Kayıt Ol</a></li>
+                        <li style="float:right"><a href="/login">Giriş</a></li>
+                        <li style="float:right"><a href="/register">Kayıt Ol</a></li>
                     <%
                     } else
                     {
                     %>
-                    <li style="float:right"><a href="/logout.aspx">Çıkış Yap</a></li>
-                    <li style="float:right"><a href="/user/default.aspx">Kullanıcı</a></li>
+                    <li style="float:right"><a href="/logout">Çıkış Yap</a></li>
+                    <li style="float:right"><a href="/user/">Kullanıcı</a></li>
                     <%
                         }
                     %>
@@ -40,7 +40,7 @@
                     if (IT.Session.Users.AccessId() == 2)
                     { 
                     %>
-                    <li style="float:right"><a href="/order/default.aspx">
+                    <li style="float:right"><a href="/order/">
                         <img src="/image/icons8-shopping-basket-16%20(1).png" /> </a></li>
                     <%  
                     } 
@@ -51,7 +51,7 @@
                     if (IT.Session.Users.AccessId() == 3)
                     { 
                     %>
-                    <li style="float:right"><a href="/company/default.aspx">Şirket Paneli</a></li>
+                    <li style="float:right"><a href="/company/">Şirket Paneli</a></li>
                     <%  
                     } 
                     %>
@@ -60,7 +60,7 @@
                     if (IT.Session.Users.AccessId() == 255)
                     { 
                     %>
-                    <li style="float:right"><a href="/admin/default.aspx">Admin Paneli</a></li>
+                    <li style="float:right"><a href="/admin/">Admin Paneli</a></li>
                     <%  
                     } 
                     %>
@@ -71,13 +71,13 @@
                 <div id="alert-message"></div>
             </div>
             <div class="sidebar" style="margin-top:46px">
-              <a class="active" href="default.aspx">Home</a>
-              <a href="user.aspx">Kullanıcı Bilgileri</a>
+              <a class="active" href="/user/">Home</a>
+              <a href="user">Kullanıcı Bilgileri</a>
                 <% 
                 if (IT.Session.Users.AccessId() == 2)
                 { 
                 %>
-                <a href="addresslist.aspx">Adres Bilgileri</a>
+                <a href="addresslist">Adres Bilgileri</a>
                 <%  
                 } 
                 %>

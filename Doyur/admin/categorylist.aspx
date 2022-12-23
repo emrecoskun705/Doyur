@@ -16,7 +16,7 @@
                                 <a href="/admin/categorylist.aspx">Başlangıç</a> >
                                 <asp:Repeater ID="pathRepeater" runat="server">
                                     <ItemTemplate>
-                                        <a href="/admin/categorylist.aspx?id=<%# Eval("CategoryId") %>"><%# Eval("Name") %></a> >
+                                        <a href="/admin/categorylist?id=<%# Eval("CategoryId") %>"><%# Eval("Name") %></a> >
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </td>
