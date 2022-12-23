@@ -16,6 +16,11 @@ namespace Doyur.order
 
         public decimal TotalPrice { get; set; }
 
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            IT.Session.Users.UserIsNotLoginRedirect();
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
@@ -94,6 +99,7 @@ namespace Doyur.order
 
         }
 
+
         private int getSelectedAddress()
         {
             int selectedAddress = 0;
@@ -107,6 +113,9 @@ namespace Doyur.order
                     if (selectedAddress == 0)
                     {
                         selectedAddress = Convert.ToInt32(((HiddenField)row.FindControl("addressId")).Value);
+                    } else if(selectedAddress != 0)
+                    {
+                        return 0;
                     }
 
                 }
