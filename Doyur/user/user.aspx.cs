@@ -67,17 +67,17 @@ namespace Doyur.user
 						    getUser.Name,
 						    getUser.Phone,
 						    getUser.Mail);
-                        this.ShowMessage("Success", "Kullanıcı başarıyla güncellendi");
+                        this.ShowMessage("success", "Kullanıcı başarıyla güncellendi", "Başarılı");
 
 					} else
                     {
-						this.ShowMessage("Danger", "Kullanıcı güncellenemedi");
+						this.ShowMessage("error", "Kullanıcı güncellenemedi", "Hata");
 					}
 				} 
                 catch(Exception)
                 {
 					//handle exception
-					this.ShowMessage("Danger", "Kayıt aşamasında bir hata oluştu!");
+					this.ShowMessage("error", "Kayıt aşamasında bir hata oluştu!", "Sunucu hatası");
                     throw;
 				}
                     

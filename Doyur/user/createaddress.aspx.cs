@@ -27,10 +27,10 @@ namespace Doyur.user
 			if(createAddress != null && createAddress > 0)
 			{
 				//address creation is successfull
-				this.ShowMessage("Success", "Adres başarıyla eklendi");
+				this.ShowMessage("success", "Adres başarıyla eklendi", "Başarılı");
 			} else
 			{
-				this.ShowMessage("Warning", "Adres eklenemedi, en fazla 5 adrese sahip olabilirsiniz.");
+				this.ShowMessage("warning", "Adres eklenemedi, en fazla 5 adrese sahip olabilirsiniz.", "Hata");
 			}
         }
     }

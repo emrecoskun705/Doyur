@@ -11,9 +11,9 @@ namespace Doyur.extensions
 {
 	public static class AlertExtension
 	{
-		public static void ShowMessage(this System.Web.UI.Page obj, string type, string message)
+		public static void ShowMessage(this System.Web.UI.Page obj, string type, string message, string msgTitle)
 		{
-			ScriptManager.RegisterStartupScript(obj, obj.GetType(), System.Guid.NewGuid().ToString(), "SendAlert('" + type + "','" + message + "');", true);
+			ScriptManager.RegisterStartupScript(obj, obj.GetType(), System.Guid.NewGuid().ToString(), "Swal.fire('" + msgTitle + "', " +  "'" + message + "', '" +  type + "');", true);
 
 		}
 

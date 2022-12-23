@@ -113,10 +113,10 @@ namespace Doyur.company
 						}
 
 					}
-					this.ShowMessage("Success", "Ürün başarıyla kaydedildi");
+					this.ShowMessage("success", "Ürün başarıyla kaydedildi", "Başarılı");
                 } else
 				{
-					this.ShowMessage("Warning", "Ürün kaydedilemedi");
+					this.ShowMessage("warning", "Ürün kaydedilemedi", "Hata");
 				}
             }
             // update photo if file selected
@@ -137,10 +137,10 @@ namespace Doyur.company
 						}
 
 					}
-					this.ShowMessage("Success", "Ürün başarıyla kaydedildi");
+					this.ShowMessage("success", "Ürün başarıyla kaydedildi", "Başarılı");
 				} else
 				{
-					this.ShowMessage("Warning", "Ürün kaydedilemedi");
+					this.ShowMessage("warning", "Ürün kaydedilemedi", "Hata");
 				}
 			}
 

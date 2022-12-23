@@ -16,13 +16,13 @@ namespace Doyur.admin
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			if(!IsPostBack)
+            if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+            {
+                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg(), IT.Session.Users.MsgTitle());
+                IT.Session.Users.RemoveSessionMsg();
+            }
+            if (!IsPostBack)
 			{
-				if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
-				{
-					this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
-					IT.Session.Users.RemoveSessionMsg();
-				}
 				LoadData();
 			}
 		}
@@ -68,12 +68,12 @@ namespace Doyur.admin
 				{
 					// success
 					var getParentId = Convert.ToInt32(Request.QueryString["id"]);
-					IT.Session.Users.AddMessageSession("Success", "İç özellik başarıyla silindi");
+					IT.Session.Users.AddMessageSession("Success", "İç özellik başarıyla silindi", "Başarılı");
 					Response.Redirect("/admin/featureedit.aspx?id=" + getParentId);
 				} else
 				{
 					// fail
-					this.ShowMessage("Warning", "İç özellik silinemedi");
+					this.ShowMessage("Warning", "İç özellik silinemedi", "Hata");
 				}
 
 
@@ -95,13 +95,13 @@ namespace Doyur.admin
 			if(db.SaveChanges() > 0)
 			{
 				// success
-				IT.Session.Users.AddMessageSession("Success", "İç özellik başarıyla eklendi");
+				IT.Session.Users.AddMessageSession("Success", "İç özellik başarıyla eklendi", "Başarılı");
 				Response.Redirect("/admin/featureedit.aspx?id=" + getParentId);
 			}
 			else
 			{
 				// fail
-				this.ShowMessage("Warning", "İç özellik eklenemedi");
+				this.ShowMessage("Warning", "İç özellik eklenemedi", "Hata");
 			}
 		}
     }

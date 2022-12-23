@@ -54,18 +54,19 @@ namespace IT
                 HttpContext.Current.Session.Add("Email", Email);
             }
 
-            public static void AddMessageSession(string type, string msg)
+            public static void AddMessageSession(string type, string msg, string msgTitle)
             {
 				HttpContext.Current.Session.Add("msgType", type);
 				HttpContext.Current.Session.Add("msg", msg);
+				HttpContext.Current.Session.Add("msgTitle", msgTitle);
 			}
 
 			public static void RemoveSessionMsg()
 			{
 				HttpContext.Current.Session.Remove("msgType");
 				HttpContext.Current.Session.Remove("msg");
-
-			}
+                HttpContext.Current.Session.Remove("msgTitle");
+            }
 
 
 			public static void RevomeSessionList()
@@ -105,7 +106,13 @@ namespace IT
             }
 
 
-
+            public static string MsgTitle()
+            {
+                if (HttpContext.Current.Session["msgTitle"] == null)
+                    return "";
+                else
+                    return HttpContext.Current.Session["msgTitle"].ToString();
+            }
             public static string MsgType()
             {
 				if (HttpContext.Current.Session["msgType"] == null)

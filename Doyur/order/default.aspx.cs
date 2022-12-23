@@ -26,7 +26,7 @@ namespace Doyur.order
 		{
             if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
             {
-                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
+                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg(), IT.Session.Users.MsgTitle());
                 IT.Session.Users.RemoveSessionMsg();
             }
 
@@ -94,17 +94,17 @@ namespace Doyur.order
 				var removeP = db.sp_DeleteOProduct(order.OrderId, productId).FirstOrDefault();
 				if(removeP!= null && removeP > 0)
 				{
-					IT.Session.Users.AddMessageSession("Success", "Ürün başarılı bir şekilde sepetten çıkarıldı");
+					IT.Session.Users.AddMessageSession("success", "Ürün başarılı bir şekilde sepetten çıkarıldı", "Başarılı");
 					Response.Redirect(Request.RawUrl);
 				} 
 				else
 				{
-                    IT.Session.Users.AddMessageSession("Warning", "Ürün sepetten çıkarılırken hata oluştu");
+                    IT.Session.Users.AddMessageSession("warning", "Ürün sepetten çıkarılırken hata oluştu", "Hata");
                     Response.Redirect(Request.RawUrl);
                 }
 			} else
 			{
-                IT.Session.Users.AddMessageSession("Error", "Ürün bulunamadı");
+                IT.Session.Users.AddMessageSession("error", "Ürün bulunamadı", "Hata");
                 Response.Redirect(Request.RawUrl);
             }
 		}

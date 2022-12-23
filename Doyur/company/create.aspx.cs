@@ -121,10 +121,10 @@ namespace Doyur.company
                         }
                     }
 
-                    this.ShowMessage("Success", "Ürün başarıyla kaydedildi.");
+                    this.ShowMessage("Success", "Ürün başarıyla kaydedildi.", "Başarılı");
                 } else
                 {
-                    this.ShowMessage("Warning", "Üürn kaydedilirken bir hata meydana geldi.");
+                    this.ShowMessage("Warning", "Ürün kaydedilirken bir hata meydana geldi.", "Hata");
                 }
 
             }

@@ -83,17 +83,17 @@ namespace Doyur.order
                     db.Address.Remove(getAddress);
                     if (db.SaveChanges() > 0)
                     {
-                        this.ShowMessage("Success", "Adres başarıyla silindi");
+                        this.ShowMessage("success", "Adres başarıyla silindi", "Başarılı");
                         LoadAddress();
                     }
                     else
                     {
-                        this.ShowMessage("Warning", "Adres silinirken bir hata oluştu");
+                        this.ShowMessage("warning", "Adres silinirken bir hata oluştu", "Hata");
                     }
                 }
                 else
                 {
-                    this.ShowMessage("Warning", "Adres bulunamadı");
+                    this.ShowMessage("warning", "Adres bulunamadı", "Hata");
                 }
             }
 
@@ -186,7 +186,7 @@ namespace Doyur.order
             if(selectedAddress == 0)
             {
                 GetOrder();
-                this.ShowMessage("Warning", "Lütfen 1 tane adres seçiniz");
+                this.ShowMessage("warning", "Lütfen 1 tane adres seçiniz", "Hata");
                 return;
             }
 
@@ -194,11 +194,11 @@ namespace Doyur.order
             bool success = updateOrder(order, selectedAddress);
             if (!success) 
             {
-                IT.Session.Users.AddMessageSession("Warning", "Sipariş oluşturulurken bir hata meydana geldi.");
+                IT.Session.Users.AddMessageSession("warning", "Sipariş oluşturulurken bir hata meydana geldi.", "Hata");
                 Response.Redirect(Request.RawUrl);
             }
 
-            IT.Session.Users.AddMessageSession("Success", "Sipariş başarılı bir şekilde verildi");
+            IT.Session.Users.AddMessageSession("success", "Sipariş başarılı bir şekilde verildi", "Başarılı");
             Response.Redirect("/");
         }
     }

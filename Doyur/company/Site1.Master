@@ -6,7 +6,8 @@
 <head runat="server">
     <title>Şirket</title>
     <link href="/css/site.css" rel="stylesheet" />
-    <script src="/js/alert.js"></script>
+    <script src="/js/sweetalert2.all.min.js"></script>
+    <link href="/css/sweetalert2.min.css" rel="stylesheet" />
     <link href="/css/restaurantproduct.css" rel="stylesheet" />
     <link href="/css/sidebar.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>

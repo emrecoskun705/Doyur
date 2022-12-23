@@ -62,10 +62,10 @@ namespace Doyur.user
 			if(db.SaveChanges() > 0)
 			{
 				BindAddressData();
-				this.ShowMessage("Success", "Adres başarıyla güncellendi");
+				this.ShowMessage("success", "Adres başarıyla güncellendi", "Başarılı");
 			} else
 			{
-				this.ShowMessage("Warning", "Adres güncellenemedi.");
+				this.ShowMessage("warning", "Adres güncellenemedi.", "Hata");
 			}
         }
 

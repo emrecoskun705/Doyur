@@ -83,6 +83,7 @@
     <Content Include="company\create.aspx" />
     <Content Include="company\default.aspx" />
     <Content Include="company\edit.aspx" />
+    <Content Include="company\orderdetail.aspx" />
     <Content Include="company\orders.aspx" />
     <Content Include="company\selectcategory.aspx" />
     <Content Include="contact.aspx" />
@@ -91,6 +92,7 @@
     <Content Include="css\product.css" />
     <Content Include="css\restaurantproduct.css" />
     <Content Include="css\site.css" />
+    <Content Include="css\sweetalert2.min.css" />
     <Content Include="db\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -440,6 +442,7 @@
     <Content Include="js\ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="js\ckeditor\styles.js" />
     <Content Include="js\ckeditor\vendor\promise.js" />
+    <Content Include="js\sweetalert2.all.min.js" />
     <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="order\default.aspx" />
@@ -519,6 +522,13 @@
     </Compile>
     <Compile Include="company\edit.aspx.designer.cs">
       <DependentUpon>edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="company\orderdetail.aspx.cs">
+      <DependentUpon>orderdetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="company\orderdetail.aspx.designer.cs">
+      <DependentUpon>orderdetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="company\orders.aspx.cs">
       <DependentUpon>orders.aspx</DependentUpon>
@@ -609,6 +619,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\sp_GetOrCreateOrder_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\sp_GetOrderDetail_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="db\sp_GetOrderProducts_Result.cs">

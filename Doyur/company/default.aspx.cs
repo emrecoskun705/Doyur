@@ -57,17 +57,17 @@ namespace Doyur.company
                     db.Product.Remove(getProduct);
                     if (db.SaveChanges() > 0)
                     {
-                        this.ShowMessage("Success", "Ürün başarıyla silindi");
+                        this.ShowMessage("success", "Ürün başarıyla silindi", "Başarılı");
                         LoadProducts();
                     }
                     else
                     {
-                        this.ShowMessage("Warning", "Ürün silinirken bir hata oluştu");
+                        this.ShowMessage("warning", "Ürün silinirken bir hata oluştu", "Hata");
                     }
                 }
                 else
                 {
-                    this.ShowMessage("Warning", "Ürün bulunamadı");
+                    this.ShowMessage("warning", "Ürün bulunamadı", "Hata");
                 }
             }
         }

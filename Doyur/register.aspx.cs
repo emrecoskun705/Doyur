@@ -53,15 +53,15 @@ namespace Doyur
                 int count = db.SaveChanges();
                 if(count > 0)
                 {
-                    IT.Session.Users.AddMessageSession("Success", "Kaydınız başarılı bir şekilde oluşturuldu, lütfen devam etmek için giriş yapınız");
+                    IT.Session.Users.AddMessageSession("success", "Kaydınız başarılı bir şekilde oluşturuldu, lütfen devam etmek için giriş yapınız", "Başarılı");
                     Response.Redirect("/login.aspx");
                 } else
                 {
-					this.ShowMessage("Danger", "Kaydetmede bir hata oluştu lütfen tekrar deneyiniz");
+					this.ShowMessage("error", "Kaydetmede bir hata oluştu lütfen tekrar deneyiniz", "Sunucu Hatası");
 				}
 			} else
             {
-				this.ShowMessage("Warning", "Lütfen bilgilerinizi değiştirip tekrar deneyiniz");
+				this.ShowMessage("warning", "Lütfen bilgilerinizi değiştirip tekrar deneyiniz", "Hata");
 			}
 
 

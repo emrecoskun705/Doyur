@@ -87,8 +87,8 @@ namespace Doyur.company
 			{
 				createBtn.Visible = true;
 				categoryIdVS = Convert.ToString(categoryId);
-				this.ShowMessage("Success", "Katogeri seçimi tamanlandı lütfen devam butonuna basınız");
-				this.ShowMessage("Info", "Seçilen kategori: " + ((Label)child.FindControl("cName")).Text);
+				this.ShowMessage("success", "Katogeri seçimi tamanlandı lütfen devam butonuna basınız", "Başarılı");
+				this.ShowMessage("info", "Seçilen kategori: " + ((Label)child.FindControl("cName")).Text, "Bilgi");
 			} 
 			else
 			{

@@ -18,13 +18,14 @@ namespace Doyur.admin
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			if(!IsPostBack)
+            if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+            {
+                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg(), IT.Session.Users.MsgTitle());
+                IT.Session.Users.RemoveSessionMsg();
+            }
+
+            if (!IsPostBack)
 			{
-                if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
-                {
-                    this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
-                    IT.Session.Users.RemoveSessionMsg();
-                }
                 LoadData();
 			}
 		}
@@ -91,7 +92,7 @@ namespace Doyur.admin
 					var addFtr = db.sp_AddFeatureCtg(categoryId, ftr);
 				}
 
-				IT.Session.Users.AddMessageSession("Success", "Özellikler başarıyla kaydedildi.");
+				IT.Session.Users.AddMessageSession("success", "Özellikler başarıyla kaydedildi.", "Başarılı");
 				Response.Redirect(Request.RawUrl);
 			}
 

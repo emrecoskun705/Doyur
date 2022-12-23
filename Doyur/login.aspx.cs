@@ -15,14 +15,14 @@ namespace Doyur
         protected void Page_Load(object sender, EventArgs e)
         {
 
-			//select * from abc where users ...... blaa
-			if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
-			{
-                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
+            //select * from abc where users ...... blaa
+            if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+            {
+                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg(), IT.Session.Users.MsgTitle());
                 IT.Session.Users.RemoveSessionMsg();
-			}
+            }
 
-		}
+        }
         protected void LoginButton_Click(object sender, EventArgs e)
         {
             var getUser = (from p in db.Users where p.Mail == mail.Text.Trim() && p.Password == password.Text.Trim() && p.IsActive == true select p).FirstOrDefault();
@@ -44,7 +44,7 @@ namespace Doyur
 
                     
 
-                    IT.Session.Users.AddMessageSession("Success", "Başarıyla giriş yapıldı");
+                    IT.Session.Users.AddMessageSession("success", "Başarıyla giriş yapıldı", "Başarılı");
                     
 					Response.Redirect("user/default.aspx");
 
@@ -66,7 +66,7 @@ namespace Doyur
 							getUser.Mail,
                             getCompany.CompanyId);
 
-                        IT.Session.Users.AddMessageSession("Success", "Başarıyla şirket hesabına giriş yapıldı");
+                        IT.Session.Users.AddMessageSession("success", "Başarıyla şirket hesabına giriş yapıldı", "Başarılı");
                         Response.Redirect("/user/");
 
 					}
@@ -74,14 +74,14 @@ namespace Doyur
 				}
                 else
                 {
-					IT.Session.Users.AddMessageSession("Warning", "Hesap yetkileri kısıtlandırıldı.");
+					IT.Session.Users.AddMessageSession("warning", "Hesap yetkileri kısıtlandırıldı.", "Hata");
 					Response.Redirect("/login.aspx");
                 }
 
             } else
             {
 				// Reirect same page
-				IT.Session.Users.AddMessageSession("Warning", "Hesap bilgilerinizi kontrol ediniz.");
+				IT.Session.Users.AddMessageSession("warning", "Hesap bilgilerinizi kontrol ediniz.", "Hata");
 				Response.Redirect("/login.aspx");
             }
 

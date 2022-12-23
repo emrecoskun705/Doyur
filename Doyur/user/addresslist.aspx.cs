@@ -57,15 +57,15 @@ namespace Doyur.user
 					db.Address.Remove(getAddress);
 					if(db.SaveChanges() > 0)
 					{
-						this.ShowMessage("Success", "Adres başarıyla silindi");
+						this.ShowMessage("success", "Adres başarıyla silindi", "Başarılı");
 						LoadAddress();
 					} else
 					{
-						this.ShowMessage("Warning", "Adres silinirken bir hata oluştu");
+						this.ShowMessage("warning", "Adres silinirken bir hata oluştu", "Hata");
 					}
 				} else
 				{
-					this.ShowMessage("Warning", "Adres bulunamadı");
+					this.ShowMessage("warning", "Adres bulunamadı", "Hata");
 				}
 			}
 

@@ -24,13 +24,13 @@ namespace Doyur.product
 
         protected void Page_Load(object sender, EventArgs e)
         {
-			if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
-			{
-				this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg());
-				IT.Session.Users.RemoveSessionMsg();
-			}
+            if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+            {
+                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg(), IT.Session.Users.MsgTitle());
+                IT.Session.Users.RemoveSessionMsg();
+            }
 
-                LoadData();
+            LoadData();
 
         }
 
@@ -105,7 +105,7 @@ namespace Doyur.product
             // if user is not logged in dont add product show alert for logging in
             if(userId == 0)
             {
-                this.ShowMessage("Warning", "Sepete ürün eklemek için lütfen giriş yapınız");
+                this.ShowMessage("warning", "Sepete ürün eklemek için lütfen giriş yapınız", "Hata");
                 return;
             }
 
@@ -119,16 +119,16 @@ namespace Doyur.product
                 var addProduct = db.sp_AddProductToOrder(productId, getOrCreateOrdr.OrderId, 1).FirstOrDefault();
                 if (addProduct != null && addProduct > 0) 
                 {
-                    IT.Session.Users.AddMessageSession("Success", "Ürün sepete başarıyla eklendi");
+                    IT.Session.Users.AddMessageSession("success", "Ürün sepete başarıyla eklendi", "Başarılı");
                 } 
                 else
                 {
-					IT.Session.Users.AddMessageSession("Warning", "Ürün zaten sepete eklendi");
+					IT.Session.Users.AddMessageSession("warning", "Ürün zaten sepete eklendi", "Hata");
 				}
             } 
             else
             {
-				IT.Session.Users.AddMessageSession("Danger", "Ürüne veya siparişe ulaşılamıyor");
+				IT.Session.Users.AddMessageSession("error", "Ürüne veya siparişe ulaşılamıyor", "Hata");
 			}
 
             Response.Redirect(Request.RawUrl);
