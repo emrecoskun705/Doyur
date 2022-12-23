@@ -23,7 +23,14 @@
                             <h3> Son <%= Product.Stock %> ürün</h3><br /><br /><br />
                             <h2 style="font-size: 25px; font-weight: bold;"><%= Product.Price.ToString("#.##") %> TL</h2>
                             <br /><br /><br /><hr /><br /><br />
+                            <% 
+                            if (IT.Session.Users.AccessId() == 2)
+                            { 
+                            %>
                             <asp:Button ID="orderBtn" runat="server" OnClick="orderBtn_Click" Width="100%" Text="Sepete Ekle" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />
+                            <%  
+                            } 
+                            %>
                         </div>
                     </div>
                 </div>
@@ -63,31 +70,4 @@
 
     </main>
 
-<%--        <div class="row r-product">
-            <div class="col">
-                <img src="/image/<%= Product.ImageUrl %>"/>
-            </div>
-            <div class="col">
-                <h2><%= Product.Name %></h2>
-            </div>
-            <div class="col">
-                <div class="row">
-                    <div class="col"></div>
-                    <div class="col text-right"><%= Product.Price %>TL</div>
-                </div>
-                <div class="row">
-                    <div class="col"></div>
-                    <div class="col text-right align-bottom">
-                        <asp:Button ID="addOrderBtn" runat="server" Text="Ekle" 
-                        BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" 
-                        ForeColor="#ffffff" cssClass="btn"
-                        CommandName="AddToOrderCmnd" 
-                        CommandArgument='<%= Product.ProductId%>' 
-                        />
-
-                    </div>
-                </div>
-            </div>
-            
-        </div>--%>
 </asp:Content>
