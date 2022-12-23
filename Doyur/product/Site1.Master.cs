@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Doyur.extensions;
 
 namespace Doyur.product
 {
@@ -11,7 +12,11 @@ namespace Doyur.product
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-        }
+			if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
+			{
+				this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg(), IT.Session.Users.MsgTitle());
+				IT.Session.Users.RemoveSessionMsg();
+			}
+		}
     }
 }

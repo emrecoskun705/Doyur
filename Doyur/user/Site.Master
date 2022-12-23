@@ -73,7 +73,15 @@
             <div class="sidebar" style="margin-top:46px">
               <a class="active" href="default.aspx">Home</a>
               <a href="user.aspx">Kullanıcı Bilgileri</a>
-              <a href="addresslist.aspx">Adres Bilgileri</a>
+                <% 
+                if (IT.Session.Users.AccessId() == 2)
+                { 
+                %>
+                <a href="addresslist.aspx">Adres Bilgileri</a>
+                <%  
+                } 
+                %>
+              
             </div>
             
             <div class="content">

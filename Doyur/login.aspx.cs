@@ -16,11 +16,6 @@ namespace Doyur
         {
 
             //select * from abc where users ...... blaa
-            if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
-            {
-                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg(), IT.Session.Users.MsgTitle());
-                IT.Session.Users.RemoveSessionMsg();
-            }
 
         }
         protected void LoginButton_Click(object sender, EventArgs e)
@@ -46,7 +41,7 @@ namespace Doyur
 
                     IT.Session.Users.AddMessageSession("success", "Başarıyla giriş yapıldı", "Başarılı");
                     
-					Response.Redirect("user/default.aspx");
+					Response.Redirect("/");
 
 					
                 } 
@@ -67,7 +62,7 @@ namespace Doyur
                             getCompany.CompanyId);
 
                         IT.Session.Users.AddMessageSession("success", "Başarıyla şirket hesabına giriş yapıldı", "Başarılı");
-                        Response.Redirect("/user/");
+                        Response.Redirect("/company/");
 
 					}
 

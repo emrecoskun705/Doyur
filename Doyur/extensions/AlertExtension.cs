@@ -14,7 +14,11 @@ namespace Doyur.extensions
 		public static void ShowMessage(this System.Web.UI.Page obj, string type, string message, string msgTitle)
 		{
 			ScriptManager.RegisterStartupScript(obj, obj.GetType(), System.Guid.NewGuid().ToString(), "Swal.fire('" + msgTitle + "', " +  "'" + message + "', '" +  type + "');", true);
+		}
 
+		public static void ShowMessage(this System.Web.UI.MasterPage obj, string type, string message, string msgTitle)
+		{
+			ScriptManager.RegisterStartupScript(obj, obj.GetType(), System.Guid.NewGuid().ToString(), "Swal.fire('" + msgTitle + "', " + "'" + message + "', '" + type + "');", true);
 		}
 
 		public static string Shorten(this string name, int chars)

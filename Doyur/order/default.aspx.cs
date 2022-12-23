@@ -24,12 +24,6 @@ namespace Doyur.order
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-            if (IT.Session.Users.MsgType() != "" && IT.Session.Users.Msg() != "")
-            {
-                this.ShowMessage(IT.Session.Users.MsgType(), IT.Session.Users.Msg(), IT.Session.Users.MsgTitle());
-                IT.Session.Users.RemoveSessionMsg();
-            }
-
             if (!IsPostBack)
 			{
 				GetOrder();
