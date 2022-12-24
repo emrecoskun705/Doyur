@@ -20,18 +20,23 @@ namespace Doyur.user
 
         protected void SaveBtn_Click(object sender, EventArgs e)
         {
-			int userId = IT.Session.Users.UserId();
-
-			var createAddress = db.sp_CreateAddress(userId, aName.Text.Trim(), aTown.Text.Trim(), aDistrict.Text.Trim(), aDescription.Text.Trim(), phone.Text.Trim(), IsActive.Checked, (decimal)24.2, (decimal)24.2).FirstOrDefault();
-
-			if(createAddress != null && createAddress > 0)
+			if(Page.IsValid)
 			{
-				//address creation is successfull
-				this.ShowMessage("success", "Adres başarıyla eklendi", "Başarılı");
-			} else
-			{
-				this.ShowMessage("warning", "Adres eklenemedi, en fazla 5 adrese sahip olabilirsiniz.", "Hata");
+				int userId = IT.Session.Users.UserId();
+
+				var createAddress = db.sp_CreateAddress(userId, aName.Text.Trim(), aTown.Text.Trim(), aDistrict.Text.Trim(), aDescription.Text.Trim(), phone.Text.Trim(), IsActive.Checked, (decimal)24.2, (decimal)24.2).FirstOrDefault();
+
+				if (createAddress != null && createAddress > 0)
+				{
+					//address creation is successfull
+					this.ShowMessage("success", "Adres başarıyla eklendi", "Başarılı");
+				}
+				else
+				{
+					this.ShowMessage("warning", "Adres eklenemedi, en fazla 5 adrese sahip olabilirsiniz.", "Hata");
+				}
 			}
+
         }
     }
 }

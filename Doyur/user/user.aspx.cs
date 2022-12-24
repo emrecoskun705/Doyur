@@ -37,53 +37,56 @@ namespace Doyur.user
 
         protected void UpdateButton_Click(object sender, EventArgs e)
         {
-            int id = IT.Session.Users.UserId();
-			var getUser = (from p in db.Users where p.UserId == id select p).First();
 
-			if ( getUser != null )
-            {
-                getUser.Name = username.Text.Trim();
-                getUser.Mail = mail.Text.Trim();
-                getUser.Firstname = firstname.Text.Trim();
-                getUser.Lastname = lastname.Text.Trim();
-                getUser.Phone = phone.Text.Trim();
+			if(Page.IsValid)
+			{
+				int id = IT.Session.Users.UserId();
+				var getUser = (from p in db.Users where p.UserId == id select p).First();
 
-                if(!password.Text.Trim().Equals(""))
-                {
-                    getUser.Password = password.Text.Trim();
-                }
+				if (getUser != null)
+				{
+					getUser.Name = username.Text.Trim();
+					getUser.Firstname = firstname.Text.Trim();
+					getUser.Lastname = lastname.Text.Trim();
+					getUser.Phone = phone.Text.Trim();
 
-                try
-                {
-					int count = db.SaveChanges();
-                    if (count > 0)
-                    {
-						// update session
-						IT.Session.Users.AddLoginSessionList(
-						    getUser.UserId,
-						    2,
-						    getUser.Firstname,
-						    getUser.Lastname,
-						    getUser.Name,
-						    getUser.Phone,
-						    getUser.Mail);
-                        this.ShowMessage("success", "Kullanıcı başarıyla güncellendi", "Başarılı");
-
-					} else
-                    {
-						this.ShowMessage("error", "Kullanıcı güncellenemedi", "Hata");
+					if (!password.Text.Trim().Equals(""))
+					{
+						getUser.Password = password.Text.Trim();
 					}
-				} 
-                catch(Exception)
-                {
-					//handle exception
-					this.ShowMessage("error", "Kayıt aşamasında bir hata oluştu!", "Sunucu hatası");
-                    throw;
-				}
-                    
 
-            }
-            
+					try
+					{
+						int count = db.SaveChanges();
+						if (count > 0)
+						{
+							// update session
+							IT.Session.Users.AddLoginSessionList(
+								getUser.UserId,
+								2,
+								getUser.Firstname,
+								getUser.Lastname,
+								getUser.Name,
+								getUser.Phone,
+								getUser.Mail);
+							this.ShowMessage("success", "Kullanıcı başarıyla güncellendi", "Başarılı");
+
+						}
+						else
+						{
+							this.ShowMessage("error", "Kullanıcı güncellenemedi", "Hata");
+						}
+					}
+					catch (Exception)
+					{
+						//handle exception
+						this.ShowMessage("error", "Kayıt aşamasında bir hata oluştu!", "Sunucu hatası");
+						throw;
+					}
+
+
+				}
+			}            
 
         }
 	}

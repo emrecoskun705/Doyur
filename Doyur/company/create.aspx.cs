@@ -63,71 +63,75 @@ namespace Doyur.company
         protected void SaveBtn_Click(object sender, EventArgs e)
         {
 
-            List<int> checkedFeatures = new List<int>();
-            foreach(RepeaterItem item in parentR.Items)
+            if(Page.IsValid)
             {
-                if (item.ItemType == ListItemType.AlternatingItem || item.ItemType == ListItemType.Item)
-                {
-                    Repeater childR = item.FindControl("childR") as Repeater;
-                    foreach(RepeaterItem childitem in childR.Items)
-                    {
-                        CheckBox check = childitem.FindControl("cBoxId") as CheckBox;
-                        if (check != null && check.Checked)
-                        {
-                            int checkedId = Convert.ToInt32((childitem.FindControl("hdnId") as HiddenField).Value);
-                            checkedFeatures.Add(checkedId);
-                        }
-                    }
-                }
-            }
+				List<int> checkedFeatures = new List<int>();
+				foreach (RepeaterItem item in parentR.Items)
+				{
+					if (item.ItemType == ListItemType.AlternatingItem || item.ItemType == ListItemType.Item)
+					{
+						Repeater childR = item.FindControl("childR") as Repeater;
+						foreach (RepeaterItem childitem in childR.Items)
+						{
+							CheckBox check = childitem.FindControl("cBoxId") as CheckBox;
+							if (check != null && check.Checked)
+							{
+								int checkedId = Convert.ToInt32((childitem.FindControl("hdnId") as HiddenField).Value);
+								checkedFeatures.Add(checkedId);
+							}
+						}
+					}
+				}
 
-            string savedName = SaveImg();
-            if(savedName != "")
-            {
-                var categoryId = Convert.ToInt32(Request.QueryString["category"]);
+				string savedName = SaveImg();
+				if (savedName != "")
+				{
+					var categoryId = Convert.ToInt32(Request.QueryString["category"]);
 
-                var textArea = productContent.InnerText.TrimEnd();
+					var textArea = productContent.InnerText.TrimEnd();
 
-                var createProduct = new db.Product()
-                {
-                    CategoryId = categoryId,
-                    CompanyId = IT.Session.Users.CompanyId(),
-                    Name = pName.Text.TrimEnd(),
-                    Description = textArea == "" ? null: textArea,
-                    IsActive = true,
-                    Price = Convert.ToDecimal(pPrice.Text.Trim()),
-                    ImageUrl = savedName,
-                    Stock = Convert.ToInt32(pStock.Text.Trim())
-                };
-
-
-
-                db.Product.Add(createProduct);
+					var createProduct = new db.Product()
+					{
+						CategoryId = categoryId,
+						CompanyId = IT.Session.Users.CompanyId(),
+						Name = pName.Text.TrimEnd(),
+						Description = textArea == "" ? null : textArea,
+						IsActive = true,
+						Price = Convert.ToDecimal(pPrice.Text.Trim()),
+						ImageUrl = savedName,
+						Stock = Convert.ToInt32(pStock.Text.Trim())
+					};
 
 
-                if (db.SaveChanges() > 0)
-                {
-                    foreach (int i in checkedFeatures)
-                    {
-                        var count = db.sp_AddFeatureProduct(createProduct.ProductId, i).FirstOrDefault();
-                        if(count != null && count > 0)
-                        {
-                            //success
-                        } 
-                        else
-                        {
-                            // fail
-                            
-                        }
-                    }
 
-                    this.ShowMessage("Success", "Ürün başarıyla kaydedildi.", "Başarılı");
-                } else
-                {
-                    this.ShowMessage("Warning", "Ürün kaydedilirken bir hata meydana geldi.", "Hata");
-                }
+					db.Product.Add(createProduct);
 
-            }
+
+					if (db.SaveChanges() > 0)
+					{
+						foreach (int i in checkedFeatures)
+						{
+							var count = db.sp_AddFeatureProduct(createProduct.ProductId, i).FirstOrDefault();
+							if (count != null && count > 0)
+							{
+								//success
+							}
+							else
+							{
+								// fail
+
+							}
+						}
+
+						this.ShowMessage("Success", "Ürün başarıyla kaydedildi.", "Başarılı");
+					}
+					else
+					{
+						this.ShowMessage("Warning", "Ürün kaydedilirken bir hata meydana geldi.", "Hata");
+					}
+
+				}
+			}
 
         }
 

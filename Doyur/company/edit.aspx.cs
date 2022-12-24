@@ -87,65 +87,68 @@ namespace Doyur.company
 
         protected void SaveBtn_Click(object sender, EventArgs e)
         {
-            List<int> newCheckedFeatures = GetNewFeatures();
-			var productId = Convert.ToInt32(Request.QueryString["id"]);
-            var pTextArea = productContent.InnerText == "" ? null : productContent.InnerText;
 
-            string strFileName = oFile.PostedFile.FileName;
+			if(Page.IsValid)
+			{
+				List<int> newCheckedFeatures = GetNewFeatures();
+				var productId = Convert.ToInt32(Request.QueryString["id"]);
+				var pTextArea = productContent.InnerText == "" ? null : productContent.InnerText;
 
-            // dont update photo if no file is selected
-            if(strFileName == "")
-            {
-                byte FuncId = (byte)1;
+				string strFileName = oFile.PostedFile.FileName;
 
-				
+				// dont update photo if no file is selected
+				if (strFileName == "")
+				{
+					byte FuncId = (byte)1;
 
-                var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), pTextArea, IsActive.Checked, Convert.ToDecimal(pPrice.Text), "", Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
-                if(count != null && count > 0)
-                {
-					// update successfull
-					var deleteFeatures = db.sp_DeleteFeatureProduct(productId).FirstOrDefault();
-					if (deleteFeatures != null && deleteFeatures != 0)
+
+
+					var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), pTextArea, IsActive.Checked, Convert.ToDecimal(pPrice.Text), "", Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
+					if (count != null && count > 0)
 					{
-						foreach (var ftr in newCheckedFeatures)
+						// update successfull
+						var deleteFeatures = db.sp_DeleteFeatureProduct(productId).FirstOrDefault();
+						if (deleteFeatures != null && deleteFeatures != 0)
 						{
-							db.sp_AddFeatureProduct(productId, ftr);
-						}
+							foreach (var ftr in newCheckedFeatures)
+							{
+								db.sp_AddFeatureProduct(productId, ftr);
+							}
 
+						}
+						this.ShowMessage("success", "Ürün başarıyla kaydedildi", "Başarılı");
 					}
-					this.ShowMessage("success", "Ürün başarıyla kaydedildi", "Başarılı");
-                } else
-				{
-					this.ShowMessage("warning", "Ürün kaydedilemedi", "Hata");
-				}
-            }
-            // update photo if file selected
-            else
-            {
-                string savedName = SaveImg();
-				byte FuncId = (byte)0;
-				var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), pTextArea, IsActive.Checked, Convert.ToDecimal(pPrice.Text), savedName, Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
-				if (count != null && count > 0)
-				{
-					// update successfull
-					var deleteFeatures = db.sp_DeleteFeatureProduct(productId).FirstOrDefault();
-					if (deleteFeatures != null && deleteFeatures != 0)
+					else
 					{
-						foreach (var ftr in newCheckedFeatures)
-						{
-							db.sp_AddFeatureProduct(productId, ftr);
-						}
-
+						this.ShowMessage("warning", "Ürün kaydedilemedi", "Hata");
 					}
-					this.ShowMessage("success", "Ürün başarıyla kaydedildi", "Başarılı");
-				} else
-				{
-					this.ShowMessage("warning", "Ürün kaydedilemedi", "Hata");
 				}
-			}
+				// update photo if file selected
+				else
+				{
+					string savedName = SaveImg();
+					byte FuncId = (byte)0;
+					var count = db.sp_UpdateProduct(productId, pName.Text.Trim(), pTextArea, IsActive.Checked, Convert.ToDecimal(pPrice.Text), savedName, Convert.ToInt32(pStock.Text), FuncId).FirstOrDefault();
+					if (count != null && count > 0)
+					{
+						// update successfull
+						var deleteFeatures = db.sp_DeleteFeatureProduct(productId).FirstOrDefault();
+						if (deleteFeatures != null && deleteFeatures != 0)
+						{
+							foreach (var ftr in newCheckedFeatures)
+							{
+								db.sp_AddFeatureProduct(productId, ftr);
+							}
 
-
-			
+						}
+						this.ShowMessage("success", "Ürün başarıyla kaydedildi", "Başarılı");
+					}
+					else
+					{
+						this.ShowMessage("warning", "Ürün kaydedilemedi", "Hata");
+					}
+				}
+			}			
 
 
 		}

@@ -7,7 +7,7 @@
 
     <div class="box-out box box-login" style="margin-top: 60px;">
         <div class="box-top">
-            Kayıt Ol
+            Kullanıcı Bilgileri
         </div>
         <div id="alert-message"></div>
 
@@ -21,7 +21,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:TextBox ID="mail" runat="server"></asp:TextBox>
+                            <asp:TextBox Enabled="false" ID="mail" runat="server"></asp:TextBox>
                         </td>
                          <td>                            
                              <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ErrorMessage="Mail" runat="server" ControlToValidate="mail" Display="None"></asp:RequiredFieldValidator>

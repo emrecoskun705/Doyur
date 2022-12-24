@@ -77,7 +77,7 @@
                         <td>
                             <asp:TextBox ID="phone" runat="server"></asp:TextBox>
                         </td>
-                         <td>                            
+                         <td>
                              <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Telefon" ControlToValidate="phone" Display="None"></asp:RequiredFieldValidator>
                         </td>
                     </tr>
