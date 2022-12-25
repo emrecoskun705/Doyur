@@ -20,6 +20,7 @@ namespace Doyur.order
 		{
 			
 			IT.Session.Users.UserIsNotLoginRedirect("/");
+
 		}
 
 		protected void Page_Load(object sender, EventArgs e)
@@ -39,6 +40,11 @@ namespace Doyur.order
 			if (order != null)
 			{
                 OrderDetails = db.sp_getOProducts(order.OrderId).ToList();
+				if(OrderDetails.Count == 0)
+				{
+					IT.Session.Users.AddMessageSession("warning", "Sepetinizi görmek için ürün ekleyin." , "Sepet Boş");
+					Response.Redirect("/");
+				}
 				TotalPrice = OrderDetails.Sum(x => x.Price * x.ProductQuantity);
 				var onlyCompanies = new List<Company>();
                 foreach(var c in OrderDetails.Select(x => x.CName).ToList().Distinct().ToList())

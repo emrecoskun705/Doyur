@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Doyur.extensions;
@@ -28,10 +29,10 @@ namespace Doyur
 							   || p.Name == username.Text
 								|| p.Phone == phone.Text
 							   select p).FirstOrDefault();
-
+				
 
 				//TODO: ADD VALIDATION
-				if (getUser != null)
+				if (getUser == null)
 				{
 					db.Users newUser = new db.Users
 					{
