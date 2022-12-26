@@ -5,11 +5,11 @@
 <html>
 <head runat="server">
     <title>Anasayfa</title>
-    <link href="/css/site.css" rel="stylesheet" />
-    <link href="/css/restaurantproduct.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="/js/sweetalert2.all.min.js"></script>
     <link href="/css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="/css/site.css" rel="stylesheet" />
+    <link href="/css/restaurantproduct.css" rel="stylesheet" />
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>

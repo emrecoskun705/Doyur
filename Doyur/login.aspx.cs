@@ -18,6 +18,44 @@ namespace Doyur
             //select * from abc where users ...... blaa
 
         }
+
+
+		/// <summary>
+		/// If activation is successfull redirect to first page, if it is not show an alert to customer that code is not correct
+		/// </summary>
+		/// <param name="code"></param>
+		/// <returns></returns>
+        [System.Web.Services.WebMethod(EnableSession = true)]
+        public static bool Activation(string code)
+        {
+            db.doyurEntities db = new db.doyurEntities();
+
+			int userId = IT.Session.Users.Activation();
+
+			var getUser = (from p in db.Users where p.UserId == userId select p).FirstOrDefault();
+			if(getUser != null && getUser.Activation == code)
+			{
+				getUser.AccessId = 2;
+				getUser.IsActivation = true;
+				if (db.SaveChanges() > 0)
+				{
+					IT.Session.Users.RevomeSessionList();
+					IT.Session.Users.AddLoginSessionList(
+							getUser.UserId,
+							getUser.AccessId,
+							getUser.Firstname,
+							getUser.Lastname,
+							getUser.Name,
+							getUser.Phone,
+							getUser.Mail);
+					return true;
+				}
+				return true;
+			}
+
+			return false;
+        }
+
         protected void LoginButton_Click(object sender, EventArgs e)
         {
             if(Page.IsValid)
@@ -68,6 +106,10 @@ namespace Doyur
 
 						}
 
+					} else if(getUser.AccessId == 0 && getUser.IsActivation == false)
+					{
+						IT.Session.Users.AddActivationSession(getUser.UserId);
+						ScriptManager.RegisterStartupScript(this, this.GetType(), System.Guid.NewGuid().ToString(), "OpenActivation()", true);
 					}
 					else
 					{

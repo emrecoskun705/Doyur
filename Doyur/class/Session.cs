@@ -29,6 +29,12 @@ namespace IT
 
         public class Users
         {
+
+            public static void AddActivationSession(int userId)
+            {
+                HttpContext.Current.Session.Add("Activation", userId);
+            }
+
             public static void AddLoginSessionList(int UserId, int AccessId, string Firstname, 
                 string Lastname, string Username, string Phone, string Email)
             {
@@ -79,6 +85,7 @@ namespace IT
                 HttpContext.Current.Session.Remove("Phone");
                 HttpContext.Current.Session.Remove("Email");
                 HttpContext.Current.Session.Remove("CompanyId");
+                HttpContext.Current.Session.Remove("Activation");
             }
 
 
@@ -105,6 +112,14 @@ namespace IT
                 HttpContext.Current.Session.Add("Email", "emre@emre.com");
             }
 
+
+            public static int Activation()
+            {
+                if (HttpContext.Current.Session["Activation"] == null)
+                    return 0;
+                else
+                    return Convert.ToInt32(HttpContext.Current.Session["Activation"]);
+            }
 
             public static string MsgTitle()
             {

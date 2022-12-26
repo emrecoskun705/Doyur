@@ -105,7 +105,6 @@
     </Content>
     <Content Include="default.aspx" />
     <Content Include="detail.aspx" />
-    <Content Include="Global.asax" />
     <Content Include="image\11pc.png" />
     <Content Include="image\1pc.png" />
     <Content Include="image\22222pc.png" />
@@ -130,6 +129,7 @@
     <Content Include="image\icons8-trash-can-16.png" />
     <Content Include="image\pc.png" />
     <Content Include="image\pizza.jpg" />
+    <Content Include="js\activationmodal.js" />
     <Content Include="js\alert.js" />
     <Content Include="js\ckeditor\adapters\jquery.js" />
     <Content Include="js\ckeditor\build-config.js" />
@@ -658,9 +658,6 @@
     </Compile>
     <Compile Include="extensions\AlertExtension.cs" />
     <Compile Include="extensions\StringExtensions.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

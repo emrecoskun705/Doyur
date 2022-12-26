@@ -34,6 +34,8 @@ namespace Doyur
 				//TODO: ADD VALIDATION
 				if (getUser == null)
 				{
+					Random rnd = new Random();
+
 					db.Users newUser = new db.Users
 					{
 						AccessId = 0,
@@ -46,11 +48,12 @@ namespace Doyur
 						Password = password1.Text,
 						Gender = (byte)(Convert.ToInt32(gender.SelectedValue)),
 						BrithDate = Convert.ToDateTime(birthdatetime.Text),
-						IsName = true,
+						Activation = "" + rnd.Next(0, 9) + rnd.Next(0, 9) + rnd.Next(0, 9) + rnd.Next(0, 9),
+                        IsName = true,
 						IsPhone = true,
 						IsGsm = true,
 						IsPath = true,
-						IsActivation = true,
+						IsActivation = false,
 						IsActive = true,
 					};
 
