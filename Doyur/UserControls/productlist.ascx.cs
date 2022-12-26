@@ -20,7 +20,7 @@ namespace Doyur.UserControls
 
 		private void GetProducts()
 		{
-			var getProducts = (from p in db.sp_GetProducts(10) select p).ToList();
+			var getProducts = (from p in db.Product where p.IsActive == true select p).Take(20).ToList();
 
 			if (getProducts != null && getProducts.Count > 0)
 			{

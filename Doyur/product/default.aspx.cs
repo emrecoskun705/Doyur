@@ -18,7 +18,7 @@ namespace Doyur.product
 
         public List<int> SelectedFeatureIds { get; set; }
 
-        public db.sp_GetProduct_Result Product { get; set; }
+        public db.Product Product { get; set; }
 
         public db.Company Company { get; set; }
 
@@ -32,7 +32,7 @@ namespace Doyur.product
             int productId;
 			int.TryParse(Request.QueryString["id"], out productId);
 
-            var getProduct = db.sp_GetProduct(productId).FirstOrDefault();
+            var getProduct = (from p in db.Product where p.ProductId == productId && p.IsActive == true select p).FirstOrDefault();
 
             if (getProduct != null && productId != 0)
             {

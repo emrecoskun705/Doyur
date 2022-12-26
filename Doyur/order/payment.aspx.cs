@@ -161,7 +161,7 @@ namespace Doyur.order
                     funcId: 0
                     ).FirstOrDefault();
 
-                    if (success == null) return false;
+                    if (success == null || success == 2 || success == 3) return false;
                     return true;
                 }
                 else

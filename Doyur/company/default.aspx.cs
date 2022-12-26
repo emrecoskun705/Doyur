@@ -54,10 +54,10 @@ namespace Doyur.company
 
                 if (getProduct != null)
                 {
-                    db.Product.Remove(getProduct);
+                    getProduct.IsActive = false;
                     if (db.SaveChanges() > 0)
                     {
-                        this.ShowMessage("success", "Ürün başarıyla silindi", "Başarılı");
+                        this.ShowMessage("success", "Ürün sadece sizin tarafınızdan görünülebilir hale geldi", "Başarılı");
                         LoadProducts();
                     }
                     else
