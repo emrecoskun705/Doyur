@@ -40,7 +40,31 @@ namespace Doyur.order
 			if (order != null)
 			{
                 OrderDetails = db.sp_getOProducts(order.OrderId).ToList();
-				if(OrderDetails.Count == 0)
+
+				var opListRemove = new List<db.OrderProductList>();
+                foreach (var oProduct in OrderDetails)
+				{
+
+					if(!oProduct.IsActive || oProduct.Stock < 1)
+					{
+						// product is disabled or stock is finished
+						var op = (from p in db.OrderProductList where p.OrderId == order.OrderId && p.ProductId == oProduct.ProductId select p).SingleOrDefault();
+						opListRemove.Add(op);
+						db.OrderProductList.Remove(op);
+					}
+				}
+
+				if(opListRemove.Count > 0)
+				{
+					if(db.SaveChanges() > 0)
+					{
+						OrderDetails.RemoveAll(x => opListRemove.Select(k => k.ProductId).ToList().Contains(x.ProductId));
+						this.ShowMessage("info", "Sepetinizdeki bazı ürünler stok veya satıcı şirket tarafından kaldırıldı", "Bilgilendirme");
+					}
+
+                }
+
+                if (OrderDetails.Count == 0)
 				{
 					IT.Session.Users.AddMessageSession("warning", "Sepetinizi görmek için ürün ekleyin." , "Sepet Boş");
 					Response.Redirect("/");
