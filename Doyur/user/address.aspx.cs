@@ -44,29 +44,44 @@ namespace Doyur.user
 
         protected void SaveBtn_Click(object sender, EventArgs e)
         {
-			int userId = IT.Session.Users.UserId();
-			int addressId = Convert.ToInt32(Request.QueryString["AddressId"]);
-			db.Address updateAddress = (from p in db.Address where p.AddressId == addressId && p.UserId == userId select p).FirstOrDefault();
-			
-			if(updateAddress != null)
+			if(Page.IsValid)
 			{
-				updateAddress.Name = aName.Text.Trim();
-				updateAddress.Town= aTown.Text.Trim();
-				updateAddress.District= aDistrict.Text.Trim();
-				updateAddress.Description= aDescription.Text.Trim();
-				updateAddress.Phone = phone.Text.Trim();
-				updateAddress.IsActive = IsActive.Checked;
-				
-			}
+                int userId = IT.Session.Users.UserId();
+                int addressId = Convert.ToInt32(Request.QueryString["AddressId"]);
+                var addrList = (from p in db.Address where p.UserId == userId && p.Type == 0 select p).ToList();
 
-			if(db.SaveChanges() > 0)
-			{
-				BindAddressData();
-				this.ShowMessage("success", "Adres başarıyla güncellendi", "Başarılı");
-			} else
-			{
-				this.ShowMessage("warning", "Adres güncellenemedi.", "Hata");
-			}
+                var updateAddress = addrList.Where(x => x.AddressId == addressId).FirstOrDefault();
+
+                if (updateAddress != null)
+                {
+					if(IsActive.Checked)
+					{
+						foreach (var addr in addrList)
+						{
+							addr.IsActive = false;
+						}
+					}
+
+                    updateAddress.Name = aName.Text.TrimEnd();
+                    updateAddress.Town = aTown.Text.TrimEnd();
+                    updateAddress.District = aDistrict.Text.TrimEnd();
+                    updateAddress.Description = aDescription.Text.TrimEnd();
+                    updateAddress.Phone = phone.Text.TrimEnd();
+                    updateAddress.IsActive = IsActive.Checked;
+
+                }
+
+                if (db.SaveChanges() > 0)
+                {
+                    BindAddressData();
+                    this.ShowMessage("success", "Adres başarıyla güncellendi", "Başarılı");
+                }
+                else
+                {
+                    this.ShowMessage("warning", "Adres güncellenemedi.", "Hata");
+                }
+            }
+
         }
 
 	}

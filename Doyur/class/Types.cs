@@ -51,4 +51,29 @@ namespace Types
         }
     }
 
+    public class Address
+    {
+        public class TAddressType
+        {
+
+            public TAddressType(byte id, string name)
+            {
+                Id = id;
+                Name = name;
+            }
+
+            public byte Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        public static List<TAddressType> GetAddressType()
+        {
+            List<TAddressType> list = new List<TAddressType>();
+            list.Add(new TAddressType((byte)0, "Default"));
+            list.Add(new TAddressType((byte)1, "Order"));
+
+            return list;
+        }
+    }
+
 }

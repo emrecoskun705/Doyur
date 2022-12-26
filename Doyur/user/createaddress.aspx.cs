@@ -24,12 +24,40 @@ namespace Doyur.user
 			{
 				int userId = IT.Session.Users.UserId();
 
-				var createAddress = db.sp_CreateAddress(userId, aName.Text.Trim(), aTown.Text.Trim(), aDistrict.Text.Trim(), aDescription.Text.Trim(), phone.Text.Trim(), IsActive.Checked, (decimal)24.2, (decimal)24.2).FirstOrDefault();
-
-				if (createAddress != null && createAddress > 0)
+				var addrList = (from p in db.Address where p.UserId == userId && p.Type == (byte)0 select p).ToList();
+				if (addrList != null && addrList.Count < 5)
 				{
 					//address creation is successfull
-					this.ShowMessage("success", "Adres başarıyla eklendi", "Başarılı");
+					var newAddr = new db.Address()
+					{
+						UserId = userId,
+						Type = (byte)0,
+						Name = aName.Text,
+						Town = aTown.Text,
+						District= aDistrict.Text,
+						Description= aDescription.Text,
+						Phone = phone.Text,
+						IsActive = IsActive.Checked,
+					};
+
+					if(IsActive.Checked )
+					{
+						foreach(var addr in addrList )
+						{
+							addr.IsActive = false;
+						}
+					}
+
+					db.Address.Add(newAddr);
+
+					if(db.SaveChanges() > 0)
+					{
+						this.ShowMessage("success", "Adres başarıyla eklendi", "Başarılı");
+					} else
+					{
+                        this.ShowMessage("warning", "Adres eklenirken bir hata meydana geldi", "Hata");
+                    }
+
 				}
 				else
 				{
