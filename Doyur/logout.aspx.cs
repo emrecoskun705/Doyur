@@ -11,6 +11,7 @@ namespace Doyur
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            IT.Session.Users.AddMessageSession("success", "Hesabınızdan çıkış yaptınız", "Başarılı");
             IT.Session.Users.RevomeSessionList();
             Response.Redirect("/default.aspx");
         }
