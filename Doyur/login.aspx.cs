@@ -48,6 +48,7 @@ namespace Doyur
 							getUser.Name,
 							getUser.Phone,
 							getUser.Mail);
+					IT.Session.Users.AddMessageSession("success", "Hesabınız aktive edildi", "Başarılı");
 					return true;
 				}
 				return true;

@@ -1,6 +1,7 @@
 ﻿function OpenActivation() {
     Swal.fire({
         title: 'Aktivasyon kodu',
+        text: 'Lütfen mailinize gelen kodu giriniz',
         input: 'text',
         confirmButtonText: 'Onayla',
         showLoaderOnConfirm: true,
