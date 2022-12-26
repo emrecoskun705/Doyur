@@ -15,6 +15,31 @@ namespace Types
             public string Title { get; set; }
         }
 
+        public class TOrderResponse
+        {
+            public TOrderResponse(int responseId, string title)
+            {
+                ResponseId = responseId;
+                Title = title;
+            }
+
+            public int ResponseId { get; set; }
+            public string Title { get; set; }
+
+        }
+
+
+        public static List<TOrderResponse> GetOrderResponse()
+        {
+            List<TOrderResponse> list = new List<TOrderResponse>();
+            list.Add(new TOrderResponse(0, "Not Complete"));
+            list.Add(new TOrderResponse(1, "Success"));
+            list.Add(new TOrderResponse(2, "Incorrect product amount"));
+            list.Add(new TOrderResponse(3, "Fail"));
+
+            return list;
+        }
+
         public static List<TOrderStatus> GetOrderStatus()
         {
             List<TOrderStatus> list = new List<TOrderStatus>();

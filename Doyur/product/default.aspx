@@ -24,10 +24,11 @@
                             <h2 style="font-size: 25px; font-weight: bold;"><%= Product.Price.ToString("#.##") %> TL</h2>
                             <br /><br /><br /><hr /><br /><br />
                             <% 
-                            if (IT.Session.Users.AccessId() == 2)
+                            if ((IT.Session.Users.AccessId() == 2 || IT.Session.Users.UserId() == 0))
                             { 
                             %>
-                            <asp:Button ID="orderBtn" runat="server" OnClick="orderBtn_Click" Width="100%" Text="Sepete Ekle" CssClass="btn"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff" />
+                            
+                            <asp:Button ID="orderBtn" runat="server" OnClick="orderBtn_Click" Width="100%" Text="Sepete Ekle" CssClass="btn btn-green"  />
                             <%  
                             } 
                             %>

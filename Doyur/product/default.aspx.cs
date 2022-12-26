@@ -114,10 +114,13 @@ namespace Doyur.product
                 {
                     IT.Session.Users.AddMessageSession("success", "Ürün sepete başarıyla eklendi", "Başarılı");
                 } 
-                else
+                else if(addProduct == -1)
                 {
-					IT.Session.Users.AddMessageSession("warning", "Ürün zaten sepete eklendi", "Hata");
-				}
+					IT.Session.Users.AddMessageSession("warning", "Ürün stoklarda kalmadı", "Hata");
+				} else
+                {
+                    IT.Session.Users.AddMessageSession("warning", "Ürün zaten sepete eklendi", "Hata");
+                }
             } 
             else
             {
