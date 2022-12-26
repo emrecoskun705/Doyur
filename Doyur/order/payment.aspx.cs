@@ -124,6 +124,12 @@ namespace Doyur.order
             return selectedAddress;
         }
 
+        /// <summary>
+        /// Updates order if quantity is less than or equal to stock, if sp returns (2, 3 or null) remove address that is created for shipping and billing
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="selectedAddress"></param>
+        /// <returns>bool</returns>
         private bool updateOrder(db.sp_GetOrCreateOrder_Result order, int selectedAddress)
         {
             db.Address getAddr = (from p in db.Address where p.AddressId == selectedAddress select p).FirstOrDefault();
@@ -161,7 +167,12 @@ namespace Doyur.order
                     funcId: 0
                     ).FirstOrDefault();
 
-                    if (success == null || success == 2 || success == 3) return false;
+                    if (success == null || success == 2 || success == 3)
+                    {
+                        db.Address.Remove(newAddr);
+                        db.SaveChanges();
+                        return false;
+                    }
                     return true;
                 }
                 else
