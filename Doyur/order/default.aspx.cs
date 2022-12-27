@@ -48,7 +48,7 @@ namespace Doyur.order
 					if(!oProduct.IsActive || oProduct.Stock < 1)
 					{
 						// product is disabled or stock is finished
-						var op = (from p in db.OrderProductList where p.OrderId == order.OrderId && p.ProductId == oProduct.ProductId select p).SingleOrDefault();
+						db.OrderProductList op = (from p in db.OrderProductList where p.OrderId == order.OrderId && p.ProductId == oProduct.ProductId select p).FirstOrDefault();
 						opListRemove.Add(op);
 						db.OrderProductList.Remove(op);
 					}
