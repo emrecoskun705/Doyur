@@ -39,6 +39,12 @@ namespace Doyur.order
             if (order != null)
             {
                 var orderDetails = db.sp_getOProducts(order.OrderId).ToList();
+                if(orderDetails.Count == 0)
+                {
+					// there is no order product so redirect to initial page
+					IT.Session.Users.AddMessageSession("warning", "Devam etmek için sepetinize ürün ekleyin", "Sepet Boş");
+					Response.Redirect("/");
+				}
                 TotalPrice = orderDetails.Sum(x => x.Price * x.ProductQuantity);
             } else
             {

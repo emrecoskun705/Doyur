@@ -37,51 +37,60 @@ namespace Doyur.order
 			int userId = IT.Session.Users.UserId();
 
 			var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
-			if (order != null)
+			// if order is null there should be an error we can log this
+			if (order == null)
 			{
-                OrderDetails = db.sp_getOProducts(order.OrderId).ToList();
-
-				var opListRemove = new List<db.OrderProductList>();
-                foreach (var oProduct in OrderDetails)
-				{
-
-					if(!oProduct.IsActive || oProduct.Stock < 1)
-					{
-						// product is disabled or stock is finished
-						db.OrderProductList op = (from p in db.OrderProductList where p.OrderId == order.OrderId && p.ProductId == oProduct.ProductId select p).FirstOrDefault();
-						opListRemove.Add(op);
-						db.OrderProductList.Remove(op);
-					}
-				}
-
-				if(opListRemove.Count > 0)
-				{
-					if(db.SaveChanges() > 0)
-					{
-						OrderDetails.RemoveAll(x => opListRemove.Select(k => k.ProductId).ToList().Contains(x.ProductId));
-						this.ShowMessage("info", "Sepetinizdeki bazı ürünler stok veya satıcı şirket tarafından kaldırıldı", "Bilgilendirme");
-					}
-
-                }
-
-                if (OrderDetails.Count == 0)
-				{
-					IT.Session.Users.AddMessageSession("warning", "Sepetinizi görmek için ürün ekleyin." , "Sepet Boş");
-					Response.Redirect("/");
-				}
-				TotalPrice = OrderDetails.Sum(x => x.Price * x.ProductQuantity);
-				var onlyCompanies = new List<Company>();
-                foreach(var c in OrderDetails.Select(x => x.CName).ToList().Distinct().ToList())
-				{
-					onlyCompanies.Add(new Company()
-					{
-						CName = c
-					});
-				}
-
-                parentR.DataSource = onlyCompanies;
-				parentR.DataBind();
+				IT.Session.Users.AddMessageSession("error", "Sepete ulaşılırken bir hata meydana geldi", "Hata");
+				Response.Redirect("/");
+				return;
 			}
+			
+			// get products that belongs to that order
+            OrderDetails = db.sp_getOProducts(order.OrderId).ToList();
+
+			// if order product is removed from 
+			var opListRemove = new List<db.OrderProductList>();
+            foreach (var oProduct in OrderDetails)
+			{
+
+				if(!oProduct.IsActive || oProduct.Stock < 1)
+				{
+					// product is disabled or stock is finished
+					db.OrderProductList op = (from p in db.OrderProductList where p.OrderId == order.OrderId && p.ProductId == oProduct.ProductId select p).FirstOrDefault();
+					opListRemove.Add(op);
+					// remove order product from order
+					db.OrderProductList.Remove(op);
+				}
+			}
+
+			if(opListRemove.Count > 0)
+			{
+				if(db.SaveChanges() > 0)
+				{
+					OrderDetails.RemoveAll(x => opListRemove.Select(k => k.ProductId).ToList().Contains(x.ProductId));
+					this.ShowMessage("info", "Sepetinizdeki bazı ürünler stok veya satıcı şirket tarafından kaldırıldı", "Bilgilendirme");
+				}
+
+            }
+
+            if (OrderDetails.Count == 0)
+			{
+				IT.Session.Users.AddMessageSession("warning", "Sepetinizi görmek için ürün ekleyin." , "Sepet Boş");
+				Response.Redirect("/");
+			}
+			TotalPrice = OrderDetails.Sum(x => x.Price * x.ProductQuantity);
+			var onlyCompanies = new List<Company>();
+            foreach(var c in OrderDetails.Select(x => x.CName).ToList().Distinct().ToList())
+			{
+				onlyCompanies.Add(new Company()
+				{
+					CName = c
+				});
+			}
+
+            parentR.DataSource = onlyCompanies;
+			parentR.DataBind();
+			
 		}
 
         protected void parentR_ItemDataBound(object sender, RepeaterItemEventArgs e)
