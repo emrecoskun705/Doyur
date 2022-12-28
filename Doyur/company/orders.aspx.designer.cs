@@ -11,16 +11,16 @@ namespace Doyur.company
 {
 
 
-    public partial class orders
-    {
+	public partial class orders
+	{
 
-        /// <summary>
-        /// parentR control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater parentR;
-    }
+		/// <summary>
+		/// gList control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.GridView gList;
+	}
 }

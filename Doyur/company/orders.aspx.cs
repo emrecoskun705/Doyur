@@ -1,4 +1,5 @@
 ﻿using Doyur.db;
+using Doyur.extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,30 +38,64 @@ namespace Doyur.company
                 });
             }
 
-            parentR.DataSource = onlyOrders;
-            parentR.DataBind();
+			gList.DataSource = onlyOrders;
+			gList.DataBind();
 
-        }
+		}
 
-        protected void parentR_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                var childR = (Repeater)e.Item.FindControl("childR");
-                var parentId = Convert.ToInt32(((HiddenField)e.Item.FindControl("orderIdLbl")).Value);
-                if (childR != null)
-                {
-                    childR.DataSource = Orders.Where(x => x.OrderId == parentId).ToList();
-                    childR.DataBind();
-                }
-            }
-        }
+		protected void gList_RowDataBound(object sender, GridViewRowEventArgs e)
+		{
+			if (e.Row.RowType == DataControlRowType.DataRow)
+			{
+				int parentId = Convert.ToInt32(gList.DataKeys[e.Row.RowIndex].Value);
+				GridView gvOrders = e.Row.FindControl("gSubList") as GridView;
+
+				gvOrders.DataSource = Orders.Where(x => x.OrderId == parentId).ToList();
+				gvOrders.DataBind();
+			}
+		}
+
+		protected void gList_RowCommand(object sender, GridViewCommandEventArgs e)
+		{
+			if (e.CommandName == "Edit")
+			{
+				int productId = Convert.ToInt32(e.CommandArgument);
+				Response.Redirect("/company/edit?id=" + productId);
+
+			}
+			else if (e.CommandName == "DeleteProduct")
+			{
+				int userId = IT.Session.Users.UserId();
+				int companydId = IT.Session.Users.CompanyId();
+				int addressId = Convert.ToInt32(e.CommandArgument);
+				var getProduct = (from p in db.Product where p.ProductId == addressId && p.CompanyId == companydId select p).FirstOrDefault();
+
+				if (getProduct != null)
+				{
+					getProduct.IsActive = false;
+					if (db.SaveChanges() > 0)
+					{
+						this.ShowMessage("success", "Ürün sadece sizin tarafınızdan görünülebilir hale geldi", "Başarılı");
+						//LoadProducts();
+					}
+					else
+					{
+						this.ShowMessage("warning", "Ürün silinirken bir hata oluştu", "Hata");
+					}
+				}
+				else
+				{
+					this.ShowMessage("warning", "Ürün bulunamadı", "Hata");
+				}
+			}
+		}
 
 
-        private class MyOrder
+		private class MyOrder
         {
             public int OrderId { get; set;}
             public string Status { get; set;}
         }
-    }
+
+	}
 }
