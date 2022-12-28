@@ -63,7 +63,7 @@
         <div id="alert-message"></div>
         <div class="box-in">
             <div class="divr">
-                <asp:HyperLink CssClass="btn-xs platin-b" NavigateUrl="~/user/createaddress.aspx?redirect=payment" ID="addrLink" runat="server">Adres Ekle</asp:HyperLink>
+                <asp:HyperLink CssClass="btn-xs platin-b" NavigateUrl="~/user/createaddress?redirect=payment" ID="addrLink" runat="server">Adres Ekle</asp:HyperLink>
             </div>
             <br />
             <asp:GridView ID="gList" runat="server" AutoGenerateColumns="False" CssClass="mGrid" OnRowCommand="gList_RowCommand">

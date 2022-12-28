@@ -20,50 +20,60 @@ namespace Doyur.user
 
         protected void SaveBtn_Click(object sender, EventArgs e)
         {
-			if(Page.IsValid)
+			if(!Page.IsValid)
 			{
-				int userId = IT.Session.Users.UserId();
+				return;
+			}
+			
+			int userId = IT.Session.Users.UserId();
 
-				var addrList = (from p in db.Address where p.UserId == userId && p.Type == (byte)0 select p).ToList();
-				if (addrList != null && addrList.Count < 5)
+			var addrList = (from p in db.Address where p.UserId == userId && p.Type == (byte)0 select p).ToList();
+			// if addrList is null or count is greater or equal to 5 than give warning
+			if (addrList == null || addrList.Count >= 5)
+			{
+				this.ShowMessage("warning", "Adres eklenemedi, en fazla 5 adrese sahip olabilirsiniz.", "Uyarı");
+				return;
+			}
+
+			//address creation is successfull
+			var newAddr = new db.Address()
+			{
+				UserId = userId,
+				Type = (byte)0,
+				Name = aName.Text,
+				Town = aTown.Text,
+				District= aDistrict.Text,
+				Description= aDescription.Text,
+				Phone = phone.Text,
+				IsActive = IsActive.Checked,
+			};
+
+			if(IsActive.Checked )
+			{
+				foreach(var addr in addrList )
 				{
-					//address creation is successfull
-					var newAddr = new db.Address()
-					{
-						UserId = userId,
-						Type = (byte)0,
-						Name = aName.Text,
-						Town = aTown.Text,
-						District= aDistrict.Text,
-						Description= aDescription.Text,
-						Phone = phone.Text,
-						IsActive = IsActive.Checked,
-					};
-
-					if(IsActive.Checked )
-					{
-						foreach(var addr in addrList )
-						{
-							addr.IsActive = false;
-						}
-					}
-
-					db.Address.Add(newAddr);
-
-					if(db.SaveChanges() > 0)
-					{
-						this.ShowMessage("success", "Adres başarıyla eklendi", "Başarılı");
-					} else
-					{
-                        this.ShowMessage("warning", "Adres eklenirken bir hata meydana geldi", "Hata");
-                    }
-
-				}
-				else
-				{
-					this.ShowMessage("warning", "Adres eklenemedi, en fazla 5 adrese sahip olabilirsiniz.", "Hata");
+					addr.IsActive = false;
 				}
 			}
+
+			db.Address.Add(newAddr);
+
+			if(db.SaveChanges() > 0)
+			{
+				if (Request.QueryString["redirect"] == "payment")
+				{
+					IT.Session.Users.AddMessageSession("success", "Adres başarıyla eklendi", "Başarılı");
+					Response.Redirect("/order/payment");
+				}
+				this.ShowMessage("success", "Adres başarıyla eklendi", "Başarılı");
+			} else
+			{
+                this.ShowMessage("error", "Adres eklenirken bir hata meydana geldi", "Hata");
+            }
+
+
+
+			
 
         }
     }

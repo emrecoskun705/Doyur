@@ -75,7 +75,7 @@ namespace Doyur.order
             if (e.CommandName == "Edit")
             {
                 int addressId = Convert.ToInt32(e.CommandArgument);
-                Response.Redirect("/user/address.aspx?AddressId=" + addressId);
+                Response.Redirect("/user/address?AddressId=" + addressId);
 
             }
             else if (e.CommandName == "DeleteAddress")
