@@ -60,6 +60,15 @@ namespace Doyur
 		protected global::System.Web.UI.WebControls.RegularExpressionValidator regexmail;
 
 		/// <summary>
+		/// mailregexmax control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RegularExpressionValidator mailregexmax;
+
+		/// <summary>
 		/// username control.
 		/// </summary>
 		/// <remarks>
@@ -76,6 +85,15 @@ namespace Doyur
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
+
+		/// <summary>
+		/// usernameregexmax control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RegularExpressionValidator usernameregexmax;
 
 		/// <summary>
 		/// firstname control.
@@ -96,6 +114,15 @@ namespace Doyur
 		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 
 		/// <summary>
+		/// nameregexmax control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RegularExpressionValidator nameregexmax;
+
+		/// <summary>
 		/// lastname control.
 		/// </summary>
 		/// <remarks>
@@ -112,6 +139,15 @@ namespace Doyur
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
+
+		/// <summary>
+		/// lastnameregexmax control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RegularExpressionValidator lastnameregexmax;
 
 		/// <summary>
 		/// phone control.
@@ -132,6 +168,15 @@ namespace Doyur
 		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
 
 		/// <summary>
+		/// phoneregexmax control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RegularExpressionValidator phoneregexmax;
+
+		/// <summary>
 		/// gsm control.
 		/// </summary>
 		/// <remarks>
@@ -148,6 +193,15 @@ namespace Doyur
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
+
+		/// <summary>
+		/// gsmregexmax control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RegularExpressionValidator gsmregexmax;
 
 		/// <summary>
 		/// gender control.
@@ -193,6 +247,15 @@ namespace Doyur
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator8;
+
+		/// <summary>
+		/// MyPassordMinLengthValidator control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RegularExpressionValidator MyPassordMinLengthValidator;
 
 		/// <summary>
 		/// password2 control.

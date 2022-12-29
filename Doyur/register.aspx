@@ -31,6 +31,13 @@
                                 ErrorMessage="Mail"
                                 Display="None">
                             </asp:RegularExpressionValidator>
+                             <asp:RegularExpressionValidator Display = "None" 
+                                 ControlToValidate = "mail" 
+                                 ID="mailregexmax" 
+                                 ValidationExpression = "^[\s\S]{0,100}$" 
+                                 runat="server" 
+                                 ErrorMessage="Mailiniz maksimum 100 karakterden oluşmalıdır">
+                             </asp:RegularExpressionValidator>
                          </td>
                     </tr>
                     <tr>
@@ -42,8 +49,15 @@
                            <asp:TextBox ID="username" runat="server"></asp:TextBox>
                         </td>
                          <td>                            
-                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Kullanıcı Adı" ControlToValidate="username" Display="None"></asp:RequiredFieldValidator>
-                        </td>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Kullanıcı Adı" ControlToValidate="username" Display="None"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator Display = "None" 
+                                 ControlToValidate = "username" 
+                                 ID="usernameregexmax" 
+                                 ValidationExpression = "^[\s\S]{0,50}$" 
+                                 runat="server" 
+                                 ErrorMessage="Kullanıcı adınız maksimum 50 karakterden oluşmalıdır">
+                             </asp:RegularExpressionValidator>
+                         </td>
                     </tr>
                     <tr>
                         <td>Ad</td>
@@ -55,6 +69,13 @@
                         </td>
                          <td>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Ad" ControlToValidate="lastname" Display="None"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator Display = "None" 
+                                 ControlToValidate = "firstname" 
+                                 ID="nameregexmax" 
+                                 ValidationExpression = "^[\s\S]{0,50}$" 
+                                 runat="server" 
+                                 ErrorMessage="Adınız maksimum 50 karakterden oluşmalıdır">
+                             </asp:RegularExpressionValidator>
                          </td>
                     </tr>
                     <tr>
@@ -67,6 +88,13 @@
                         </td>
                          <td>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="Soyad" ControlToValidate="lastname" Display="None"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator Display = "None" 
+                                 ControlToValidate = "lastname" 
+                                 ID="lastnameregexmax" 
+                                 ValidationExpression = "^[\s\S]{0,50}$" 
+                                 runat="server" 
+                                 ErrorMessage="Soyadınız maksimum 50 karakterden oluşmalıdır">
+                             </asp:RegularExpressionValidator>
                          </td>
                     </tr>
                     <tr>
@@ -78,8 +106,15 @@
                             <asp:TextBox ID="phone" runat="server"></asp:TextBox>
                         </td>
                          <td>
-                             <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Telefon" ControlToValidate="phone" Display="None"></asp:RequiredFieldValidator>
-                        </td>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Telefon" ControlToValidate="phone" Display="None"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator Display = "None" 
+                                 ControlToValidate = "phone" 
+                                 ID="phoneregexmax" 
+                                 ValidationExpression = "^[\s\S]{0,50}$" 
+                                 runat="server" 
+                                 ErrorMessage="Telefon maksimum 50 karakterden oluşmalıdır">
+                             </asp:RegularExpressionValidator>
+                         </td>
                     </tr>
                     <tr>
                         <td>GSM</td>
@@ -90,8 +125,15 @@
                             <asp:TextBox ID="gsm" runat="server"></asp:TextBox>
                         </td>
                          <td>                             
-                             <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="GSM" ControlToValidate="gsm" Display="None"></asp:RequiredFieldValidator>
-                        </td>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="GSM" ControlToValidate="gsm" Display="None"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator Display = "None" 
+                                 ControlToValidate = "gsm" 
+                                 ID="gsmregexmax" 
+                                 ValidationExpression = "^[\s\S]{0,50}$" 
+                                 runat="server" 
+                                 ErrorMessage="GSM maksimum 50 karakterden oluşmalıdır">
+                             </asp:RegularExpressionValidator>
+                         </td>
                     </tr>
                     <tr>
                         <td>Cinsiyet</td>
@@ -129,6 +171,14 @@
                         </td>
                          <td>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ErrorMessage="Şifre" ControlToValidate="password1" Display="None"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ControlToValidate="password1" Display="None"
+                                ID="MyPassordMinLengthValidator" 
+                                ValidationExpression="^[\s\S]{8,}$" 
+                                runat="server" 
+                                ErrorMessage="Şifre en az 8 karakterden oluşmalıdır"
+                                >
+                            </asp:RegularExpressionValidator>
+
                          </td>
                     </tr>
                     <tr>
@@ -140,7 +190,10 @@
                             <asp:TextBox ID="password2" runat="server" TextMode="Password"></asp:TextBox>
                         </td>
                          <td>
-                             <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ErrorMessage="Şifreyi Tekrar Giriniz" ControlToValidate="password2" Display="None"></asp:RequiredFieldValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ErrorMessage="Şifreyi Tekrar Giriniz" ControlToValidate="password2" Display="None"></asp:RequiredFieldValidator>
+                            <asp:CompareValidator runat="server" ControlToCompare="password1" ControlToValidate="password2"
+                                ErrorMessage="Şifreler uyuşmuyor" Display="None">
+                        </asp:CompareValidator>
                          </td>
                     </tr>
 
