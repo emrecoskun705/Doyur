@@ -14,7 +14,8 @@ namespace Doyur.order
 
         db.doyurEntities db = new db.doyurEntities();
 
-        public decimal TotalPrice { get; set; }
+        public decimal TotalPrice { get { return Convert.ToDecimal(ViewState["TotalPrice"]); } set { ViewState["TotalPrice"] = value; } }
+        public int AddressCount { get { return Convert.ToInt32(ViewState["AddressCount"]); } set { ViewState["AddressCount"] = value; } }
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -57,7 +58,7 @@ namespace Doyur.order
             int userId = IT.Session.Users.UserId();
 
             var getAddressList = db.sp_GetAddress(userId, -1, 0, 2).ToList();
-
+            AddressCount= getAddressList.Count;
             if (getAddressList != null && getAddressList.Count() > 0)
             {
                 gList.DataSource = getAddressList;
@@ -75,7 +76,7 @@ namespace Doyur.order
             if (e.CommandName == "Edit")
             {
                 int addressId = Convert.ToInt32(e.CommandArgument);
-                Response.Redirect("/user/address?AddressId=" + addressId);
+                Response.Redirect("/user/address?AddressId=" + addressId + "&redirect=payment");
 
             }
             else if (e.CommandName == "DeleteAddress")

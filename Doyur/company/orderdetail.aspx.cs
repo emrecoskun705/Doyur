@@ -29,7 +29,12 @@ namespace Doyur.company
 
             int companyId = IT.Session.Users.CompanyId();
 
-            if (orderId == 0 || companyId == 0) return;
+            if (orderId == 0 || companyId == 0)
+            {
+                IT.Session.Users.AddMessageSession("warning", "Şirket ve ürün bulunamadı", "Uyarı");
+                Response.Redirect("/");
+                return;
+            }
 
             var getOrderDetail = db.sp_GetOrderDetail(companyId, orderId).ToList();
 

@@ -63,7 +63,13 @@
         <div id="alert-message"></div>
         <div class="box-in">
             <div class="divr">
-                <asp:HyperLink CssClass="btn-xs platin-b" NavigateUrl="~/user/createaddress?redirect=payment" ID="addrLink" runat="server">Adres Ekle</asp:HyperLink>
+                <% if ( AddressCount < 5)
+                   { %>
+                    <asp:HyperLink CssClass="btn-xs platin-b" NavigateUrl="~/user/createaddress?redirect=payment" ID="addrLink" runat="server">Adres Ekle</asp:HyperLink>
+                <%} else
+                   { %>
+                <p>En fazla 5 adrese sahip olabilirsin</p>
+                <% } %>
             </div>
             <br />
             <asp:GridView ID="gList" runat="server" AutoGenerateColumns="False" CssClass="mGrid" OnRowCommand="gList_RowCommand">
@@ -89,6 +95,7 @@
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:Button ID="btnEdit" runat="server" Text="Düzenle" CssClass="btn-xs btn-green" CommandName="Edit" CommandArgument='<%# Eval("AddressId") %>' />
+                            <asp:Button ID="btnDelete" runat="server" Text="Sil" CssClass="btn-xs btn-red" CommandName="DeleteAddress" CommandArgument='<%# Eval("AddressId") %>' OnClientClick="return confirm('Adresi silmek istediğinize emin misiniz?');"  />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

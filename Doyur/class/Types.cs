@@ -45,7 +45,10 @@ namespace Types
             List<TOrderStatus> list = new List<TOrderStatus>();
             list.Add(new TOrderStatus((byte)0, "Created"));
             list.Add(new TOrderStatus((byte)1, "Paid"));
-            list.Add(new TOrderStatus((byte)2, "Delivered"));
+            list.Add(new TOrderStatus((byte)2, "Approved"));
+            list.Add(new TOrderStatus((byte)3, "Sent"));
+            list.Add(new TOrderStatus((byte)4, "Delivered"));
+            list.Add(new TOrderStatus((byte)4, "RefundRequest"));
 
             return list;
         }
@@ -70,7 +73,10 @@ namespace Types
             List<TOrderPStatus> list = new List<TOrderPStatus>();
             list.Add(new TOrderPStatus((byte)0, "Added"));
             list.Add(new TOrderPStatus((byte)1, "Paid"));
+            list.Add(new TOrderPStatus((byte)1, "Approved"));
+            list.Add(new TOrderPStatus((byte)1, "Sent"));
             list.Add(new TOrderPStatus((byte)2, "Delivered"));
+            list.Add(new TOrderPStatus((byte)2, "RefundRequest"));
 
             return list;
         }

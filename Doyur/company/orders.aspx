@@ -9,38 +9,49 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <br />
-<br />
-<br />
-    <asp:GridView ID="gList" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataKeyNames="OrderId" OnRowDataBound="gList_RowDataBound" OnRowCommand="gList_RowCommand">
+    <div class="box-out" style="margin-top: 60px;">
+        <div class="box-top">
+            Sipariş Listesi
+        </div>
+        <div id="alert-message"></div>
+        <div class="box-in">
+            <br />
+            <asp:GridView ID="gList" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataKeyNames="OrderId" OnRowDataBound="gList_RowDataBound" OnRowCommand="gList_RowCommand">
                 
-        <Columns>
-            <asp:TemplateField ItemStyle-HorizontalAlign="Center"  ItemStyle-Width="5px">
-                <ItemTemplate>
-                    <a href="JavaScript:shrinkandgrow('div<%# Eval("OrderId") %>');">
-                        <img alt = "" style="cursor: pointer" src="/image/plus.png" id="imgdiv<%# Eval("OrderId") %>" />
-                    </a>
-                    <div id="div<%# Eval("OrderId") %>" style="display: none;">
-                        <asp:GridView ID="gSubList" runat="server" AutoGenerateColumns="false" CssClass = "mGrid" DataKeyNames="ProductId">
-                            <Columns>
-                                <asp:TemplateField HeaderText="Ürün" ItemStyle-Width="10px">
-                                    <ItemTemplate>
-                                        <img src="<%# "/image/" + Eval("ImageUrl") %>" width="20" height="20" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField DataField="ProductId" HeaderText="Ürün Numarası" />
-                                <asp:BoundField DataField="Name" HeaderText="Ürün Adı" />
-                                <asp:BoundField DataField="Price" HeaderText="Ürün Fiyatı" />
-                                <asp:BoundField DataField="ProductQuantity" HeaderText="Adet" />
-                            </Columns>
-                        </asp:GridView>
-                    </div>
-                </ItemTemplate>
-            </asp:TemplateField>
-            <asp:BoundField ItemStyle-Width="150px" DataField="OrderId" HeaderText="Sipariş Numarası" />
-            <asp:BoundField ItemStyle-Width="150px" DataField="Status" HeaderText="Sipariş Durumu" />
-        </Columns>
-    </asp:GridView>
+                <Columns>
+                    <asp:TemplateField ItemStyle-HorizontalAlign="Center"  ItemStyle-Width="5px">
+                        <ItemTemplate>
+                            <a href="JavaScript:shrinkandgrow('div<%# Eval("OrderId") %>');">
+                                <img alt = "" style="cursor: pointer" src="/image/plus.png" id="imgdiv<%# Eval("OrderId") %>" />
+                            </a>
+                            <div id="div<%# Eval("OrderId") %>" style="display: none;">
+                                <asp:GridView ID="gSubList" runat="server" AutoGenerateColumns="false" CssClass = "mGrid" DataKeyNames="ProductId">
+                                    <Columns>
+                                        <asp:TemplateField HeaderText="" ItemStyle-Width="10px">
+                                            <ItemTemplate>
+                                                <img src="<%# "/image/" + Eval("ImageUrl") %>" width="20" height="20" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="ProductId" HeaderText="Ürün Numarası" />
+                                        <asp:BoundField DataField="Name" HeaderText="Ürün Adı" />
+                                        <asp:BoundField DataField="Price" HeaderText="Ürün Fiyatı" />
+                                        <asp:BoundField DataField="ProductQuantity" HeaderText="Adet" />
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField ItemStyle-Width="150px" DataField="OrderId" HeaderText="Sipariş Numarası" />
+                    <asp:BoundField ItemStyle-Width="150px" DataField="Status" HeaderText="Sipariş Durumu" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:HyperLink NavigateUrl='<%#Eval("OrderId", "~/company/orderdetail?id={0}") %>' ID="btnDetail"  CssClass="btn-xs platin-b" runat="server">Detay</asp:HyperLink>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
+        </div>
+    </div>
 
     <script type="text/javascript">
         function shrinkandgrow(input) {

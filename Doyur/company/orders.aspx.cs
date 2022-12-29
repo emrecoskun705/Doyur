@@ -57,7 +57,7 @@ namespace Doyur.company
 
 		protected void gList_RowCommand(object sender, GridViewCommandEventArgs e)
 		{
-			if (e.CommandName == "Edit")
+			if (e.CommandName == "Detail")
 			{
 				int productId = Convert.ToInt32(e.CommandArgument);
 				Response.Redirect("/company/edit?id=" + productId);

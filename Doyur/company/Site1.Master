@@ -82,5 +82,7 @@
             });
         });
     </script>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolderjs" runat="server">
+    </asp:ContentPlaceHolder>
 </body>
 </html>
