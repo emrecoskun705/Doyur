@@ -1,0 +1,29 @@
+﻿.address {
+    font-size: 1.2rem;
+    margin: 5px 0px 14px 0px;
+    padding: 5px;
+    min-height: 25px;
+    top: 0px;
+    left: 0px;
+    border-bottom: 1px solid #e1e1e1;
+    border-radius: 2px 2px 0px 0px;
+}
+
+.address-container {
+    width: 600px;
+    border: 1px solid #DBDBDB;
+}
+
+    .address-container .title1 {
+        font-weight: 600;
+    }
+
+    .address-container .title2 {
+        font-weight: 600;
+        margin-top: 3px;
+        margin-bottom: 6px;
+    }
+
+    .address-container .description {
+        font-weight: 300;
+    }

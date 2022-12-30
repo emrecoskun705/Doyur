@@ -34,6 +34,11 @@
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="ProductId" HeaderText="Ürün Numarası" />
                                         <asp:BoundField DataField="Name" HeaderText="Ürün Adı" />
+                                         <asp:TemplateField HeaderText="Ürün Durumu">
+                                            <ItemTemplate>
+                                                <%# Types.OrderProduct.GetOrderPStatus()[Convert.ToInt32(Eval("Status"))].Title %>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                         <asp:BoundField DataField="Price" HeaderText="Ürün Fiyatı" />
                                         <asp:BoundField DataField="ProductQuantity" HeaderText="Adet" />
                                     </Columns>

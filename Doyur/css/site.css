@@ -428,8 +428,7 @@ html {
 body {
     font-size: 0.94rem;
     font-weight: 400;
-    font-family: 'Segoe UI', Roboto, Arial, Verdana, sans-serif, Helvetica, Sans-Serif;
-    line-height: 1.2;
+    font-family: 'Segoe UI', Roboto, Arial, Verdana, sans-serif, Helvetica, Sans-Serif; line-height: 1.2;
     margin: 0;
     padding: 0;
     color: #2e2e2e;
