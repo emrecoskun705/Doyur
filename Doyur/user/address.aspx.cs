@@ -28,11 +28,12 @@ namespace Doyur.user
 			int userId = IT.Session.Users.UserId();
 			var addressId = Convert.ToInt32(Request.QueryString["AddressId"]);
 
-			var getAddressList = (from p in db.sp_GetAddress(userId, addressId, 0, 3) select p).ToList();
-			if(getAddressList != null && getAddressList.Count() > 0)
+			var getAddress = (from p in db.Address where p.AddressId == addressId && p.UserId == userId && p.Type == 0 select p).FirstOrDefault();
+			if(getAddress != null)
 			{
-				var getAddress = getAddressList.First();
 				aName.Text = getAddress.Name.Trim();
+				aFirstname.Text = getAddress.Firstname;
+				aLastname.Text = getAddress.Lastname;
 				aTown.Text = getAddress.Town.Trim();
 				aDistrict.Text = getAddress.District.Trim();
 				aDescription.Text = getAddress.Description.Trim();
@@ -63,6 +64,8 @@ namespace Doyur.user
 				}
 
                 updateAddress.Name = aName.Text.TrimEnd();
+				updateAddress.Firstname= aFirstname.Text.TrimEnd(); 
+				updateAddress.Lastname= aLastname.Text.TrimEnd();
                 updateAddress.Town = aTown.Text.TrimEnd();
                 updateAddress.District = aDistrict.Text.TrimEnd();
                 updateAddress.Description = aDescription.Text.TrimEnd();

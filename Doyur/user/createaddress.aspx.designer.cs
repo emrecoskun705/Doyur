@@ -42,6 +42,42 @@ namespace Doyur.user
 		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
 
 		/// <summary>
+		/// aFirstname control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox aFirstname;
+
+		/// <summary>
+		/// RequiredFieldValidator6 control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
+
+		/// <summary>
+		/// aLastname control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox aLastname;
+
+		/// <summary>
+		/// RequiredFieldValidator7 control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator7;
+
+		/// <summary>
 		/// aTown control.
 		/// </summary>
 		/// <remarks>

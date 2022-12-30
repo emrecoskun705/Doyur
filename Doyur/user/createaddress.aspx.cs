@@ -41,6 +41,8 @@ namespace Doyur.user
 				UserId = userId,
 				Type = (byte)0,
 				Name = aName.Text,
+				Firstname = aFirstname.Text,
+				Lastname = aLastname.Text,
 				Town = aTown.Text,
 				District= aDistrict.Text,
 				Description= aDescription.Text,

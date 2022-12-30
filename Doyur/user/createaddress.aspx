@@ -24,6 +24,30 @@
                          </td>
                     </tr>
                     <tr>
+                        <td>Ad</td>
+                         <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:TextBox ID="aFirstname" runat="server"></asp:TextBox>
+                        </td>
+                         <td>                            
+                             <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ErrorMessage="Ad" runat="server" ControlToValidate="aFirstname" Display="None"></asp:RequiredFieldValidator>
+                         </td>
+                    </tr>
+                    <tr>
+                        <td>Soyad</td>
+                         <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:TextBox ID="aLastname" runat="server"></asp:TextBox>
+                        </td>
+                         <td>                            
+                             <asp:RequiredFieldValidator ID="RequiredFieldValidator7" ErrorMessage="Soyad" runat="server" ControlToValidate="aLastname" Display="None"></asp:RequiredFieldValidator>
+                         </td>
+                    </tr>
+                    <tr>
                         <td>İl</td>
                          <td>&nbsp;</td>
                     </tr>

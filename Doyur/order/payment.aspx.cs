@@ -146,7 +146,8 @@ namespace Doyur.order
                 db.Address newAddr = new db.Address()
                 {
                     Name = getAddr.Name,
-                    AddressId = getAddr.AddressId,
+                    Firstname= getAddr.Firstname,
+                    Lastname= getAddr.Lastname,
                     Description = getAddr.Description,
                     UserId = getAddr.UserId,
                     Town = getAddr.Town,
