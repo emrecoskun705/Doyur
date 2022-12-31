@@ -1,5 +1,6 @@
 ﻿using Doyur.db;
 using Doyur.extensions;
+using Doyur.model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Doyur.company
     {
         db.doyurEntities db = new db.doyurEntities();
 
-        List<db.sp_GetCompanyOP_Result> Orders{ get; set; }
+        List<MyOrder> Orders{ get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -26,15 +27,59 @@ namespace Doyur.company
         private void LoadData()
         {
             int compnayId = IT.Session.Users.CompanyId();
-            Orders = db.sp_GetCompanyOP(compnayId).ToList();
+            Orders = (
+				from p in db.Product
+				join op in db.OrderProductList on p.ProductId equals op.ProductId
+				join o in db.Orders on op.OrderId equals o.OrderId
+				where p.CompanyId == compnayId && o.IsPaid == true
+				orderby o.OrderId descending
+				select new MyOrder()
+				{
+					OPInfo = new OrderProductlistDTO()
+					{
+						OrderId = op.OrderId,
+						ProductId = op.ProductId,
+						ProductQuantity = op.ProductQuantity,
+						Status = op.Status
+					},
+					Product = new ProductDTO()
+					{
+						ProductId = p.ProductId,
+						CategoryId = p.CategoryId,
+						CompanyId = p.CompanyId,
+						Name = p.Name,
+						Description = p.Description,
+						IsActive = p.IsActive,
+						Price = p.Price,
+						DiscountPercantage = p.DiscountPercantage,
+						ImageUrl = p.ImageUrl,
+						Stock = p.Stock,
+					},
+					Orders = new OrdersDTO()
+					{
+						OrderId = o.OrderId,
+						Status= o.Status,
+						UserId = o.UserId,
+						Coupon = o.Coupon,
+						TotalCost = o.TotalCost,
 
-            var onlyOrders = new List<MyOrder>();
-            foreach (var c in Orders.Select(x => new { x.OrderId, x.Status }).ToList().Distinct().ToList())
+					}
+					
+
+				}
+				).ToList();
+
+
+
+            var onlyOrders = new List<HeadOrder>();
+            foreach (var k in Orders.Select(x => new { x.OPInfo.OrderId }).ToList().Distinct().ToList())
             {
-                onlyOrders.Add(new MyOrder()
+				var getO = Orders.Where(x => x.OPInfo.OrderId == k.OrderId).FirstOrDefault();
+
+                onlyOrders.Add(new HeadOrder()
                 {
-                    OrderId = c.OrderId,
-                    Status = Types.Order.GetOrderStatus()[(int)c.Status].Title         
+                    OrderId = getO.Orders.OrderId,
+                    Status = Types.Order.GetOrderStatus()[getO.Orders.Status].Title,             
                 });
             }
 
@@ -50,7 +95,7 @@ namespace Doyur.company
 				int parentId = Convert.ToInt32(gList.DataKeys[e.Row.RowIndex].Value);
 				GridView gvOrders = e.Row.FindControl("gSubList") as GridView;
 
-				gvOrders.DataSource = Orders.Where(x => x.OrderId == parentId).ToList();
+				gvOrders.DataSource = Orders.Where(x => x.Orders.OrderId == parentId).ToList();
 				gvOrders.DataBind();
 			}
 		}
@@ -90,11 +135,20 @@ namespace Doyur.company
 			}
 		}
 
+		private class HeadOrder
+		{
+			public int OrderId { get; set;}
+			public string Status { get; set;}
+
+
+		}
 
 		private class MyOrder
         {
-            public int OrderId { get; set;}
-            public string Status { get; set;}
+            public ProductDTO Product { get; set;}
+            public OrderProductlistDTO OPInfo { get; set;}
+
+			public OrdersDTO Orders { get; set;}
         }
 
 	}

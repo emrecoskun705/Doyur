@@ -44,11 +44,12 @@ namespace Types
         {
             List<TOrderStatus> list = new List<TOrderStatus>();
             list.Add(new TOrderStatus((byte)0, "Created"));
-            list.Add(new TOrderStatus((byte)1, "Paid"));
-            list.Add(new TOrderStatus((byte)2, "Approved"));
-            list.Add(new TOrderStatus((byte)3, "Sent"));
-            list.Add(new TOrderStatus((byte)4, "Delivered"));
-            list.Add(new TOrderStatus((byte)4, "RefundRequest"));
+            list.Add(new TOrderStatus((byte)1, "Sipariş Alındı"));
+            list.Add(new TOrderStatus((byte)2, "Onaylandı"));
+            list.Add(new TOrderStatus((byte)3, "Gönderildi"));
+            list.Add(new TOrderStatus((byte)4, "Teslim Edili"));
+            list.Add(new TOrderStatus((byte)4, "İade"));
+            list.Add(new TOrderStatus((byte)5, "İptal Edildi"));
 
             return list;
         }
@@ -59,24 +60,28 @@ namespace Types
     {
         public class TOrderPStatus
         {
-            public TOrderPStatus(byte id, string title)
+            public TOrderPStatus(byte id, string title, int accessId)
             {
                 StatusId = id;
                 Title = title;
+                AccessId = accessId;
             }
-            public byte StatusId { get; set; }
+            public int StatusId { get; set; }
             public string Title { get; set; }
+            public int AccessId { get; set; }
         }
 
         public static List<TOrderPStatus> GetOrderPStatus()
         {
             List<TOrderPStatus> list = new List<TOrderPStatus>();
-            list.Add(new TOrderPStatus((byte)0, "Added"));
-            list.Add(new TOrderPStatus((byte)1, "Paid"));
-            list.Add(new TOrderPStatus((byte)1, "Approved"));
-            list.Add(new TOrderPStatus((byte)1, "Sent"));
-            list.Add(new TOrderPStatus((byte)2, "Delivered"));
-            list.Add(new TOrderPStatus((byte)2, "RefundRequest"));
+            list.Add(new TOrderPStatus(0, "Added", 2));
+            list.Add(new TOrderPStatus(1, "Paid", 255));
+            list.Add(new TOrderPStatus(2, "Confirm", 3));
+            list.Add(new TOrderPStatus(3, "Sent", 3));
+            list.Add(new TOrderPStatus(4, "Delivered", 5));
+            list.Add(new TOrderPStatus(5, "Completed", 255));
+            list.Add(new TOrderPStatus(6, "Refund", 255));
+            list.Add(new TOrderPStatus(7, "Cancel", 3));
 
             return list;
         }

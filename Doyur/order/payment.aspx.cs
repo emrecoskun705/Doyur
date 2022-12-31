@@ -171,7 +171,7 @@ namespace Doyur.order
                     addressId: newAddr.AddressId,
                     totalCost: 100,
                     orderStatus: Types.Order.GetOrderStatus()[1].StatusId,
-                    productStatus: Types.OrderProduct.GetOrderPStatus()[1].StatusId,
+                    productStatus: (byte)Types.OrderProduct.GetOrderPStatus()[1].StatusId,
                     funcId: 0
                     ).FirstOrDefault();
 

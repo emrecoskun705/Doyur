@@ -25,22 +25,22 @@
                                 <img alt = "" style="cursor: pointer" src="/image/plus.png" id="imgdiv<%# Eval("OrderId") %>" />
                             </a>
                             <div id="div<%# Eval("OrderId") %>" style="display: none;">
-                                <asp:GridView ID="gSubList" runat="server" AutoGenerateColumns="false" CssClass = "mGrid" DataKeyNames="ProductId">
+                                <asp:GridView ID="gSubList" runat="server" AutoGenerateColumns="false" CssClass = "mGrid">
                                     <Columns>
                                         <asp:TemplateField HeaderText="" ItemStyle-Width="10px">
                                             <ItemTemplate>
-                                                <img src="<%# "/image/" + Eval("ImageUrl") %>" width="20" height="20" />
+                                                <img src="<%# "/image/" + Eval("Product.ImageUrl") %>" width="20" height="20" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:BoundField DataField="ProductId" HeaderText="Ürün Numarası" />
-                                        <asp:BoundField DataField="Name" HeaderText="Ürün Adı" />
+                                        <asp:BoundField DataField="Product.ProductId" HeaderText="Ürün Numarası" />
+                                        <asp:BoundField DataField="Product.Name" HeaderText="Ürün Adı" />
                                          <asp:TemplateField HeaderText="Ürün Durumu">
                                             <ItemTemplate>
-                                                <%# Types.OrderProduct.GetOrderPStatus()[Convert.ToInt32(Eval("Status"))].Title %>
+                                                <%# Types.OrderProduct.GetOrderPStatus()[Convert.ToInt32(Eval("OPInfo.Status"))].Title %>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:BoundField DataField="Price" HeaderText="Ürün Fiyatı" />
-                                        <asp:BoundField DataField="ProductQuantity" HeaderText="Adet" />
+                                        <asp:BoundField DataField="Product.Price" HeaderText="Ürün Fiyatı" />
+                                        <asp:BoundField DataField="OPInfo.ProductQuantity" HeaderText="Adet" />
                                     </Columns>
                                 </asp:GridView>
                             </div>

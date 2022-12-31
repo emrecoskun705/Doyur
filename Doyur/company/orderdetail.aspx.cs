@@ -1,4 +1,5 @@
-﻿using Doyur.model;
+﻿using Doyur.extensions;
+using Doyur.model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,18 +19,7 @@ namespace Doyur.company
 
         db.doyurEntities db = new db.doyurEntities();
 
-        public List<OrderDetailCompanyDTO> Order
-        {
-            get
-            {
-                return ViewState["order"] as List<OrderDetailCompanyDTO>;
-            }
-
-            set
-            {
-                ViewState["order"] = value;
-            }
-        }
+        public List<OrderDetailCompanyDTO> Order{get; set;     }
         
 
         public AddressDTO Address
@@ -54,78 +44,97 @@ namespace Doyur.company
         {
             if(!IsPostBack)
             {
-                LoadData();
-            }
+                int addressId = LoadData();
+				LoadAddress(addressId);
+			}
         }
 
-        private void LoadData()
+		private int LoadData()
         {
-            int orderId;
-            int.TryParse(Request.QueryString["id"], out orderId);
+			int orderId;
+			int.TryParse(Request.QueryString["id"], out orderId);
 
-            int companyId = IT.Session.Users.CompanyId();
+			int companyId = IT.Session.Users.CompanyId();
 
-            if (orderId == 0 || companyId == 0)
-            {
-                IT.Session.Users.AddMessageSession("warning", "Şirket veya ürün bulunamadı", "Uyarı");
-                Response.Redirect("/");
-                return;
-            }
-            
-            Order = (
-                (
-                from o in db.Orders 
-                join op in db.OrderProductList on o.OrderId equals op.OrderId
-                join p in db.Product on op.ProductId equals p.ProductId
-                join a in db.Address on o.AddressId equals a.AddressId
-                where o.OrderId == orderId && p.CompanyId == companyId
-                select new OrderDetailCompanyDTO()
-                {
-                    Order = new OrdersDTO()
-                    {
-                        OrderId = o.OrderId,
-                        UserId = o.UserId,
-                        Status = o.Status,
-                        Coupon = o.Coupon,
-                        IsActive = o.IsActive,
-                        IsPaid = o.IsPaid,
-                        TotalCost = o.TotalCost,
-                        AddressId = o.AddressId
+			if (orderId == 0 || companyId == 0)
+			{
+				IT.Session.Users.AddMessageSession("warning", "Şirket veya ürün bulunamadı", "Uyarı");
+				Response.Redirect("/");
+			}
 
-                    },
-                    OPInfo = new OrderProductlistDTO()
-                    {
-                        OrderId = op.OrderId,
-                        ProductId = op.ProductId,
-                        ProductQuantity = op.ProductQuantity,
-                        Status = op.Status
-                    },
-                    Product = new ProductDTO()
-                    {
-                        ProductId = p.ProductId,
-                        CategoryId = p.CategoryId,
-                        CompanyId = p.CompanyId,
-                        Name = p.Name,
-                        Description = p.Description,
-                        IsActive = p.IsActive,
-                        Price = p.Price,
-                        DiscountPercantage = p.DiscountPercantage,
-                        ImageUrl = p.ImageUrl,
-                        Stock = p.Stock
-                    }
-                })
-                ).ToList();
+			var order = (from p in db.Orders where p.OrderId == orderId select p).FirstOrDefault();
 
+			if (order == null)
+			{
+				IT.Session.Users.AddMessageSession("warning", "Sipariş bulunamadı", "Uyarı");
+				Response.Redirect("/company/orders");
+			}
+
+			GetOrderDetail(orderId, companyId);
+            // gList data bind
             gList.DataSource = Order;
+			gList.DataKeyNames = new string[] { "Product" };
             gList.DataBind();
 
-            //var getOrderDetail = db.sp_GetOrderDetail(companyId, orderId).ToList();
-            if(Order.Count > 0)
-            {
-                LoadAddress(Order[0].Order.AddressId ?? default(int));
-            }
+            // ddList data bind
+            ddl.DataSource = Types.OrderProduct.GetOrderPStatus().Where(x => x.AccessId == 3).ToList();
+			ddl.DataTextField = "Title";
+			ddl.DataValueField = "StatusId";
 
+			ddl.DataBind();
+
+			ListItem emptyItem = new ListItem("Seçiniz", "0");
+			ddl.Items.Insert(0, emptyItem);
+			ddl.Items[0].Attributes["disabled"] = "disabled";
+            ddl.SelectedValue= "0";
+
+            //var getOrderDetail = db.sp_GetOrderDetail(companyId, orderId).ToList();
+
+
+            return order.AddressId ?? default(int);
+            
         }
+
+		private void GetOrderDetail(int orderId, int companyId)
+		{
+
+			Order = (
+				(
+				from op in db.OrderProductList
+				join p in db.Product on op.ProductId equals p.ProductId
+				where p.CompanyId == companyId && op.OrderId == orderId
+				select new OrderDetailCompanyDTO()
+				{
+
+					OPInfo = new OrderProductlistDTO()
+					{
+						OrderId = op.OrderId,
+						ProductId = op.ProductId,
+						ProductQuantity = op.ProductQuantity,
+						Status = op.Status
+					},
+					Product = new ProductDTO()
+					{
+						ProductId = p.ProductId,
+						CategoryId = p.CategoryId,
+						CompanyId = p.CompanyId,
+						Name = p.Name,
+						Description = p.Description,
+						IsActive = p.IsActive,
+						Price = p.Price,
+						DiscountPercantage = p.DiscountPercantage,
+						ImageUrl = p.ImageUrl,
+						Stock = p.Stock
+					}
+				})
+				).ToList();
+
+			if (Order.Count == 0)
+			{
+				IT.Session.Users.AddMessageSession("warning", "Sipariş bulunamadı", "Uyarı");
+				Response.Redirect("/company/orders");
+			}
+		}
 
 		private void LoadAddress(int addressId)
 		{
@@ -146,38 +155,59 @@ namespace Doyur.company
 
 		}
 
-		protected void Button1_Click(object sender, EventArgs e)
+		protected void ddl_SelectedIndexChanged(object sender, EventArgs e)
 		{
 
-		}
+			var getSelected = new List<ProductDTO>();
 
-		protected void gList_RowDataBound(object sender, GridViewRowEventArgs e)
-		{
+			int ddlValue;
+			int.TryParse(ddl.SelectedValue, out ddlValue);
 
-		}
-
-		protected void gList_RowCommand(object sender, GridViewCommandEventArgs e)
-		{
-
-		}
-
-		protected void chkAll_CheckedChanged(object sender, EventArgs e)
-		{
-			CheckBox chckheader = (CheckBox)gList.HeaderRow.FindControl("chkAll");
 			foreach (GridViewRow row in gList.Rows)
 			{
-				CheckBox chckrw = (CheckBox)row.FindControl("chkRow");
-				if (chckheader.Checked == true)
+				if (((CheckBox)row.FindControl("chkRow")).Checked)
 				{
-					chckrw.Checked = true;
-
+					// add product Id to getSelected list
+					ProductDTO product = (ProductDTO)gList.DataKeys[row.RowIndex].Value;
+					((Label)row.FindControl("opstatus")).Text = Types.OrderProduct.GetOrderPStatus()[Convert.ToInt32(ddlValue)].Title;
+					getSelected.Add(product);
 				}
-				else
-				{
-					chckrw.Checked = false;
-				}
-
 			}
+
+			foreach (ProductDTO product in getSelected)
+			{
+				var getOP = (from op in db.OrderProductList where op.ProductId== product.ProductId select op).FirstOrDefault();
+				if(getOP != null)
+				{
+					getOP.Status = (byte)ddlValue;
+				}
+			}
+
+
+			if(db.SaveChanges() > 0)
+			{
+				// success
+				this.ShowMessage("success", "Ürünler başarıyla güncellendi", "Başarılı");
+
+				foreach (GridViewRow row in gList.Rows)
+				{
+					if (((CheckBox)row.FindControl("chkRow")).Checked)
+					{
+						// add product Id to getSelected list
+						ProductDTO product = (ProductDTO)gList.DataKeys[row.RowIndex].Value;
+						((Label)row.FindControl("opstatus")).Text = Types.OrderProduct.GetOrderPStatus()[Convert.ToInt32(ddlValue)].Title;
+						getSelected.Add(product);
+					}
+				}
+
+			} 
+			else
+			{
+				this.ShowMessage("warning", "Ürünler kaydedilirken bir sorun oluştu", "Uyarı");
+			}
+			ddl.Items[0].Attributes["disabled"] = "disabled";
+
+
 		}
 	}
 }
