@@ -165,6 +165,7 @@
                 <div class="pb-header-wrapper">
                     <h1>Sepetim</h1>
                 </div>
+                <asp:Label ID="infoLbl" runat="server" CssClass="error-danger" Text=""></asp:Label>
                 <asp:Repeater ID="parentR" runat="server" OnItemDataBound="parentR_ItemDataBound">
                     <ItemTemplate>
                         <div class="pb-merchant-group">
@@ -186,9 +187,9 @@
                                                 <a href="/product?id=<%# Eval("ProductId") %>" style="margin-left: 10px;"  class="pb-basket-item-details"> <%#Eval("Name") %></a>
                                                 <div class="pb-basket-item-actions">
                                                     <div class="numeric-counter">
-                                                        <asp:Button Enabled='<%# Convert.ToInt32(Eval("ProductQuantity")) == 1 ? false : true %>' CssClass="numeric-counter-button" ID="decrementbtn" runat="server" Text="-"  OnClick="decrementbtn_Click"/>
-                                                        <asp:Label CssClass="counter-content" ID="quantityId" runat="server" Text='<%# Eval("ProductQuantity") %>'></asp:Label>
-                                                        <asp:Button Enabled='<%# Convert.ToInt32(Eval("Stock")) == Convert.ToInt32(Eval("ProductQuantity")) ? false : true %>' CssClass="numeric-counter-button" ID="incrementbtn" runat="server" Text="+" OnClick="incrementbtn_Click" />
+                                                        <asp:Button Enabled='<%# Convert.ToInt32(Eval("Quantity")) == 1 ? false : true %>' CssClass="numeric-counter-button" ID="decrementbtn" runat="server" Text="-"  OnClick="decrementbtn_Click"/>
+                                                        <asp:Label CssClass="counter-content" ID="quantityId" runat="server" Text='<%# Eval("Quantity") %>'></asp:Label>
+                                                        <asp:Button Enabled='<%# Convert.ToInt32(Eval("Stock")) == Convert.ToInt32(Eval("Quantity")) ? false : true %>' CssClass="numeric-counter-button" ID="incrementbtn" runat="server" Text="+" OnClick="incrementbtn_Click" />
                                                     </div>
                                                     <h3><%# Eval("Price", "{0:0.00}") %> TL</h3>
                                                     <asp:HiddenField ID="ProductId" Value='<%# Eval("ProductId") %>' runat="server" />

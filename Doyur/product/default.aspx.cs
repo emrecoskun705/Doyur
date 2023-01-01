@@ -3,7 +3,9 @@ using Doyur.db;
 using Doyur.extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -105,22 +107,51 @@ namespace Doyur.product
             int productId;
 			int.TryParse(Request.QueryString["id"], out productId);
 
-			var getOrCreateOrdr = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
-
-            if (getOrCreateOrdr != null)
+            var product = (from p in db.Product where p.ProductId== productId select p).FirstOrDefault();
+            if(product == null || !product.IsActive || product.Stock < 1)
             {
-                var addProduct = db.sp_AddProductToOrder(productId, getOrCreateOrdr.OrderId, 1).FirstOrDefault();
-                if (addProduct != null && addProduct > 0) 
+				IT.Session.Users.AddMessageSession("info", "Ürün stoklarda kalmadı", "Bilgilendirme");
+				Response.Redirect(Request.RawUrl);
+			}
+			var cart = (from c in db.Cart where c.UserId == userId select c).FirstOrDefault();
+
+			if (cart == null)
+            {
+				cart = new db.Cart()
+				{
+					UserId = userId,
+					CreateDate = DateTime.Now,
+					IsActive = true,
+					ExpireDate = DateTime.Now.AddDays(30),
+				};
+
+                db.Cart.Add(cart);
+			}
+
+
+			if (cart != null)
+            {
+                var cartItem = new db.CartItem()
                 {
-                    IT.Session.Users.AddMessageSession("success", "Ürün sepete başarıyla eklendi", "Başarılı");
-                } 
-                else if(addProduct == -1)
+                    CartId = cart.CartId,
+                    ProductId = productId,
+                    Quantity = 1
+                };
+
+                db.CartItem.Add(cartItem);
+                try
                 {
-					IT.Session.Users.AddMessageSession("warning", "Ürün stoklarda kalmadı", "Hata");
-				} else
+					if (db.SaveChanges() > 0)
+					{
+						IT.Session.Users.AddMessageSession("success", "Ürün sepete eklendi", "Başarılı");
+					}
+				} catch(Exception ex)
                 {
-                    IT.Session.Users.AddMessageSession("warning", "Ürün zaten sepete eklendi", "Hata");
-                }
+					IT.Session.Users.AddMessageSession("info", "Ürün zaten septte bulunuyor", "Bilgilendirme");
+				}
+
+
+                
             } 
             else
             {

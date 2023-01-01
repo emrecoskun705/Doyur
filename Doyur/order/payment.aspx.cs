@@ -26,31 +26,33 @@ namespace Doyur.order
         {
             if(!IsPostBack)
             {
-                GetOrder();
+				GetCart();
                 LoadAddress();
             }
         }
 
-        // Gets active order for a given user
-        private void GetOrder()
+        // Gets active cart for a given user
+        private List<sp_getCProducts_Result> GetCart()
         {
             int userId = IT.Session.Users.UserId();
 
-            var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
-            if (order != null)
+            var cart = (from p in db.Cart where p.UserId == userId && p.IsActive == true select p).FirstOrDefault();
+            if (cart == null)
             {
-                var orderDetails = db.sp_getOProducts(order.OrderId).ToList();
-                if(orderDetails.Count == 0)
-                {
-					// there is no order product so redirect to initial page
-					IT.Session.Users.AddMessageSession("warning", "Devam etmek için sepetinize ürün ekleyin", "Sepet Boş");
-					Response.Redirect("/");
-				}
-                TotalPrice = orderDetails.Sum(x => x.Price * x.ProductQuantity);
-            } else
-            {
-                // giver error because order is not found
+				IT.Session.Users.AddMessageSession("warning", "Ürün ödemesine geçilemiyor lütfen sepetinizi kontrol ediniz.", "Uyarı");
+				Response.Redirect("/");
             }
+          
+            var cartDetails = db.sp_getCProducts(cart.CartId).ToList();
+            if(cartDetails.Count == 0)
+            {
+				// there is no cart item so redirect to initial page
+				IT.Session.Users.AddMessageSession("warning", "Devam etmek için sepetinize ürün ekleyin", "Sepet Boş");
+				Response.Redirect("/");
+			}
+            TotalPrice = cartDetails.Sum(x => x.Price * x.Quantity);
+
+            return cartDetails;
         }
 
         private void LoadAddress()
@@ -132,85 +134,126 @@ namespace Doyur.order
         }
 
         /// <summary>
-        /// Updates order if quantity is less than or equal to stock, if sp returns (2, 3 or null) remove address that is created for shipping and billing
+        /// Create order if quantity is less than or equal to stock, if sp returns (2, 3 or null) remove address that is created for shipping and billing
         /// </summary>
         /// <param name="order"></param>
         /// <param name="selectedAddress"></param>
         /// <returns>bool</returns>
-        private bool updateOrder(db.sp_GetOrCreateOrder_Result order, int selectedAddress)
+        private bool CreateOrder(int selectedAddress)
         {
             db.Address getAddr = (from p in db.Address where p.AddressId == selectedAddress select p).FirstOrDefault();
+            var getCart = GetCart();
+			int userId = IT.Session.Users.UserId();
 
-            if (getAddr != null)
+			var created = false;
+
+			if (getAddr != null)
             {
-                db.Address newAddr = new db.Address()
+                
+                using(var tran = db.Database.BeginTransaction())
                 {
-                    Name = getAddr.Name,
-                    Firstname= getAddr.Firstname,
-                    Lastname= getAddr.Lastname,
-                    Description = getAddr.Description,
-                    UserId = getAddr.UserId,
-                    Town = getAddr.Town,
-                    District = getAddr.District,
-                    Type = 1,
-                    Phone = getAddr.Phone,
-                    IsActive = true,
-                };
-
-                db.Address.Add(newAddr);
-
-                if (db.SaveChanges() > 0)
-                {
-                    // success
-
-                    var success = db.sp_UpdateOrder
-                    (
-                    orderId: order.OrderId,
-                    isActive: false,
-                    isPaid: true,
-                    addressId: newAddr.AddressId,
-                    totalCost: 100,
-                    orderStatus: Types.Order.GetOrderStatus()[1].StatusId,
-                    productStatus: (byte)Types.OrderProduct.GetOrderPStatus()[1].StatusId,
-                    funcId: 0
-                    ).FirstOrDefault();
-
-                    if (success == null || success == 2 || success == 3)
+                    try
                     {
-                        db.Address.Remove(newAddr);
+						db.Address newAddr = new db.Address()
+						{
+							Name = getAddr.Name,
+							Firstname = getAddr.Firstname,
+							Lastname = getAddr.Lastname,
+							Description = getAddr.Description,
+							UserId = getAddr.UserId,
+							Town = getAddr.Town,
+							District = getAddr.District,
+							Type = 1,
+							Phone = getAddr.Phone,
+							IsActive = true,
+						};
+
+						db.Address.Add(newAddr);
+
+                        foreach(var company in getCart.Select(x => x.CompanyId).Distinct().ToList())
+                        {
+                            var order = new db.Orders()
+                            {
+                                CompanyId = company,
+                                UserId = userId,
+                                Status = 1,
+                                IsActive = true,
+                                IsPaid = true,
+                                TotalCost = TotalPrice,
+                                CreateDate = DateTime.Now,
+                            };
+
+                            db.Orders.Add(order);
+							db.SaveChanges();
+
+							foreach (var item in getCart.Where(x => x.CId == company))
+                            {
+                                var orderItem = new db.OrderProductList()
+                                {
+                                    OrderId = order.OrderId,
+                                    ProductId = item.ProductId,
+                                    ProductQuantity = item.Quantity,
+                                    Status = 1
+                                };
+
+								var product = (from p in db.Product where p.ProductId == orderItem.ProductId select p).FirstOrDefault();
+                                if(product.Stock - item.Quantity < 0)
+                                {
+                                    throw new DatabaseStockException("Invalid Amount Exception");
+                                }
+
+                                product.Stock -= item.Quantity; 
+								db.OrderProductList.Add(orderItem);
+                                db.SaveChanges();
+                            }
+
+
+                        }
+
+                        var cart = (from c in db.Cart where c.UserId == userId select c).FirstOrDefault();
+                        db.Cart.Remove(cart);
+
                         db.SaveChanges();
-                        return false;
+
+                        created= true;
+                        tran.Commit();
+					}
+                    catch(DatabaseStockException ex)
+                    {
+						created = false;
+						tran.Rollback();
+						IT.Session.Users.AddMessageSession("warning", "Satın almaya çalıştığınız ürün stoklarda azaldığından lütfen ürün miktarını değiştiriniz", "Stoklar azalıyor");
+						Response.Redirect(Request.RawUrl);
+					}
+                    catch(Exception ex)
+                    {
+                        created = false;
+                        tran.Rollback();
                     }
-                    return true;
-                }
-                else
-                {
-                    // fail
-                    return false;
-                }
+
+
+				}
+
+            
             }
 
-            return false;
+            return created;
         }
 
         protected void payBtn_Click(object sender, EventArgs e)
         {
-            int userId = IT.Session.Users.UserId();
-            var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
-            if (order == null) return;
-
             // if address is zero no address is selected
             int selectedAddress = getSelectedAddress();
 
             if(selectedAddress == 0)
             {
-                GetOrder();
+                GetCart();
                 this.ShowMessage("warning", "Lütfen 1 tane adres seçiniz", "Hata");
                 return;
             }
 
 
-            bool success = updateOrder(order, selectedAddress);
+            bool success = CreateOrder(selectedAddress);
             if (!success) 
             {
                 IT.Session.Users.AddMessageSession("warning", "Sipariş oluşturulurken bir hata meydana geldi.", "Hata");
@@ -220,5 +263,22 @@ namespace Doyur.order
             IT.Session.Users.AddMessageSession("success", "Sipariş başarılı bir şekilde verildi", "Başarılı");
             Response.Redirect("/");
         }
-    }
+
+		public class DatabaseStockException : Exception
+		{
+			public DatabaseStockException()
+			{
+			}
+
+			public DatabaseStockException(string message)
+				: base(message)
+			{
+			}
+
+			public DatabaseStockException(string message, Exception inner)
+				: base(message, inner)
+			{
+			}
+		}
+	}
 }

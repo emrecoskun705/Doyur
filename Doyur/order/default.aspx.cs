@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,9 +13,9 @@ namespace Doyur.order
 	{
 
 		db.doyurEntities db = new db.doyurEntities();
-		List<db.sp_getOProducts_Result> OrderDetails { get; set; }
+		List<db.sp_getCProducts_Result> CartDetails { get; set; }
 
-		public decimal TotalPrice { get; set; }
+		public decimal TotalPrice { get { return Convert.ToDecimal(ViewState["totalPrice"]); } set { ViewState["totalPrice"] = value; } }
 
 		protected void Page_Init(object sender, EventArgs e)
 		{
@@ -27,60 +28,97 @@ namespace Doyur.order
 		{
             if (!IsPostBack)
 			{
-				GetOrder();
+				GetCart();
 			}
 		}
 
-		// Gets active order for a given user
-		private void GetOrder()
+		// Gets active cart for a given user
+		private void GetCart()
 		{
 			int userId = IT.Session.Users.UserId();
 
-			var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
-			// if order is null there should be an error we can log this
-			if (order == null)
-			{
-				IT.Session.Users.AddMessageSession("error", "Sepete ulaşılırken bir hata meydana geldi", "Hata");
-				Response.Redirect("/");
-				return;
-			}
-			
-			// get products that belongs to that order
-            OrderDetails = db.sp_getOProducts(order.OrderId).ToList();
+			var cart = (from c in db.Cart where c.UserId == userId select c).FirstOrDefault();
 
-			// if order product is removed from 
-			var opListRemove = new List<db.OrderProductList>();
-            foreach (var oProduct in OrderDetails)
+			if (cart == null)
 			{
-
-				if(!oProduct.IsActive || oProduct.Stock < 1)
+				cart = new db.Cart()
 				{
-					// product is disabled or stock is finished
-					db.OrderProductList op = (from p in db.OrderProductList where p.OrderId == order.OrderId && p.ProductId == oProduct.ProductId select p).FirstOrDefault();
-					opListRemove.Add(op);
-					// remove order product from order
-					db.OrderProductList.Remove(op);
+					UserId = userId,
+					CreateDate = DateTime.Now,
+					IsActive = true,
+					ExpireDate = DateTime.Now.AddDays(30),
+				};
+
+				db.Cart.Add(cart);
+
+				// new cart is not created
+				if (db.SaveChanges() < 1)
+				{
+					IT.Session.Users.AddMessageSession("error", "Sepete ulaşılırken bir hata meydana geldi", "Hata");
+					Response.Redirect("/");
+					return;
 				}
 			}
 
-			if(opListRemove.Count > 0)
+			// get products that belongs to that cart
+			CartDetails = db.sp_getCProducts(cart.CartId).ToList();
+
+
+			// if cartItem is removed from 
+			var ciListRemove = new List<db.CartItem>();
+			var updatedItems = new List<db.CartItem>();
+
+			StringBuilder sb = new StringBuilder();
+			sb.Append("<ul>");
+			foreach (var oProduct in CartDetails)
+			{
+				db.CartItem op = (from p in db.CartItem where p.CartId == cart.CartId && p.ProductId == oProduct.ProductId select p).FirstOrDefault();
+
+				if (!oProduct.IsActive || oProduct.Stock < 1)
+				{
+					// product is disabled or stock is finished
+					ciListRemove.Add(op);
+					sb.Append("<li><a href=/product?id=" + op.ProductId + ">");
+					sb.Append(CartDetails.Where(x => x.ProductId == op.ProductId).First().Name);
+					sb.Append("</a>");
+					sb.Append(" isimli ürün kaldırıldı</li>");
+					// remove order product from order
+					db.CartItem.Remove(op);
+				}
+				else if(oProduct.Quantity > oProduct.Stock)
+				{
+					updatedItems.Add(op);
+					CartDetails.Where(x => x.ProductId == oProduct.ProductId).First().Quantity = oProduct.Stock;
+					sb.Append("<li>" + CartDetails.Where(x => x.ProductId == op.ProductId).First().Name);
+					sb.Append(" isimli ürünün miktarı güncellendi</li>");
+					op.Quantity = oProduct.Stock;
+				}
+			}
+			sb.Append("</ul>");
+			infoLbl.Text= sb.ToString();
+
+			if (ciListRemove.Count > 0 || updatedItems.Count > 0)
 			{
 				if(db.SaveChanges() > 0)
 				{
-					OrderDetails.RemoveAll(x => opListRemove.Select(k => k.ProductId).ToList().Contains(x.ProductId));
-					this.ShowMessage("info", "Sepetinizdeki bazı ürünler stok veya satıcı şirket tarafından kaldırıldı", "Bilgilendirme");
+
+					CartDetails.RemoveAll(x => ciListRemove.Select(k => k.ProductId).ToList().Contains(x.ProductId));
+					string txtlbl = sb.ToString();
+					infoLbl.Text = txtlbl;
 				}
 
             }
 
-            if (OrderDetails.Count == 0)
+			if (CartDetails.Count == 0)
 			{
-				IT.Session.Users.AddMessageSession("warning", "Sepetinizi görmek için ürün ekleyin." , "Sepet Boş");
+				IT.Session.Users.AddMessageSession("warning", "Sepetinizi görmek için ürün ekleyin.", "Sepet Boş");
 				Response.Redirect("/");
 			}
-			TotalPrice = OrderDetails.Sum(x => x.Price * x.ProductQuantity);
+
+
+			TotalPrice = CartDetails.Sum(x => x.Price * x.Quantity);
 			var onlyCompanies = new List<Company>();
-            foreach(var c in OrderDetails.Select(x => x.CName).ToList().Distinct().ToList())
+            foreach(var c in CartDetails.Select(x => x.CName).ToList().Distinct().ToList())
 			{
 				onlyCompanies.Add(new Company()
 				{
@@ -101,7 +139,7 @@ namespace Doyur.order
 				var parentName = ((Label)e.Item.FindControl("CName")).Text;
 				if (childR != null)
 				{
-                    childR.DataSource = OrderDetails.Where(x => x.CName == parentName).ToList();
+                    childR.DataSource = CartDetails.Where(x => x.CName == parentName).ToList();
 					childR.DataBind();
 				}
             }
@@ -123,9 +161,12 @@ namespace Doyur.order
 			int.TryParse(((HiddenField)child.FindControl("ProductId")).Value, out productId);
 			if (productId != 0 && userId != 0)
 			{
-                var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
-				var removeP = db.sp_DeleteOProduct(order.OrderId, productId).FirstOrDefault();
-				if(removeP!= null && removeP > 0)
+                var cart = (from p in db.Cart where p.UserId == userId && p.IsActive == true select p).FirstOrDefault();
+				var cartItem = (from p in db.CartItem where p.CartId == cart.CartId && p.ProductId == productId select p).FirstOrDefault();
+
+				db.CartItem.Remove(cartItem);
+
+				if(db.SaveChanges() > 0)
 				{
 					IT.Session.Users.AddMessageSession("success", "Ürün başarılı bir şekilde sepetten çıkarıldı", "Başarılı");
 					Response.Redirect(Request.RawUrl);
@@ -144,23 +185,37 @@ namespace Doyur.order
 
         protected void decrementbtn_Click(object sender, EventArgs e)
         {
-            int userId = IT.Session.Users.UserId();
-            Button btn = (Button)sender;
-            // child repeater
-            RepeaterItem child = (RepeaterItem)btn.NamingContainer;
-            var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
-            int productId;
-            int.TryParse(((HiddenField)child.FindControl("ProductId")).Value, out productId);
+			int userId = IT.Session.Users.UserId();
+			Button btn = (Button)sender;
+			// child repeater
+			RepeaterItem child = (RepeaterItem)btn.NamingContainer;
+			var cart = (from p in db.Cart where p.UserId == userId select p).FirstOrDefault();
+			int productId;
+			int.TryParse(((HiddenField)child.FindControl("ProductId")).Value, out productId);
 
 			int pQuantity;
-            int.TryParse(((Label)child.FindControl("quantityId")).Text, out pQuantity);
+			int.TryParse(((Label)child.FindControl("quantityId")).Text, out pQuantity);
 
-            if (productId != 0 && userId != 0 && pQuantity != 0)
+			if (productId != 0 && userId != 0 && pQuantity != 0)
 			{
-				var changePQO = db.sp_ChangePQO(order.OrderId, productId, pQuantity - 1);
+				var product = (from p in db.Product where p.ProductId == productId select p).FirstOrDefault();
+				var cartItem = (from p in db.CartItem where p.ProductId == productId && p.CartId == cart.CartId select p).FirstOrDefault();
+
+				if (product == null || cartItem == null)
+				{
+					return;
+				}
+
+				if (cartItem.Quantity - 1 < 0)
+				{
+					return;
+				}
+
+				cartItem.Quantity -= 1;
+				db.SaveChanges();
 			}
 
-            Response.Redirect(Request.RawUrl);
+			Response.Redirect(Request.RawUrl);
         }
 
         protected void incrementbtn_Click(object sender, EventArgs e)
@@ -169,7 +224,7 @@ namespace Doyur.order
             Button btn = (Button)sender;
             // child repeater
             RepeaterItem child = (RepeaterItem)btn.NamingContainer;
-            var order = db.sp_GetOrCreateOrder(userId).FirstOrDefault();
+            var cart = (from p in db.Cart where p.UserId == userId select p).FirstOrDefault();
             int productId;
             int.TryParse(((HiddenField)child.FindControl("ProductId")).Value, out productId);
 
@@ -178,7 +233,21 @@ namespace Doyur.order
 
             if (productId != 0 && userId != 0 && pQuantity != 0)
             {
-                var changePQO = db.sp_ChangePQO(order.OrderId, productId, pQuantity + 1);
+				var product = (from p in db.Product where p.ProductId == productId select p).FirstOrDefault();
+				var cartItem = (from p in db.CartItem where p.ProductId == productId && p.CartId == cart.CartId select p).FirstOrDefault();
+
+				if(product == null ||cartItem == null)
+				{
+					return;
+				}
+
+				if(product.Stock < cartItem.Quantity + 1)
+				{
+					return;
+				}
+
+                cartItem.Quantity += 1;
+				db.SaveChanges();
             }
 
             Response.Redirect(Request.RawUrl);
