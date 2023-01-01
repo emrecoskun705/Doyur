@@ -175,6 +175,7 @@ namespace Doyur.order
                             var order = new db.Orders()
                             {
                                 CompanyId = company,
+                                AddressId = newAddr.AddressId,
                                 UserId = userId,
                                 Status = 1,
                                 IsActive = true,

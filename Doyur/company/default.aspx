@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="box-out" style="margin-top: 60px; margin-left: 50px; margin-right: 100px;">
+    <div class="box-out" style="margin-top: 60px;">
         <div class="box-top">
             Ürün Listesi
         </div>

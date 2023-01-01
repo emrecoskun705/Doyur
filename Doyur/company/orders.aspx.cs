@@ -31,8 +31,8 @@ namespace Doyur.company
 				from p in db.Product
 				join op in db.OrderProductList on p.ProductId equals op.ProductId
 				join o in db.Orders on op.OrderId equals o.OrderId
-				where p.CompanyId == compnayId && o.IsPaid == true
-				orderby o.OrderId descending
+				where o.CompanyId == compnayId && o.IsPaid == true
+				orderby o.CreateDate descending
 				select new MyOrder()
 				{
 					OPInfo = new OrderProductlistDTO()
@@ -58,11 +58,12 @@ namespace Doyur.company
 					Orders = new OrdersDTO()
 					{
 						OrderId = o.OrderId,
+						CompanyId = o.CompanyId,
 						Status= o.Status,
 						UserId = o.UserId,
 						Coupon = o.Coupon,
 						TotalCost = o.TotalCost,
-
+						CreateDate = o.CreateDate,
 					}
 					
 
@@ -79,7 +80,8 @@ namespace Doyur.company
                 onlyOrders.Add(new HeadOrder()
                 {
                     OrderId = getO.Orders.OrderId,
-                    Status = Types.Order.GetOrderStatus()[getO.Orders.Status].Title,             
+                    Status = Types.Order.GetOrderStatus()[getO.Orders.Status].Title,
+					CreateDate = getO.Orders.CreateDate,
                 });
             }
 
@@ -140,6 +142,7 @@ namespace Doyur.company
 			public int OrderId { get; set;}
 			public string Status { get; set;}
 
+			public DateTime CreateDate { get; set;}
 
 		}
 

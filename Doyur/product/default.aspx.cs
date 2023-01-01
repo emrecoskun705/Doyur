@@ -110,8 +110,9 @@ namespace Doyur.product
             var product = (from p in db.Product where p.ProductId== productId select p).FirstOrDefault();
             if(product == null || !product.IsActive || product.Stock < 1)
             {
-				IT.Session.Users.AddMessageSession("info", "Ürün stoklarda kalmadı", "Bilgilendirme");
-				Response.Redirect(Request.RawUrl);
+				this.ShowMessage("info", "Ürün stoklarda kalmadı", "Bilgilendirme");
+				LoadData();
+				return;
 			}
 			var cart = (from c in db.Cart where c.UserId == userId select c).FirstOrDefault();
 
@@ -143,11 +144,11 @@ namespace Doyur.product
                 {
 					if (db.SaveChanges() > 0)
 					{
-						IT.Session.Users.AddMessageSession("success", "Ürün sepete eklendi", "Başarılı");
+						this.ShowMessage("success", "Ürün sepete eklendi", "Başarılı");
 					}
 				} catch(Exception ex)
                 {
-					IT.Session.Users.AddMessageSession("info", "Ürün zaten septte bulunuyor", "Bilgilendirme");
+					this.ShowMessage("info", "Ürün zaten septte bulunuyor", "Bilgilendirme");
 				}
 
 
@@ -155,10 +156,10 @@ namespace Doyur.product
             } 
             else
             {
-				IT.Session.Users.AddMessageSession("error", "Ürüne veya siparişe ulaşılamıyor", "Hata");
+				this.ShowMessage("error", "Ürüne veya siparişe ulaşılamıyor", "Hata");
 			}
 
-            Response.Redirect(Request.RawUrl);
+            LoadData();
         }
     }
 }

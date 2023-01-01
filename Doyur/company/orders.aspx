@@ -48,6 +48,7 @@
                     </asp:TemplateField>
                     <asp:BoundField ItemStyle-Width="150px" DataField="OrderId" HeaderText="Sipariş Numarası" />
                     <asp:BoundField ItemStyle-Width="150px" DataField="Status" HeaderText="Sipariş Durumu" />
+                    <asp:BoundField ItemStyle-Width="150px" DataField="CreateDate" HeaderText="Sipariş Tarihi" />
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:HyperLink NavigateUrl='<%#Eval("OrderId", "~/company/orderdetail?id={0}") %>' ID="btnDetail"  CssClass="btn-xs platin-b" runat="server">Detay</asp:HyperLink>
