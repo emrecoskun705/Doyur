@@ -172,6 +172,7 @@ namespace Doyur.order
 
                         foreach(var company in getCart.Select(x => x.CompanyId).Distinct().ToList())
                         {
+
                             var order = new db.Orders()
                             {
                                 CompanyId = company,
@@ -180,13 +181,12 @@ namespace Doyur.order
                                 Status = 1,
                                 IsActive = true,
                                 IsPaid = true,
-                                TotalCost = TotalPrice,
                                 CreateDate = DateTime.Now,
                             };
-
+                            
                             db.Orders.Add(order);
 							db.SaveChanges();
-
+							decimal totalCost = 0;
 							foreach (var item in getCart.Where(x => x.CId == company))
                             {
                                 var orderItem = new db.OrderProductList()
@@ -196,8 +196,8 @@ namespace Doyur.order
                                     ProductQuantity = item.Quantity,
                                     Status = 1
                                 };
-
 								var product = (from p in db.Product where p.ProductId == orderItem.ProductId select p).FirstOrDefault();
+                                totalCost += product.Price * orderItem.ProductQuantity;
                                 if(product.Stock - item.Quantity < 0)
                                 {
                                     throw new DatabaseStockException("Invalid Amount Exception");
@@ -208,7 +208,8 @@ namespace Doyur.order
                                 db.SaveChanges();
                             }
 
-
+                            order.TotalCost = totalCost;
+                            db.SaveChanges();
                         }
 
                         var cart = (from c in db.Cart where c.UserId == userId select c).FirstOrDefault();

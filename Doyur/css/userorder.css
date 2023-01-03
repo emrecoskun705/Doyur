@@ -1,0 +1,61 @@
+﻿.order {
+    border: 1px solid #e2e2e2;
+    display: block;
+    margin-bottom: 15px;
+    width: 100%
+}
+
+.o-header {
+    display: flex;
+    align-items: center;
+    background-color: #fafafa;
+    padding: 3px 4px;
+    font-size: 13px;
+    border-bottom: solid 1px #e2e2e2;
+}
+
+.o-header-info {
+    color: #808080;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    padding: 10px;
+}
+
+.o-list {
+    padding: 20px;
+}
+
+.o-item {
+    display: flex;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+    padding: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.o-item-status {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    color: #666;
+}
+
+.p-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 2px;
+}
+
+.p-quantity {
+    font-size: 13px;
+}
+
+
+.o-title2 {
+    color: #484848;
+    margin-top: 2px;
+    font-size: 12px;
+}

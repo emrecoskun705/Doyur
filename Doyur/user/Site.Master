@@ -78,6 +78,7 @@
                 { 
                 %>
                 <a href="addresslist">Adres Bilgileri</a>
+                <a href="orders">Siparişler</a>
                 <%  
                 } 
                 %>
