@@ -21,16 +21,18 @@ namespace Doyur.db
         }
     
         public int OrderId { get; set; }
+        public int CompanyId { get; set; }
         public int UserId { get; set; }
         public Nullable<int> AddressId { get; set; }
-        public int RestaurantId { get; set; }
-        public string Status { get; set; }
+        public byte Status { get; set; }
         public string Coupon { get; set; }
         public bool IsActive { get; set; }
         public bool IsPaid { get; set; }
         public Nullable<decimal> TotalCost { get; set; }
+        public System.DateTime CreateDate { get; set; }
     
         public virtual Address Address { get; set; }
+        public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderProductList> OrderProductList { get; set; }
         public virtual Users Users { get; set; }

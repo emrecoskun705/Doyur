@@ -14,13 +14,14 @@ namespace Doyur.db
     public partial class sp_GetActiveOrder_Result
     {
         public int OrderId { get; set; }
+        public int CompanyId { get; set; }
         public int UserId { get; set; }
         public Nullable<int> AddressId { get; set; }
-        public int RestaurantId { get; set; }
-        public string Status { get; set; }
+        public byte Status { get; set; }
         public string Coupon { get; set; }
         public bool IsActive { get; set; }
         public bool IsPaid { get; set; }
         public Nullable<decimal> TotalCost { get; set; }
+        public System.DateTime CreateDate { get; set; }
     }
 }

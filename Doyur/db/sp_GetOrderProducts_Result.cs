@@ -15,11 +15,13 @@ namespace Doyur.db
     {
         public int OrderId { get; set; }
         public int ProductId { get; set; }
-        public byte ProductQuantity { get; set; }
+        public int ProductQuantity { get; set; }
+        public byte Status { get; set; }
         public int ProductId1 { get; set; }
         public int CategoryId { get; set; }
         public int CompanyId { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public bool IsActive { get; set; }
         public decimal Price { get; set; }
         public Nullable<byte> DiscountPercantage { get; set; }

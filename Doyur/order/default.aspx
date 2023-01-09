@@ -206,7 +206,7 @@
             </div>
             <aside class="sticky" style="margin-top:40px;">
                 <div class="pb-summary" style="width: 250px;">
-                    <div class="pb-summary-box">
+                    <div class="pb-summary-box" style="margin-bottom: 10px;">
                         <h1>Sipariş Özeti</h1>
                         <ul class="pb-summary-box-prices">
                             <li>
@@ -221,12 +221,12 @@
                         <hr />
                         <p style="text-align: right;"><%= TotalPrice.ToString("#.##") %> TL</p>
                     </div>
-                    <div class="pb-coupon" style="margin-bottom: 10px;">
+<%--                    <div class="pb-coupon" style="margin-bottom: 10px;">
                         <div>
                             <h2>Kupon:</h2>
                             <asp:TextBox  ID="TextBox1" runat="server"></asp:TextBox>
                         </div>
-                    </div>
+                    </div>--%>
                     <asp:HyperLink ID="HyperLink1" NavigateUrl="~/order/payment" runat="server" CssClass="btn" Width="100%"  BorderStyle="None" BackColor="#10980f" BorderColor="#10980f" ForeColor="#ffffff">Sepeti Onayla</asp:HyperLink>
                 </div>
             </aside>

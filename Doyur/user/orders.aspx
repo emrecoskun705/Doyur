@@ -7,7 +7,7 @@
         <div class="box-top">
             Siparişlerim
         </div>
-        <div class="box-in">
+        <div class="box-in" style="margin-right:30px">
             <br />
                 <asp:ListView ID="orderList" runat="server" >
                     <ItemTemplate>
@@ -25,7 +25,7 @@
                                     Toplam Tutar
                                     <b class="o-title2"><%# Eval("TotalCost", "{0:0.00}") %> TL</b>
                                 </div>
-                                <asp:HyperLink CssClass="btn-xs btn-green" ID="ordeDetailLink" runat="server">Detay</asp:HyperLink>
+                                <%--<asp:HyperLink CssClass="btn-xs btn-green" ID="ordeDetailLink" runat="server">Detay</asp:HyperLink>--%>
                             </div>
                             <div class="o-list">
                                 <asp:ListView class="mGrid" ID="productList" runat="server" DataSource='<%# Eval("MyOrders") %>'>

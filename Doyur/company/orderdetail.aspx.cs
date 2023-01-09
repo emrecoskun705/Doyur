@@ -174,17 +174,27 @@ namespace Doyur.company
 				}
 			}
 
-			foreach (ProductDTO product in getSelected)
+			bool success = false;
+			try
 			{
-				var getOP = (from op in db.OrderProductList where op.ProductId== product.ProductId select op).FirstOrDefault();
-				if(getOP != null)
-				{
-					getOP.Status = (byte)ddlValue;
-				}
+                foreach (ProductDTO product in getSelected)
+                {
+                    var getOP = (from op in db.OrderProductList where op.ProductId == product.ProductId select op).FirstOrDefault();
+                    if (getOP != null)
+                    {
+                        getOP.Status = (byte)ddlValue;
+                    }
+					db.SaveChanges();
+                }
+				success = true;
+            } catch (Exception ex)
+			{
+				success = false;
 			}
 
 
-			if(db.SaveChanges() > 0)
+
+			if(success)
 			{
 				// success
 				this.ShowMessage("success", "Ürünler başarıyla güncellendi", "Başarılı");

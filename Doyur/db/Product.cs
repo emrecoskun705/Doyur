@@ -17,6 +17,7 @@ namespace Doyur.db
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
+            this.CartItem = new HashSet<CartItem>();
             this.OrderProductList = new HashSet<OrderProductList>();
             this.Feature = new HashSet<Feature>();
         }
@@ -25,12 +26,15 @@ namespace Doyur.db
         public int CategoryId { get; set; }
         public int CompanyId { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public bool IsActive { get; set; }
         public decimal Price { get; set; }
         public Nullable<byte> DiscountPercantage { get; set; }
         public string ImageUrl { get; set; }
         public int Stock { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CartItem> CartItem { get; set; }
         public virtual Category Category { get; set; }
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

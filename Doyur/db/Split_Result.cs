@@ -10,16 +10,10 @@
 namespace Doyur.db
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class OrderProductList
+    public partial class Split_Result
     {
-        public int OrderId { get; set; }
-        public int ProductId { get; set; }
-        public int ProductQuantity { get; set; }
-        public byte Status { get; set; }
-    
-        public virtual Orders Orders { get; set; }
-        public virtual Product Product { get; set; }
+        public int Id { get; set; }
+        public string Value { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace Types
             list.Add(new TOrderStatus((byte)1, "Sipariş Alındı"));
             list.Add(new TOrderStatus((byte)2, "Onaylandı"));
             list.Add(new TOrderStatus((byte)3, "Gönderildi"));
-            list.Add(new TOrderStatus((byte)4, "Teslim Edili"));
+            list.Add(new TOrderStatus((byte)4, "Teslim Edildi"));
             list.Add(new TOrderStatus((byte)4, "İade"));
             list.Add(new TOrderStatus((byte)5, "İptal Edildi"));
 
@@ -75,13 +75,13 @@ namespace Types
         {
             List<TOrderPStatus> list = new List<TOrderPStatus>();
             list.Add(new TOrderPStatus(0, "Added", 2));
-            list.Add(new TOrderPStatus(1, "Paid", 255));
-            list.Add(new TOrderPStatus(2, "Confirm", 3));
-            list.Add(new TOrderPStatus(3, "Sent", 3));
-            list.Add(new TOrderPStatus(4, "Delivered", 5));
-            list.Add(new TOrderPStatus(5, "Completed", 255));
-            list.Add(new TOrderPStatus(6, "Refund", 255));
-            list.Add(new TOrderPStatus(7, "Cancel", 3));
+            list.Add(new TOrderPStatus(1, "Sipariş Alındı", 255));
+            list.Add(new TOrderPStatus(2, "Onaylandı", 3));
+            list.Add(new TOrderPStatus(3, "Gönderildi", 3));
+            list.Add(new TOrderPStatus(4, "Teslim Edildi", 5));
+            list.Add(new TOrderPStatus(5, "Tamamlandı", 255));
+            list.Add(new TOrderPStatus(6, "İade", 255));
+            list.Add(new TOrderPStatus(7, "İptal Edildi", 3));
 
             return list;
         }

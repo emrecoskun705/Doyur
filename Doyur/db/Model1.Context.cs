@@ -28,13 +28,42 @@ namespace Doyur.db
         }
     
         public virtual DbSet<Address> Address { get; set; }
+        public virtual DbSet<Cart> Cart { get; set; }
+        public virtual DbSet<CartItem> CartItem { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Feature> Feature { get; set; }
+        public virtual DbSet<OrderProductList> OrderProductList { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<OrderProductList> OrderProductList { get; set; }
+    
+        [DbFunction("doyurEntities", "Split")]
+        public virtual IQueryable<Split_Result> Split(string list, string splitOn)
+        {
+            var listParameter = list != null ?
+                new ObjectParameter("List", list) :
+                new ObjectParameter("List", typeof(string));
+    
+            var splitOnParameter = splitOn != null ?
+                new ObjectParameter("SplitOn", splitOn) :
+                new ObjectParameter("SplitOn", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<Split_Result>("[doyurEntities].[Split](@List, @SplitOn)", listParameter, splitOnParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_AddFeatureCtg(Nullable<int> categoryId, Nullable<int> featureId)
+        {
+            var categoryIdParameter = categoryId.HasValue ?
+                new ObjectParameter("CategoryId", categoryId) :
+                new ObjectParameter("CategoryId", typeof(int));
+    
+            var featureIdParameter = featureId.HasValue ?
+                new ObjectParameter("FeatureId", featureId) :
+                new ObjectParameter("FeatureId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_AddFeatureCtg", categoryIdParameter, featureIdParameter);
+        }
     
         public virtual ObjectResult<Nullable<int>> sp_AddFeatureProduct(Nullable<int> productId, Nullable<int> featureId)
         {
@@ -124,17 +153,48 @@ namespace Doyur.db
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_CreateAddress", userIdParameter, nameParameter, townParameter, districtParameter, descriptionParameter, phoneParameter, isActiveParameter, latitudeParameter, longitudeParameter);
         }
     
-        public virtual ObjectResult<sp_CreateOrder_Result> sp_CreateOrder(Nullable<int> userId, Nullable<int> restaurantId)
+        public virtual ObjectResult<Nullable<int>> sp_DeleteFeature(Nullable<int> featureId, Nullable<byte> funcId)
         {
-            var userIdParameter = userId.HasValue ?
-                new ObjectParameter("UserId", userId) :
-                new ObjectParameter("UserId", typeof(int));
+            var featureIdParameter = featureId.HasValue ?
+                new ObjectParameter("FeatureId", featureId) :
+                new ObjectParameter("FeatureId", typeof(int));
     
-            var restaurantIdParameter = restaurantId.HasValue ?
-                new ObjectParameter("RestaurantId", restaurantId) :
-                new ObjectParameter("RestaurantId", typeof(int));
+            var funcIdParameter = funcId.HasValue ?
+                new ObjectParameter("FuncId", funcId) :
+                new ObjectParameter("FuncId", typeof(byte));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CreateOrder_Result>("sp_CreateOrder", userIdParameter, restaurantIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_DeleteFeature", featureIdParameter, funcIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_DeleteFeatureC(Nullable<int> categoryId)
+        {
+            var categoryIdParameter = categoryId.HasValue ?
+                new ObjectParameter("CategoryId", categoryId) :
+                new ObjectParameter("CategoryId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_DeleteFeatureC", categoryIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_DeleteFeatureProduct(Nullable<int> productId)
+        {
+            var productIdParameter = productId.HasValue ?
+                new ObjectParameter("ProductId", productId) :
+                new ObjectParameter("ProductId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_DeleteFeatureProduct", productIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_DeleteOProduct(Nullable<int> orderId, Nullable<int> productId)
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+    
+            var productIdParameter = productId.HasValue ?
+                new ObjectParameter("ProductId", productId) :
+                new ObjectParameter("ProductId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_DeleteOProduct", orderIdParameter, productIdParameter);
         }
     
         public virtual ObjectResult<sp_GetActiveOrder_Result> sp_GetActiveOrder(Nullable<int> userId)
@@ -155,7 +215,7 @@ namespace Doyur.db
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetActiveOrderProductList_Result>("sp_GetActiveOrderProductList", userIdParameter);
         }
     
-        public virtual ObjectResult<sp_GetAddress_Result> sp_GetAddress(Nullable<int> userId, Nullable<int> addressId, Nullable<byte> funcId)
+        public virtual ObjectResult<sp_GetAddress_Result> sp_GetAddress(Nullable<int> userId, Nullable<int> addressId, Nullable<byte> type, Nullable<byte> funcId)
         {
             var userIdParameter = userId.HasValue ?
                 new ObjectParameter("UserId", userId) :
@@ -165,11 +225,33 @@ namespace Doyur.db
                 new ObjectParameter("AddressId", addressId) :
                 new ObjectParameter("AddressId", typeof(int));
     
+            var typeParameter = type.HasValue ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(byte));
+    
             var funcIdParameter = funcId.HasValue ?
                 new ObjectParameter("FuncId", funcId) :
                 new ObjectParameter("FuncId", typeof(byte));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAddress_Result>("sp_GetAddress", userIdParameter, addressIdParameter, funcIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAddress_Result>("sp_GetAddress", userIdParameter, addressIdParameter, typeParameter, funcIdParameter);
+        }
+    
+        public virtual int sp_GetCompanyOP(Nullable<int> companyId)
+        {
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyId", companyId) :
+                new ObjectParameter("CompanyId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_GetCompanyOP", companyIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_getCProducts_Result> sp_getCProducts(Nullable<int> cartId)
+        {
+            var cartIdParameter = cartId.HasValue ?
+                new ObjectParameter("CartId", cartId) :
+                new ObjectParameter("CartId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getCProducts_Result>("sp_getCProducts", cartIdParameter);
         }
     
         public virtual ObjectResult<sp_GetFeature_Result> sp_GetFeature(Nullable<int> categoryId)
@@ -181,6 +263,46 @@ namespace Doyur.db
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFeature_Result>("sp_GetFeature", categoryIdParameter);
         }
     
+        public virtual ObjectResult<sp_GetFeatureCategory_Result> sp_GetFeatureCategory(Nullable<int> categoryId)
+        {
+            var categoryIdParameter = categoryId.HasValue ?
+                new ObjectParameter("CategoryId", categoryId) :
+                new ObjectParameter("CategoryId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFeatureCategory_Result>("sp_GetFeatureCategory", categoryIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_getOProducts_Result> sp_getOProducts(Nullable<int> orderId)
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getOProducts_Result>("sp_getOProducts", orderIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetOrCreateOrder_Result> sp_GetOrCreateOrder(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetOrCreateOrder_Result>("sp_GetOrCreateOrder", userIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetOrderDetail_Result> sp_GetOrderDetail(Nullable<int> companyId, Nullable<int> orderId)
+        {
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyId", companyId) :
+                new ObjectParameter("CompanyId", typeof(int));
+    
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetOrderDetail_Result>("sp_GetOrderDetail", companyIdParameter, orderIdParameter);
+        }
+    
         public virtual ObjectResult<sp_GetOrderProducts_Result> sp_GetOrderProducts(Nullable<int> userId)
         {
             var userIdParameter = userId.HasValue ?
@@ -188,6 +310,15 @@ namespace Doyur.db
                 new ObjectParameter("UserId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetOrderProducts_Result>("sp_GetOrderProducts", userIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetProduct_Result> sp_GetProduct(Nullable<int> productId)
+        {
+            var productIdParameter = productId.HasValue ?
+                new ObjectParameter("ProductId", productId) :
+                new ObjectParameter("ProductId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProduct_Result>("sp_GetProduct", productIdParameter);
         }
     
         public virtual ObjectResult<sp_GetProducts_Result> sp_GetProducts(Nullable<byte> tOPID)
@@ -234,6 +365,15 @@ namespace Doyur.db
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_GetRestaurants", tOPIDParameter);
         }
     
+        public virtual ObjectResult<sp_GetSelectedFeatures_Result> sp_GetSelectedFeatures(Nullable<int> productId)
+        {
+            var productIdParameter = productId.HasValue ?
+                new ObjectParameter("ProductId", productId) :
+                new ObjectParameter("ProductId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetSelectedFeatures_Result>("sp_GetSelectedFeatures", productIdParameter);
+        }
+    
         public virtual ObjectResult<Nullable<int>> sp_UpdateAddressActive(Nullable<int> userId, Nullable<int> addresId)
         {
             var userIdParameter = userId.HasValue ?
@@ -247,7 +387,7 @@ namespace Doyur.db
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_UpdateAddressActive", userIdParameter, addresIdParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> sp_UpdateOrder(Nullable<int> orderId, Nullable<bool> isActive, Nullable<bool> isPaid, Nullable<decimal> totalCost, string status, Nullable<byte> funcId)
+        public virtual int sp_UpdateOrder(Nullable<int> orderId, Nullable<bool> isActive, Nullable<bool> isPaid, Nullable<int> addressId, Nullable<decimal> totalCost, Nullable<byte> orderStatus, Nullable<byte> productStatus, Nullable<byte> funcId)
         {
             var orderIdParameter = orderId.HasValue ?
                 new ObjectParameter("OrderId", orderId) :
@@ -261,40 +401,30 @@ namespace Doyur.db
                 new ObjectParameter("IsPaid", isPaid) :
                 new ObjectParameter("IsPaid", typeof(bool));
     
+            var addressIdParameter = addressId.HasValue ?
+                new ObjectParameter("AddressId", addressId) :
+                new ObjectParameter("AddressId", typeof(int));
+    
             var totalCostParameter = totalCost.HasValue ?
                 new ObjectParameter("TotalCost", totalCost) :
                 new ObjectParameter("TotalCost", typeof(decimal));
     
-            var statusParameter = status != null ?
-                new ObjectParameter("Status", status) :
-                new ObjectParameter("Status", typeof(string));
+            var orderStatusParameter = orderStatus.HasValue ?
+                new ObjectParameter("OrderStatus", orderStatus) :
+                new ObjectParameter("OrderStatus", typeof(byte));
+    
+            var productStatusParameter = productStatus.HasValue ?
+                new ObjectParameter("ProductStatus", productStatus) :
+                new ObjectParameter("ProductStatus", typeof(byte));
     
             var funcIdParameter = funcId.HasValue ?
                 new ObjectParameter("FuncId", funcId) :
                 new ObjectParameter("FuncId", typeof(byte));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_UpdateOrder", orderIdParameter, isActiveParameter, isPaidParameter, totalCostParameter, statusParameter, funcIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_UpdateOrder", orderIdParameter, isActiveParameter, isPaidParameter, addressIdParameter, totalCostParameter, orderStatusParameter, productStatusParameter, funcIdParameter);
         }
     
-        public virtual ObjectResult<sp_GetProduct_Result> sp_GetProduct(Nullable<int> productId)
-        {
-            var productIdParameter = productId.HasValue ?
-                new ObjectParameter("ProductId", productId) :
-                new ObjectParameter("ProductId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProduct_Result>("sp_GetProduct", productIdParameter);
-        }
-    
-        public virtual ObjectResult<sp_GetSelectedFeatures_Result> sp_GetSelectedFeatures(Nullable<int> productId)
-        {
-            var productIdParameter = productId.HasValue ?
-                new ObjectParameter("ProductId", productId) :
-                new ObjectParameter("ProductId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetSelectedFeatures_Result>("sp_GetSelectedFeatures", productIdParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> sp_UpdateProduct(Nullable<int> productId, string name, Nullable<bool> isActive, Nullable<decimal> price, string imageUrl, Nullable<int> stock)
+        public virtual ObjectResult<Nullable<int>> sp_UpdateProduct(Nullable<int> productId, string name, string description, Nullable<bool> isActive, Nullable<decimal> price, string imageUrl, Nullable<int> stock, Nullable<byte> funcId)
         {
             var productIdParameter = productId.HasValue ?
                 new ObjectParameter("ProductId", productId) :
@@ -303,6 +433,10 @@ namespace Doyur.db
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
     
             var isActiveParameter = isActive.HasValue ?
                 new ObjectParameter("IsActive", isActive) :
@@ -320,7 +454,11 @@ namespace Doyur.db
                 new ObjectParameter("Stock", stock) :
                 new ObjectParameter("Stock", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_UpdateProduct", productIdParameter, nameParameter, isActiveParameter, priceParameter, imageUrlParameter, stockParameter);
+            var funcIdParameter = funcId.HasValue ?
+                new ObjectParameter("FuncId", funcId) :
+                new ObjectParameter("FuncId", typeof(byte));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_UpdateProduct", productIdParameter, nameParameter, descriptionParameter, isActiveParameter, priceParameter, imageUrlParameter, stockParameter, funcIdParameter);
         }
     }
 }

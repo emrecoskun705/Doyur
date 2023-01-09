@@ -12,28 +12,21 @@ namespace Doyur.db
     using System;
     using System.Collections.Generic;
     
-    public partial class Company
+    public partial class Cart
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Company()
+        public Cart()
         {
-            this.Orders = new HashSet<Orders>();
-            this.Product = new HashSet<Product>();
+            this.CartItem = new HashSet<CartItem>();
         }
     
-        public int CompanyId { get; set; }
+        public int CartId { get; set; }
         public int UserId { get; set; }
-        public string Name { get; set; }
-        public string Mail { get; set; }
-        public string Phone { get; set; }
-        public bool IsName { get; set; }
-        public bool IsPhone { get; set; }
+        public System.DateTime CreateDate { get; set; }
         public bool IsActive { get; set; }
+        public System.DateTime ExpireDate { get; set; }
     
-        public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<CartItem> CartItem { get; set; }
     }
 }

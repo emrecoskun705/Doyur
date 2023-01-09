@@ -11,17 +11,17 @@ namespace Doyur.db
 {
     using System;
     
-    public partial class sp_GetProduct_Result
+    public partial class sp_GetOrCreateOrder_Result
     {
-        public int ProductId { get; set; }
-        public int CategoryId { get; set; }
+        public int OrderId { get; set; }
         public int CompanyId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public int UserId { get; set; }
+        public Nullable<int> AddressId { get; set; }
+        public byte Status { get; set; }
+        public string Coupon { get; set; }
         public bool IsActive { get; set; }
-        public decimal Price { get; set; }
-        public Nullable<byte> DiscountPercantage { get; set; }
-        public string ImageUrl { get; set; }
-        public int Stock { get; set; }
+        public bool IsPaid { get; set; }
+        public Nullable<decimal> TotalCost { get; set; }
+        public System.DateTime CreateDate { get; set; }
     }
 }

@@ -10,18 +10,15 @@
 namespace Doyur.db
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_GetProduct_Result
+    public partial class CartItem
     {
+        public int CartId { get; set; }
         public int ProductId { get; set; }
-        public int CategoryId { get; set; }
-        public int CompanyId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public bool IsActive { get; set; }
-        public decimal Price { get; set; }
-        public Nullable<byte> DiscountPercantage { get; set; }
-        public string ImageUrl { get; set; }
-        public int Stock { get; set; }
+        public int Quantity { get; set; }
+    
+        public virtual Cart Cart { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Doyur.db;
 using Doyur.extensions;
+using Doyur.model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Doyur.order
 
         public decimal TotalPrice { get { return Convert.ToDecimal(ViewState["TotalPrice"]); } set { ViewState["TotalPrice"] = value; } }
         public int AddressCount { get { return Convert.ToInt32(ViewState["AddressCount"]); } set { ViewState["AddressCount"] = value; } }
+
+        public int CartQuantity {get { return Convert.ToInt32(ViewState["CartQuantity"]); } set { ViewState["CartQuantity"] = value; } }
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -50,6 +53,31 @@ namespace Doyur.order
 				IT.Session.Users.AddMessageSession("warning", "Devam etmek için sepetinize ürün ekleyin", "Sepet Boş");
 				Response.Redirect("/");
 			}
+
+            var productList = (from p in cartDetails
+                               select new MyProduct
+                               {
+                                   OPInfo = new OrderProductlistDTO()
+                                   {
+                                       ProductQuantity = p.Quantity,
+                                   },
+
+                                   Product = new ProductDTO()
+                                   {
+                                       ProductId = p.ProductId,
+                                       Name = p.Name,
+                                       Price = p.Price,
+                                   }
+                               }).ToList();
+
+            CartQuantity = productList.Count;
+
+            pList.DataSource = productList;
+            pList.DataBind();
+
+
+
+
             TotalPrice = cartDetails.Sum(x => x.Price * x.Quantity);
 
             return cartDetails;
@@ -282,5 +310,12 @@ namespace Doyur.order
 			{
 			}
 		}
-	}
+
+
+        private class MyProduct
+        {
+            public ProductDTO Product { get; set; }
+            public OrderProductlistDTO OPInfo { get; set; }
+        }
+    }
 }

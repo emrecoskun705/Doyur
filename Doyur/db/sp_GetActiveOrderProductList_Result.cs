@@ -17,12 +17,13 @@ namespace Doyur.db
         public int CategoryId { get; set; }
         public int CompanyId { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public bool IsActive { get; set; }
         public decimal Price { get; set; }
         public Nullable<byte> DiscountPercantage { get; set; }
         public string ImageUrl { get; set; }
         public int Stock { get; set; }
-        public byte ProductQuantity { get; set; }
+        public int ProductQuantity { get; set; }
         public int OrderId { get; set; }
     }
 }

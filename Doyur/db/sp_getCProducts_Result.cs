@@ -11,7 +11,7 @@ namespace Doyur.db
 {
     using System;
     
-    public partial class sp_GetProduct_Result
+    public partial class sp_getCProducts_Result
     {
         public int ProductId { get; set; }
         public int CategoryId { get; set; }
@@ -23,5 +23,9 @@ namespace Doyur.db
         public Nullable<byte> DiscountPercantage { get; set; }
         public string ImageUrl { get; set; }
         public int Stock { get; set; }
+        public int Quantity { get; set; }
+        public string CName { get; set; }
+        public bool CIsActive { get; set; }
+        public int CId { get; set; }
     }
 }
